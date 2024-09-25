@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WTF Frontend (New)
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
+## 如何开始
+```shell
+cp .env.sample .env.local
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 命名规范
+- 文件夹名：
+    - 短横线命名
+- 文件名：
+    - 组件：短横线命名
+    - hook：短横线命名
+    - 其他文件：短横线命名
+- 类型定义：
+    - type类型：T + 名字 (尽量保持一致采用这个)
+    - interface类型：I + 名字
+    - enum类型：E + 名字
+    - 其他类型：名字
+- 变量名：
+    - 常量：大写字母 + 下划线
+    - 其他变量：小驼峰命名
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 目录结构
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+> 确保 app 只涉及路由页面，保持 app 的简介，方便后续维护（如 替换技术栈等特殊场景）和识别路由布局
 
-## Learn More
+```
+├── app // 组件
+│   ├── (auth) // 登录相关
+│   ├── (main) // 核心页面
+│   │   ├── courses // 课程
+│   │   ├── docs    // 文档（课程章节）
+├── components // 共享组件 和 基础组件（shadcn）
+├── hooks      // 全局hook
+├── features   // 按照domain 划分（功能模块）
+│   ├── course
+│   │   ├── api         // 和课程相关的 API hook
+│   │   ├── components  // 和课程相关的组件
+│   │   ├── hooks       // 和课程相关的 hooks
+│   │   ├── type.ts | types // 和课程相关的类型
+├── lib    // 工具类
+├── styles // 全局样式
+├── types  // 全局类型定义
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 相关技术
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- web3钱包：`@reown/appkit @reown/appkit-adapter-wagmi`
+- web3基础库: `wagmi viem`
+- 请求库：`@tanstack/react-query`
