@@ -11,6 +11,8 @@ export default function Home() {
       <Link href="/courses">课程列表</Link>
       <Link href="/courses/1">课程1</Link>
       <Link href="/courses/2">课程2</Link>
+
+      <w3m-button />
     </div>
   );
 }
