@@ -1,0 +1,80 @@
+"use client";
+
+import UserAvatar from "@/features/user/components/user-avatar";
+import SectionHeader from "./section-header";
+import { useGetContributors } from "../api/use-get-contributors";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useState } from "react";
+import useBreakpoint from "@/hooks/use-breakpoint";
+import { Button } from "@/components/ui/button";
+
+const SectionContributors = () => {
+  const { data, isLoading } = useGetContributors();
+  const breakpoint = useBreakpoint();
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const cutCount = breakpoint === "lg" ? 8 : breakpoint === "md" ? 6 : 4;
+  const cutData = (isExpanded ? data : data?.slice(0, cutCount * 2)) ?? [];
+
+  if (isLoading || !data) {
+    return (
+      <section className="w-full">
+        <SectionHeader
+          title="Contributors"
+          description="The best way to learn is to share"
+        />
+
+        <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
+          {[...Array(12)].map((_, index) => (
+            <div
+              key={index}
+              className="flex flex-col items-center justify-center gap-1.5 h-[180px] border-wtf-border-divider border-[0.5px] border-solid"
+            >
+              <Skeleton className="w-16 h-16" />
+              <Skeleton className="w-16 h-4" />
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="w-full">
+      <SectionHeader
+        title="Contributors"
+        description="The best way to learn is to share"
+      />
+
+      <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
+        {cutData.map((contributor) => (
+          <div
+            key={contributor.id}
+            className="flex flex-col items-center justify-center gap-1.5 h-[180px] border-wtf-border-divider border-[0.5px] border-solid"
+          >
+            <UserAvatar
+              className="w-16 h-16"
+              src={contributor.avatar_url}
+              fallback={`${contributor.login} (${contributor.contributions})`}
+            />
+            <div className="text-wtf-text-1 text-ellipsis whitespace-nowrap text-sm font-normal">
+              {contributor.login}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex flex-col justify-center items-center gap-2.5 pt-6 pb-16">
+        <Button
+          variant="outline"
+          size="xl"
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+          {isExpanded ? "Collapse" : "Expand"} All Contributors
+        </Button>
+      </div>
+    </section>
+  );
+};
+
+export default SectionContributors;

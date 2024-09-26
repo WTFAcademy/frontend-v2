@@ -6,8 +6,15 @@ const config: Config = {
 		"./pages/**/*.{js,ts,jsx,tsx,mdx}",
 		"./components/**/*.{js,ts,jsx,tsx,mdx}",
 		"./app/**/*.{js,ts,jsx,tsx,mdx}",
+		"./features/**/*.{js,ts,jsx,tsx,mdx}",
 	],
 	theme: {
+		container: {
+			screens: {
+                "2xl": "1400px",
+                "4xl": "1920px"
+            },
+		},
 		extend: {
 			colors: {
 				// 仅用于 ShadCN 默认变量，尽量不使用，后期替换 UI 中的使用变量
@@ -52,41 +59,48 @@ const config: Config = {
 					'5': 'hsl(var(--chart-5))'
 				},
 				// WTF 2024 变量
+				'wtf-black': 'hsl(var(--wtf-black))',
+				'wtf-white': 'hsl(var(--wtf-white))',
 				'wtf-brand': {
-					primary: 'var(--wtf-brand-primary)',
-					secondary: 'var(--wtf-brand-secondary)',
-					bg: 'var(--wtf-brand-bg)',
+					primary: 'hsl(var(--wtf-brand-primary))',
+					secondary: 'hsl(var(--wtf-brand-secondary))',
+					bg: 'hsl(var(--wtf-brand-bg))',
 					'primary-light': 'var(--wtf-brand-primary-light)',
 				},
 				'wtf-text': {
-					1: 'var(--wtf-text-1)',
-					2: 'var(--wtf-text-2)',
-					3: 'var(--wtf-text-3)',
-					4: 'var(--wtf-text-4)',
-					white: 'var(--wtf-text-white)',
-					black: 'var(--wtf-text-black)',
-					link: 'var(--wtf-text-link)',
+					1: 'hsl(var(--wtf-text-1))',
+					2: 'hsl(var(--wtf-text-2))',
+					3: 'hsl(var(--wtf-text-3))',
+					4: 'hsl(var(--wtf-text-4))',
+					DEFAULT: 'hsl(var(--wtf-text))',
+					inverted: 'hsl(var(--wtf-text-inverted))',
+					link: 'hsl(var(--wtf-text-link))',
 				},
 				'wtf-bg': {
 					primary: 'var(--wtf-bg-primary)',
-					gray: 'var(--wtf-bg-gray)',
-					code: 'var(--wtf-bg-code)',
+					gray: 'hsl(var(--wtf-bg-gray))',
+					code: 'hsl(var(--wtf-bg-code))',
 					mask: 'var(--wtf-bg-mask)',
-					'white-light': 'var(--wtf-bg-white-light)',
+					nav: 'var(--wtf-bg-nav)',
 					'black-light': 'var(--wtf-bg-black-light)',
 					'black-lighter': 'var(--wtf-bg-black-lighter)',
 				},
 				'wtf-border': {
-					divider: 'var(--wtf-border-divider)',
-					line: 'var(--wtf-border-line)',
-					outline: 'var(--wtf-border-outline)',
+					divider: 'hsl(var(--wtf-border-divider))',
+					line: 'hsl(var(--wtf-border-line))',
+					outline: 'hsl(var(--wtf-border-outline))',
 				},
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
-			}
+			},
+			fontFamily: {
+				roboto: ['var(--font-roboto)'],
+				inter: ['var(--font-inter)'],
+				"roboto-mono": ['var(--font-roboto-mono)'],
+			},
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

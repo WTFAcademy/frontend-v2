@@ -1,10 +1,13 @@
+import Header from "@/components/layout/header";
+
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
-      {/* <Header /> */}
-      {children}
-      {/* <Footer /> */}
-    </div>
+    <>
+      <Header />
+      <main className="w-full h-full flex flex-col">
+        {children}
+      </main>
+    </>
   );
 };
 

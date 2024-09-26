@@ -1,18 +1,24 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Inter, Roboto, Roboto_Mono } from 'next/font/google'
 import "@/styles/globals.css";
 import Providers from "./providers";
 
-const geistSans = localFont({
-  src: "../styles/fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "../styles/fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-inter'
+})
+
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: ['100', '300', '400', '500', '700', '900'],
+  variable: '--font-roboto'
+})
+
+const roboto_mono = Roboto_Mono({
+  subsets: ['latin'],
+  weight: ['100', '300', '400', '500', '700'],
+  variable: '--font-roboto-mono'
+})
 
 export const metadata: Metadata = {
   title: "WTF Academy",
@@ -27,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} ${roboto.variable} ${roboto_mono.variable} antialiased min-h-screen w-full`}
       >
         <Providers>{children}</Providers>
       </body>

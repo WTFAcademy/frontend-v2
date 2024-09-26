@@ -1,18 +1,27 @@
-import Link from "next/link";
+import Footer from "@/components/layout/footer";
+import SectionBanner from "@/features/home/components/section-banner";
+import SectionCommunity from "@/features/home/components/section-community";
+import SectionContributors from "@/features/home/components/section-contributors";
+import SectionCourses from "@/features/home/components/section-courses";
+import SectionEvents from "@/features/home/components/section-events";
+import SectionProjects from "@/features/home/components/section-projects";
+import SectionSponsors from "@/features/home/components/section-sponsors";
+import SectionStatistics from "@/features/home/components/section-statistics";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <Link href="/docs/1/1">文档1-1</Link>
-      <Link href="/docs/2/2">文档2-2</Link>
-
-      <Link href="/login">登录</Link>
-
-      <Link href="/courses">课程列表</Link>
-      <Link href="/courses/1">课程1</Link>
-      <Link href="/courses/2">课程2</Link>
-
-      <w3m-button />
-    </div>
+    <>
+      <div id="home" className="w-full h-full flex flex-col">
+        <SectionBanner />
+        <SectionStatistics />
+        <SectionCourses />
+        <SectionCommunity />
+        <SectionProjects />
+        <SectionEvents />
+        <SectionSponsors />
+        <SectionContributors />
+      </div>
+      <Footer />
+    </>
   );
 }

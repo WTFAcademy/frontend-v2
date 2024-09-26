@@ -1,0 +1,16 @@
+[
+    {
+        "name": "RESCUETH",
+        "description": "Rescue the valuable crypto assets in the stolen wallet",
+        "url": "https://rescu-eth-app.vercel.app/",
+        "banner_image": "/constants/projects/assets/rescueth/banner.png",
+        "logo_image": "/constants/projects/assets/rescueth/logo.svg"
+    },
+    {
+        "name": "WTF Town",
+        "description": "Blockchain-powered open world",
+        "url": "https://wtf.town/",
+        "banner_image": "/constants/projects/assets/wtf-town/banner.png",
+        "logo_image": "/constants/projects/assets/wtf-town/logo.svg"
+    }
+]

@@ -3,7 +3,15 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter);
+}
+
+#home section + section,
+#home section + div,
+#home div + div,
+#home div + section {
+  border-top: 0 !important;
+  border-left: 0 !important;
 }
 
 @layer utilities {
@@ -41,30 +49,33 @@ body {
     --radius: 0.5rem;
 
     /* 新增 WTF 2024 Light mode 变量 */
-    --wtf-brand-primary: #135bfb;
-    --wtf-brand-secondary: #3f69d4;
-    --wtf-brand-bg: #dde6fa;
-    --wtf-brand-primary-light: rgba(19, 91, 251, 0.10);
+    --wtf-black: 0 0% 12%;
+    --wtf-white: 0 0% 100%;
 
-    --wtf-text-1: #1c2028;
-    --wtf-text-2: #212a36;
-    --wtf-text-3: #6b7280;
-    --wtf-text-4: #9ca3af;
-    --wtf-text-white: #ffffff;
-    --wtf-text-black: #121212;
-    --wtf-text-link: #3f69d4;
+    --wtf-brand-primary: 221 97% 53%;
+    --wtf-brand-secondary: 223 63% 54%;
+    --wtf-brand-bg: 221 74% 92%;
+    --wtf-brand-primary-light: rgba(19, 91, 251, 0.1);
 
-    --wtf-bg-primary: #ffffff;
-    --wtf-bg-gray: #f3f4f6;
-    --wtf-bg-code: #f9fafb;
-    --wtf-bg-mask: rgba(18, 18, 18, 0.50);
-    --wtf-bg-white-light: rgba(243, 244, 246, 0.36);
+    --wtf-text-1: 220 18% 13%;
+    --wtf-text-2: 214 24% 17%;
+    --wtf-text-3: 220 9% 46%;
+    --wtf-text-4: 218 11% 65%;
+    --wtf-text-inverted: 0 0% 100%;
+    --wtf-text: 0 0% 12%;
+    --wtf-text-link: 223 63% 54%;
+
+    --wtf-bg-primary: 0 0% 100%;
+    --wtf-bg-gray: 220 14% 96%;
+    --wtf-bg-code: 210 20% 98%;
+    --wtf-bg-mask: rgba(18, 18, 18, 0.36);
+    --wtf-bg-nav: rgba(243, 244, 246, 0.36);
     --wtf-bg-black-light: rgba(18, 18, 18, 0.16);
     --wtf-bg-black-lighter: rgba(18, 18, 18, 0.08);
 
-    --wtf-border-divider: #d1d5db;
-    --wtf-border-line: #e5e7eb;
-    --wtf-border-outline: #d1d5db;
+    --wtf-border-divider: 216 12% 84%;
+    --wtf-border-line: 220 13% 91%;
+    --wtf-border-outline: 216 12% 84%;
   }
 
   .dark {
@@ -94,30 +105,30 @@ body {
     --chart-5: 340 75% 55%;
 
     /* 新增 WTF 2024 Dark mode 变量 */
-    --wtf-brand-primary: #135bfb;
-    --wtf-brand-secondary: #3f69d4;
-    --wtf-brand-bg: #11297d;
-    --wtf-brand-primary-dark: rgba(19, 91, 251, 0.24);
+    --wtf-brand-primary: 221 97% 53%;
+    --wtf-brand-secondary: 223 63% 54%;
+    --wtf-brand-bg: 227 76% 28%;
+    --wtf-brand-primary-light: rgba(19, 91, 251, 0.24);
 
-    --wtf-text-1: #f9fafb;
-    --wtf-text-2: #d1d5db;
-    --wtf-text-3: #9ca3af;
-    --wtf-text-4: #4b5563;
-    --wtf-text-white: #ffffff;
-    --wtf-text-black: #121212;
-    --wtf-text-link: #87acff;
+    --wtf-text-1: 210 20% 98%;
+    --wtf-text-2: 216 12% 84%;
+    --wtf-text-3: 218 11% 65%;
+    --wtf-text-4: 215 14% 34%;
+    --wtf-text-inverted: 0 0% 12%;
+    --wtf-text: 0 0% 100%;
+    --wtf-text-link: 222 100% 76%;
 
-    --wtf-bg-primary: #121212;
-    --wtf-bg-gray: #1c2028;
-    --wtf-bg-code: #1c2028;
-    --wtf-bg-mask: rgba(18, 18, 18, 0.50);
-    --wtf-bg-white-dark: rgba(18, 18, 18, 0.36);
-    --wtf-bg-black-dark: rgba(243, 244, 246, 0.16);
-    --wtf-bg-black-darker: rgba(243, 244, 246, 0.08);
+    --wtf-bg-primary: 0 0% 7%;
+    --wtf-bg-gray: 220 18% 13%;
+    --wtf-bg-code: 220 18% 13%;
+    --wtf-bg-mask: rgba(18, 18, 18, 0.5);
+    --wtf-bg-nav: rgba(18, 18, 18, 0.36);
+    --wtf-bg-black-light: rgba(243, 244, 246, 0.16);
+    --wtf-bg-black-lighter: rgba(243, 244, 246, 0.08);
 
-    --wtf-border-divider: #374151;
-    --wtf-border-line: #212a36;
-    --wtf-border-outline: #212a36;
+    --wtf-border-divider: 217 19% 27%;
+    --wtf-border-line: 214 24% 17%;
+    --wtf-border-outline: 214 24% 17%;
   }
 }
 
