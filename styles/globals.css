@@ -39,7 +39,34 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+
+    /* 新增 WTF 2024 Light mode 变量 */
+    --wtf-brand-primary: #135bfb;
+    --wtf-brand-secondary: #3f69d4;
+    --wtf-brand-bg: #dde6fa;
+    --wtf-brand-primary-light: rgba(19, 91, 251, 0.10);
+
+    --wtf-text-1: #1c2028;
+    --wtf-text-2: #212a36;
+    --wtf-text-3: #6b7280;
+    --wtf-text-4: #9ca3af;
+    --wtf-text-white: #ffffff;
+    --wtf-text-black: #121212;
+    --wtf-text-link: #3f69d4;
+
+    --wtf-bg-primary: #ffffff;
+    --wtf-bg-gray: #f3f4f6;
+    --wtf-bg-code: #f9fafb;
+    --wtf-bg-mask: rgba(18, 18, 18, 0.50);
+    --wtf-bg-white-light: rgba(243, 244, 246, 0.36);
+    --wtf-bg-black-light: rgba(18, 18, 18, 0.16);
+    --wtf-bg-black-lighter: rgba(18, 18, 18, 0.08);
+
+    --wtf-border-divider: #d1d5db;
+    --wtf-border-line: #e5e7eb;
+    --wtf-border-outline: #d1d5db;
   }
+
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
@@ -65,6 +92,32 @@ body {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+
+    /* 新增 WTF 2024 Dark mode 变量 */
+    --wtf-brand-primary: #135bfb;
+    --wtf-brand-secondary: #3f69d4;
+    --wtf-brand-bg: #11297d;
+    --wtf-brand-primary-dark: rgba(19, 91, 251, 0.24);
+
+    --wtf-text-1: #f9fafb;
+    --wtf-text-2: #d1d5db;
+    --wtf-text-3: #9ca3af;
+    --wtf-text-4: #4b5563;
+    --wtf-text-white: #ffffff;
+    --wtf-text-black: #121212;
+    --wtf-text-link: #87acff;
+
+    --wtf-bg-primary: #121212;
+    --wtf-bg-gray: #1c2028;
+    --wtf-bg-code: #1c2028;
+    --wtf-bg-mask: rgba(18, 18, 18, 0.50);
+    --wtf-bg-white-dark: rgba(18, 18, 18, 0.36);
+    --wtf-bg-black-dark: rgba(243, 244, 246, 0.16);
+    --wtf-bg-black-darker: rgba(243, 244, 246, 0.08);
+
+    --wtf-border-divider: #374151;
+    --wtf-border-line: #212a36;
+    --wtf-border-outline: #212a36;
   }
 }
 
