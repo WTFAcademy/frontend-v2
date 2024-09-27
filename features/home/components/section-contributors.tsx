@@ -10,10 +10,10 @@ import { Button } from "@/components/ui/button";
 
 const SectionContributors = () => {
   const { data, isLoading } = useGetContributors();
-  const breakpoint = useBreakpoint();
+  const {width} = useBreakpoint();
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const cutCount = breakpoint === "lg" ? 8 : breakpoint === "md" ? 6 : 4;
+  const cutCount = width >= 2560 ? 12 : width >= 1440 ? 8 : width >= 768 ? 6 : 4;
   const cutData = (isExpanded ? data : data?.slice(0, cutCount * 2)) ?? [];
 
   if (isLoading || !data) {
@@ -46,7 +46,7 @@ const SectionContributors = () => {
         description="The best way to learn is to share"
       />
 
-      <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
+      <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 4xl:grid-cols-12">
         {cutData.map((contributor) => (
           <div
             key={contributor.id}

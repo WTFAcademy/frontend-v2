@@ -22,11 +22,11 @@ const SectionEvents = () => {
         moreUrl="/events"
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 4xl:grid-cols-4">
         {events.map((event) => (
           <div
             key={event.name}
-            className="flex flex-col gap-6 p-8 md:p-10 border-wtf-border-divider border-[0.5px] border-solid"
+            className="flex flex-col gap-6 p-8 md:p-10 4xl:p-20 border-wtf-border-divider border-[0.5px] border-solid"
           >
             <div className="relative w-full h-[180px] md:h-[220px]">
               <Image

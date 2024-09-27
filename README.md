@@ -32,9 +32,9 @@ pnpm dev
 │   ├── (auth) // 登录相关
 │   ├── (main) // 核心页面
 │   │   ├── course   // 课程
-│   │   │   ├── (course) // 课程详情
+│   │   │   ├── (course)  // 课程详情
 │   │   │   ├── (chapter) // 课程章节（文档）阅读
-│   │   │   ├── (quiz) // 课程章节测验
+│   │   │   ├── (quiz)    // 课程章节测验
 │   │   ├── personal // 个人中心
 ├── components // 共享组件 和 基础组件（shadcn）
 ├── hooks      // 全局hook

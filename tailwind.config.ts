@@ -9,12 +9,6 @@ const config: Config = {
 		"./features/**/*.{js,ts,jsx,tsx,mdx}",
 	],
 	theme: {
-		container: {
-			screens: {
-                "2xl": "1400px",
-                "4xl": "1920px"
-            },
-		},
 		extend: {
 			colors: {
 				// 仅用于 ShadCN 默认变量，尽量不使用，后期替换 UI 中的使用变量
@@ -101,6 +95,9 @@ const config: Config = {
 				inter: ['var(--font-inter)'],
 				"roboto-mono": ['var(--font-roboto-mono)'],
 			},
+			screens: {
+				'4xl': '2560px',
+			}
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

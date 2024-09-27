@@ -8,7 +8,7 @@ import React from "react";
 const SectionBanner = () => {
   return (
     <section className="h-screen w-full bg-[url('/images/banner.jpeg')] bg-cover bg-center flex flex-col">
-      <div className="relative flex flex-col justify-end flex-1 px-4 pb-5 md:px-10 md:pb-10 z-10">
+      <div className="relative flex flex-col justify-end flex-1 px-4 pb-5 md:px-10 md:pb-10 4xl:px-20 z-10">
         <div className="absolute top-0 bottom-0 left-0 w-[70%] lg:w-[40%] shrink-0 [background:linear-gradient(90deg,#571B13_0%,rgba(146,66,59,0.00)_100%)]" />
         <div className="relative z-10">
           <BoxReveal duration={0.2} bgClassName="bg-wtf-bg-nav">

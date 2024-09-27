@@ -2,13 +2,17 @@ import { useEffect, useState } from "react";
 
 export default function useBreakpoint() {
     const [breakpoint, setBreakpoint] = useState("xl");
+    const [width, setWidth] = useState(0);
 
     useEffect(() => {
         if (typeof window === "undefined") return;
 
         const onResize = () => {
             const width = window.innerWidth;
-            if (width > 1440) setBreakpoint("2xl");
+            setWidth(width);
+
+            if (width >= 2560) setBreakpoint("4xl");
+            else if (width > 1440) setBreakpoint("2xl");
             else if (width > 1280) setBreakpoint("xl");
             else if (width > 1024) setBreakpoint("lg");
             else if (width > 768) setBreakpoint("md");
@@ -24,5 +28,8 @@ export default function useBreakpoint() {
         };
     }, []);
 
-    return breakpoint;
+    return {
+        breakpoint,
+        width,
+    };
 }
