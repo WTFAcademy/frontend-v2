@@ -31,8 +31,11 @@ pnpm dev
 ├── app // 组件
 │   ├── (auth) // 登录相关
 │   ├── (main) // 核心页面
-│   │   ├── courses // 课程
-│   │   ├── docs    // 文档（课程章节）
+│   │   ├── course   // 课程
+│   │   │   ├── (course) // 课程详情
+│   │   │   ├── (chapter) // 课程章节（文档）阅读
+│   │   │   ├── (quiz) // 课程章节测验
+│   │   ├── personal // 个人中心
 ├── components // 共享组件 和 基础组件（shadcn）
 ├── hooks      // 全局hook
 ├── features   // 按照domain 划分（功能模块）
