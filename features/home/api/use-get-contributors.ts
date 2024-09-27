@@ -4,6 +4,7 @@ import { TContributor } from "../type";
 
 const octokit = new Octokit();
 
+// TODO: 获取不全
 export const getContributors = async (
   owner = "wtfacademy",
   repo = "WTFSolidity",

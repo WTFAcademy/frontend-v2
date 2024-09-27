@@ -1,6 +1,6 @@
 
 export const createCourseApi = async () => {}
 
-export const useCreateCourse = () => {
+export const useCreateCourseApi = () => {
 };
 
