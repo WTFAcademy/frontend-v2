@@ -9,6 +9,17 @@ const config: Config = {
 		"./features/**/*.{js,ts,jsx,tsx,mdx}",
 	],
 	theme: {
+		container: {
+			center: true,
+			padding: {
+				DEFAULT: '0',
+				'4xl': '20rem',
+			},
+			screens: {
+				DEFAULT: '100%',
+				'4xl': '2560px'
+			}
+		},
 		extend: {
 			colors: {
 				// 仅用于 ShadCN 默认变量，尽量不使用，后期替换 UI 中的使用变量

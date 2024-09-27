@@ -40,7 +40,7 @@ const SectionContributors = () => {
   }
 
   return (
-    <section className="w-full">
+    <section className="container w-full">
       <SectionHeader
         title="Contributors"
         description="The best way to learn is to share"

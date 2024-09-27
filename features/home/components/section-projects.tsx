@@ -13,7 +13,7 @@ const projects: TProject[] = projectsData;
 
 const SectionProjects = () => {
   return (
-    <section className="w-full flex flex-col">
+    <section className="container flex flex-col">
       <SectionHeader
         title="Community Development Projects"
         description="Projects under development in the community"
@@ -22,7 +22,7 @@ const SectionProjects = () => {
         {projects.map((project) => (
           <div
             key={project.name}
-            className="flex flex-col gap-6 p-8 md:p-10 4xl:p-20 border-wtf-border-divider border-[0.5px] border-solid"
+            className="flex flex-col gap-6 p-8 md:p-10 border-wtf-border-divider border-[0.5px] border-solid"
           >
             <div className="relative w-full h-[180px] md:h-[280px]">
               <Image

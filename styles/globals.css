@@ -6,14 +6,6 @@ body {
   font-family: var(--font-inter);
 }
 
-#home section + section,
-#home section + div,
-#home div + div,
-#home div + section {
-  border-top: 0 !important;
-  border-left: 0 !important;
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
