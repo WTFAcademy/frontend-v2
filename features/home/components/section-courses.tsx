@@ -11,7 +11,7 @@ const SectionCourses = () => {
         moreUrl="/courses"
       />
       <div className="w-full flex flex-col">
-        <div className="flex items-center gap-x-3 px-8 md:px-10 py-9 border-wtf-border-divider border-[0.5px] border-solid">
+        <div className="flex items-center gap-x-3 px-8 mb-[-0.5px] md:px-10 py-9 border-wtf-border-divider border-[0.5px] border-solid">
           <span className="text-2xl font-bold leading-8">Popular Courses</span>
           <NumberTag number={2} />
         </div>
@@ -31,7 +31,7 @@ const SectionCourses = () => {
         </div>
       </div>
       <div className="w-full flex flex-col">
-        <div className="flex items-center gap-x-3 px-8 md:px-10 py-9 border-wtf-border-divider border-[0.5px] border-solid">
+        <div className="flex items-center gap-x-3 px-8 my-[-0.5px] md:px-10 py-9 border-wtf-border-divider border-[0.5px] border-solid">
           <span className="text-2xl font-bold leading-8">Upcomming Courses</span>
           <NumberTag number={108} />
         </div>

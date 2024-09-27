@@ -60,7 +60,7 @@ const SectionCommunity = () => {
           {Object.values(INFOS).map((info, index) => (
             <div
               key={index}
-              className="flex-1 flex flex-col items-center gap-6 md:gap-8 p-8 md:px-10 md:py-14 border-wtf-border-divider border-[0.5px] border-solid"
+              className="flex-1 flex flex-col items-center mr-[-0.5px] gap-6 md:gap-8 p-8 md:px-10 md:py-14 border-wtf-border-divider border-[0.5px] border-solid"
             >
               {info.icon}
               <div className="text-wtf-text-1 text-lg font-bold leading-none text-center">

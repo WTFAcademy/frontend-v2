@@ -50,7 +50,7 @@ const SectionContributors = () => {
         {cutData.map((contributor) => (
           <div
             key={contributor.id}
-            className="flex flex-col items-center justify-center gap-1.5 h-[180px] border-wtf-border-divider border-[0.5px] border-solid"
+            className="flex flex-col mr-[-0.5px] mb-[-0.5px] items-center justify-center gap-1.5 h-[180px] border-wtf-border-divider border-[0.5px] border-solid"
           >
             <UserAvatar
               className="w-16 h-16"

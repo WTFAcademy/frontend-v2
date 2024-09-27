@@ -12,12 +12,12 @@ const CourseDisplayCard = ({
   image,
   title,
   description,
-  keywords,
+  keywords
 }: TCourseDisplayCardProps) => {
   const keywordsArray = keywords.split(",");
 
   return (
-    <div className="course-display-card w-full p-8 md:p-10 4xl:p-20 border-wtf-border-divider border-r-[0.5px] border-b-[0.5px] border-solid flex flex-col items-center gap-y-8">
+    <div className="course-display-card w-full p-8 md:p-10 4xl:p-20 border-wtf-border-divider border-[0.5px] border-solid flex flex-col items-center gap-y-8">
       <div className="relative w-full h-[186px] md:h-[240px]">
         <Image
           src={image || "/images/course-placeholder.png"}
