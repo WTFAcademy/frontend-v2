@@ -29,7 +29,7 @@ const SectionProjects = () => {
                 src={project.banner_image}
                 alt={project.name}
                 fill
-                className="object-contain"
+                className="object-cover"
               />
             </div>
             <div className="flex items-center gap-4">
