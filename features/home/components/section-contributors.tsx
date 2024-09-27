@@ -57,7 +57,7 @@ const SectionContributors = () => {
               src={contributor.avatar_url}
               fallback={`${contributor.login} (${contributor.contributions})`}
             />
-            <div className="text-wtf-text-1 text-ellipsis whitespace-nowrap text-sm font-normal">
+            <div className="w-full text-center text-wtf-text-1 text-ellipsis whitespace-nowrap text-sm font-normal truncate">
               {contributor.login}
             </div>
           </div>

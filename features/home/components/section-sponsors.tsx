@@ -12,7 +12,7 @@ const sponsors: TSponsor[] = sponsorsData;
 
 const SectionSponsors = () => {
   return (
-    <section className="w-full py-[72px] px-8 md:py-[72px] md:px-10 border-wtf-border-divider border-[0.5px] border-solid bg-wtf-bg-code">
+    <section className="w-full py-[72px] px-8 md:py-[72px] md:px-10 border-wtf-border-divider border-t-[0.5px] border-solid bg-wtf-bg-code">
       <div className="flex flex-col gap-2 md:flex-row md:justify-between">
         <div className="flex flex-col gap-y-2">
           <div className="text-4xl font-bold">Sponsors</div>
