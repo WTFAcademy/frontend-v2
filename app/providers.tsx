@@ -1,20 +1,22 @@
 "use client";
 
 import { ThemeProvider } from "@/components/theme/theme-provider";
-import AppKitProvider from "@/features/wallet/components/appkit-provider";
-
+import AntProvider from '@/features/wallet/components/ant-provider'
+import AuthProvider from '@/features/auth/contexts/auth-context'
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
-    <AppKitProvider>
+    <AntProvider>
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
         enableSystem
         disableTransitionOnChange
       >
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </ThemeProvider>
-    </AppKitProvider>
+    </AntProvider>
   );
 };
 
