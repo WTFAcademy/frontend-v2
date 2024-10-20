@@ -1,30 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { Octokit } from "@octokit/rest";
 import { TContributor } from "../type";
-
-const octokit = new Octokit();
 
 // TODO: 获取不全
 export const getContributors = async (
-  owner = "wtfacademy",
-  repo = "WTFSolidity",
-  page = 1,
-  perPage = 100,
+  repo = "WTF-Solidity",
 ): Promise<TContributor[]> => {
-  let { data } = await octokit.repos.listContributors({
-    owner,
-    repo,
-    page,
-    per_page: perPage,
-  });
-
-  if (data.length === perPage) {
-    data = [
-      ...data,
-      ...(await getContributors(owner, repo, page + 1, perPage)),
-    ];
-  }
-  return data as TContributor[];
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contributors`, {
+    method: 'POST',
+    body: JSON.stringify({ repo })
+  })
+  const { data }: { data: { [key: string]: TContributor[]}} = await res.json()
+  return data[repo]
 };
 
 export const useGetContributors = () => {
