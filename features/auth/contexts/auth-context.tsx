@@ -25,9 +25,29 @@ export const AuthProvider = ({ children }: TProps) => {
 
     const signInWithGithub = () => {
         console.log('signInWithGithub');
-        const uri = window.location.href.replace(window.location.origin, '');
-        console.log(uri);
-        window.location.href = `https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}&redirect_uri=http://localhost:3000/redirect?uri=${uri}`;
+        const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}&redirect_uri=http://localhost:3000/redirect`;
+        
+        // 打开新窗口进行 GitHub 登录
+        const authWindow = window.open(githubAuthUrl, 'GitHub 登录', 'width=600,height=600');
+
+        // 创建具名函数作为事件监听器
+        const handleMessage = async (event: MessageEvent) => {
+            if (event.origin !== window.location.origin) return;
+            
+            if (event.data.type === 'github-oauth-success') {
+                const code = event.data.code;
+                const success = await loginWithOauthCode(code);
+                if (success) {
+                    console.log('GitHub 登录成功');
+                    authWindow?.close();
+                }
+                // 移除事件监听器
+                window.removeEventListener('message', handleMessage);
+            }
+        };
+
+        // 添加事件监听器
+        window.addEventListener('message', handleMessage, false);
     }
 
     const loginWithOauthCode = async (code: string) => {

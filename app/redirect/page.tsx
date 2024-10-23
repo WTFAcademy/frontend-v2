@@ -1,25 +1,17 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
-import useAuth from '@/features/auth/hooks/use-auth';
 import { useEffect, Suspense } from 'react';
 
 const RedirectContent = () => {
-    const { loginWithOauthCode } = useAuth();
 
     const searchParams = useSearchParams();
-    const redirect = searchParams.get('uri');
     const code = searchParams.get('code');
-
-    const router = useRouter();
 
     useEffect(() => {
         if (code) {
-            router.replace('/redirect', undefined);
-            loginWithOauthCode(code).then((status) => {
-                if (status) router.push(redirect || '/');
-            });
+            window.opener.postMessage({ type: 'github-oauth-success', code }, window.location.origin);
+            window.close();
         }
     }, [code]);
 
