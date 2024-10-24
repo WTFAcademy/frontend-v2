@@ -15,7 +15,7 @@ const SectionCourses = () => {
           <span className="text-2xl font-bold leading-8">Popular Courses</span>
           <NumberTag number={2} />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-5 border-wtf-border-divider border-x-[0.5px]">
           <CourseDisplayCard
             title="Solidity 101"
             description="Learn Solidity Basics Learn Solidity Basics Learn Solidity Basics"
@@ -35,7 +35,7 @@ const SectionCourses = () => {
           <span className="text-2xl font-bold leading-8">Upcomming Courses</span>
           <NumberTag number={108} />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-5 border-wtf-border-divider border-x-[0.5px]">
           <CourseDisplayCard
             title="Solidity 101"
             description="Learn Solidity Basics Learn Solidity Basics Learn Solidity Basics"

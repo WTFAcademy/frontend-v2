@@ -29,7 +29,7 @@ const CoursePage = () => {
               <div className="absolute w-full h-full inset-0 bg-gradient-to-b from-[rgba(255,255,255,0)] from-[-26.57%] via-[rgba(255,255,255,0)] via-0% to-white to-100% dark:from-[rgba(18,18,18,0)] dark:via-[rgba(18,18,18,0)]  dark:to-[rgba(18,18,18,1)]"></div>
           </div>
           <div className="relative mb-10 flex flex-col max-w-[760px]">
-              <span className="relative inline-flex px-4 py-2.5 h-8 mb-3 text-wtf-white font-bold bg-[#135BFB] rounded-full uppercase items-center justify-center text-center w-auto mx-auto">Courses</span>
+              <span className="relative inline-flex px-4 py-2.5 h-8 mb-3 text-white font-bold bg-[#135BFB] rounded-full uppercase items-center justify-center text-center w-auto mx-auto">Courses</span>
               <p className="relative text-[28px] leading-[36px] text-center font-bold md:text-4xl md:leading-[48px]">Courses specially designed by developers for developers</p>
           </div>
           <div className="relative w-full p-[5px] bg-wtf-border-line rounded-[6px] md:w-auto">
@@ -37,7 +37,7 @@ const CoursePage = () => {
               {typeList.map((type, index) => (
                 <div
                   key={index}
-                  className={`relative px-4 py-1.5 text-base leading-[20px] text-wtf-text-2 font-medium rounded-[3px] cursor-pointer whitespace-nowrap ${currentType === type ? 'bg-wtf-white text-[#121212]' : ''}`}
+                  className={`relative px-4 py-1.5 text-base leading-[20px] text-wtf-content-2 font-medium rounded-[3px] cursor-pointer whitespace-nowrap ${currentType === type ? 'bg-white text-[#121212]' : ''}`}
                   onClick={() => selectCourseType(type)}
                 >
                   {type}

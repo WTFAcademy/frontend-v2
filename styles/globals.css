@@ -40,34 +40,104 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
 
-    /* 新增 WTF 2024 Light mode 变量 */
-    --wtf-black: 0 0% 12%;
-    --wtf-white: 0 0% 100%;
+    /* 新增 WTF 2024 Light mode 变量 (若是需要用到 Tailwindcss 颜色透明度 参考 base 的颜色处理，hsl 格式) */
+    --wtf-base-black: 0 0% 7%;
+    --wtf-base-white: 0 0% 100%;
 
-    --wtf-brand-primary: 221 97% 53%;
-    --wtf-brand-secondary: 223 63% 54%;
-    --wtf-brand-bg: 221 74% 92%;
-    --wtf-brand-primary-light: rgba(19, 91, 251, 0.1);
+    --wtf-base-blue-950: 221 61% 18%;
+    --wtf-base-blue-900: 222 85% 21%;
+    --wtf-base-blue-800: 221 86% 32%;
+    --wtf-base-blue-700: 221 86% 42%;
+    --wtf-base-blue-600: 221 97% 53%;
+    --wtf-base-blue-500: 221 97% 62%;
+    --wtf-base-blue-400: 221 97% 72%;
+    --wtf-base-blue-300: 222 96% 81%;
+    --wtf-base-blue-200: 222 96% 91%;
+    --wtf-base-blue-100: 220 100% 95%;
+    --wtf-base-blue-50: 220 100% 98%;
 
-    --wtf-text-1: 220 18% 13%;
-    --wtf-text-2: 214 24% 17%;
-    --wtf-text-3: 220 9% 46%;
-    --wtf-text-4: 218 11% 65%;
-    --wtf-text-inverted: 0 0% 100%;
-    --wtf-text: 0 0% 12%;
-    --wtf-text-link: 223 63% 54%;
+    --wtf-base-gray-950: 0 0% 7%;
+    --wtf-base-gray-900: 220 18% 13%;
+    --wtf-base-gray-800: 214 24% 17%;
+    --wtf-base-gray-700: 217 19% 27%;
+    --wtf-base-gray-600: 215 14% 34%;
+    --wtf-base-gray-500: 220 9% 46%;
+    --wtf-base-gray-400: 218 11% 65%;
+    --wtf-base-gray-300: 216 12% 84%;
+    --wtf-base-gray-200: 220 13% 91%;
+    --wtf-base-gray-100: 220 14% 96%;
+    --wtf-base-gray-50: 210 20% 98%;
 
-    --wtf-bg-primary: 0 0% 100%;
-    --wtf-bg-gray: 220 14% 96%;
-    --wtf-bg-code: 210 20% 98%;
-    --wtf-bg-mask: rgba(18, 18, 18, 0.36);
-    --wtf-bg-nav: rgba(243, 244, 246, 0.36);
-    --wtf-bg-black-light: rgba(18, 18, 18, 0.16);
-    --wtf-bg-black-lighter: rgba(18, 18, 18, 0.08);
+    --wtf-base-green-950: 144 61% 12%;
+    --wtf-base-green-900: 144 61% 20%;
+    --wtf-base-green-800: 143 64% 24%;
+    --wtf-base-green-700: 142 72% 29%;
+    --wtf-base-green-600: 142 76% 36%;
+    --wtf-base-green-500: 142 71% 45%;
+    --wtf-base-green-400: 142 69% 58%;
+    --wtf-base-green-300: 142 77% 73%;
+    --wtf-base-green-200: 141 79% 85%;
+    --wtf-base-green-100: 141 84% 93%;
+    --wtf-base-green-50: 138 76% 97%;
 
-    --wtf-border-divider: 216 12% 84%;
-    --wtf-border-line: 220 13% 91%;
-    --wtf-border-outline: 216 12% 84%;
+    --wtf-base-red-950: 0 56% 12%;
+    --wtf-base-red-900: 0 47% 31%;
+    --wtf-base-red-800: 0 56% 39%;
+    --wtf-base-red-700: 0 61% 48%;
+    --wtf-base-red-600: 0 76% 57%;
+    --wtf-base-red-500: 0 88% 68%;
+    --wtf-base-red-400: 0 95% 75%;
+    --wtf-base-red-300: 0 97% 85%;
+    --wtf-base-red-200: 0 95% 92%;
+    --wtf-base-red-100: 0 100% 95%;
+    --wtf-base-red-50: 0 100% 98%;
+
+    --wtf-base-orange-950: 14 61% 15%;
+    --wtf-base-orange-900: 14 61% 30%;
+    --wtf-base-orange-800: 16 65% 37%;
+    --wtf-base-orange-700: 20 71% 44%;
+    --wtf-base-orange-600: 24 75% 50%;
+    --wtf-base-orange-500: 27 84% 57%;
+    --wtf-base-orange-400: 33 90% 65%;
+    --wtf-base-orange-300: 38 93% 77%;
+    --wtf-base-orange-200: 39 96% 89%;
+    --wtf-base-orange-100: 39 100% 93%;
+    --wtf-base-orange-50: 40 100% 97%;
+
+    --wtf-brand-1: 221 97% 53%; /* blue-600 */
+    --wtf-brand-2: 223 63% 54%; 
+    --wtf-brand-3: 222 96% 91%; /* blue-200 */
+
+    --wtf-content-1: 0 0% 7%; /* black */
+    --wtf-content-2: 214 24% 17%; /* gray-800 */
+    --wtf-content-3: 220 9% 46%; /* gray-500 */
+    --wtf-content-4: 218 11% 65%; /* gray-400 */
+    --wtf-content-white: 0 0% 100%; /* white */
+    --wtf-content-black: 0 0% 7%; /* black */
+    --wtf-content-inverted: 0 0% 100%; /* white */
+
+    --wtf-border-divider: 216 12% 84%; /* gray-300 */
+    --wtf-border-line: 220 13% 91%; /* gray-200 */
+    --wtf-border-outline: 216 12% 84%; /* gray-300 */
+
+    --wtf-function-success: hsl(var(--wtf-base-green-600));
+    --wtf-function-success-bg: hsl(var(--wtf-base-green-100));
+    --wtf-function-error: hsl(var(--wtf-base-red-600));
+    --wtf-function-error-bg: hsl(var(--wtf-base-red-100));
+    --wtf-function-warning: hsl(var(--wtf-base-orange-600));
+    --wtf-function-warning-bg: hsl(var(--wtf-base-orange-100));
+    --wtf-function-link: hsl(var(--wtf-base-blue-700));
+    --wtf-function-brand-bg: hsl(var(--wtf-base-blue-100));
+
+    --wtf-background-primary: hsl(var(--wtf-base-white));
+    --wtf-background-code: hsl(var(--wtf-base-gray-50));
+    --wtf-background-block: hsl(var(--wtf-base-gray-100));
+    --wtf-background-tag: hsl(var(--wtf-base-gray-200));
+    --wtf-background-navbar: rgba(243, 244, 246, 0.36);
+    --wtf-background-navbar-2: rgba(18, 18, 18, 0.12);
+    --wtf-background-footer: hsl(var(--wtf-base-gray-100));
+    --wtf-background-mask: rgba(18, 18, 18, 0.6);
+    --wtf-background-hover: rgba(18, 18, 18, 0.04);
   }
 
   .dark {
@@ -97,30 +167,38 @@ body {
     --chart-5: 340 75% 55%;
 
     /* 新增 WTF 2024 Dark mode 变量 */
-    --wtf-brand-primary: 221 97% 53%;
-    --wtf-brand-secondary: 223 63% 54%;
-    --wtf-brand-bg: 227 76% 28%;
-    --wtf-brand-primary-light: rgba(19, 91, 251, 0.24);
+    --wtf-brand-1: 221 97% 53%; /* blue-600 */
+    --wtf-brand-2: 223 63% 54%;
+    --wtf-brand-3: 221 86% 32%; /* blue-800 */
 
-    --wtf-text-1: 210 20% 98%;
-    --wtf-text-2: 216 12% 84%;
-    --wtf-text-3: 218 11% 65%;
-    --wtf-text-4: 215 14% 34%;
-    --wtf-text-inverted: 0 0% 12%;
-    --wtf-text: 0 0% 100%;
-    --wtf-text-link: 222 100% 76%;
+    --wtf-content-1: 210 20% 98%; /* gray-50 */
+    --wtf-content-2: 216 12% 84%; /* gray-300 */
+    --wtf-content-3: 218 11% 65%; /* gray-400 */
+    --wtf-content-4: 215 14% 34%; /* gray-600 */
+    --wtf-content-inverted: 0 0% 7%; /* black */
 
-    --wtf-bg-primary: 0 0% 7%;
-    --wtf-bg-gray: 220 18% 13%;
-    --wtf-bg-code: 220 18% 13%;
-    --wtf-bg-mask: rgba(18, 18, 18, 0.5);
-    --wtf-bg-nav: rgba(18, 18, 18, 0.36);
-    --wtf-bg-black-light: rgba(243, 244, 246, 0.16);
-    --wtf-bg-black-lighter: rgba(243, 244, 246, 0.08);
+    --wtf-border-divider: 217 19% 27%; /* gray-700 */
+    --wtf-border-line: 214 24% 17%; /* gray-800*/
+    --wtf-border-outline: 214 24% 17%; /* gray-800*/
 
-    --wtf-border-divider: 217 19% 27%;
-    --wtf-border-line: 214 24% 17%;
-    --wtf-border-outline: 214 24% 17%;
+    --wtf-function-success: hsl(var(--wtf-base-green-500));
+    --wtf-function-success-bg: hsl(var(--wtf-base-green-950));
+    --wtf-function-error: hsl(var(--wtf-base-red-600));
+    --wtf-function-error-bg: hsl(var(--wtf-base-red-950));
+    --wtf-function-warning: hsl(var(--wtf-base-orange-400));
+    --wtf-function-warning-bg: hsl(var(--wtf-base-orange-950));
+    --wtf-function-link: hsl(var(--wtf-base-blue-300));
+    --wtf-function-brand-bg: hsl(var(--wtf-base-blue-950));
+
+    --wtf-background-primary: hsl(var(--wtf-base-black));
+    --wtf-background-code: hsl(var(--wtf-base-gray-900));
+    --wtf-background-block: hsl(var(--wtf-base-gray-900));
+    --wtf-background-tag: hsl(var(--wtf-base-gray-800));
+    --wtf-background-navbar: rgba(18, 18, 18, 0.36);
+    --wtf-background-navbar-2: rgba(243, 244, 246, 0.12);
+    --wtf-background-footer: hsl(var(--wtf-base-black));
+    --wtf-background-mask: rgba(18, 18, 18, 0.5);
+    --wtf-background-hover: rgba(243, 244, 246, 0.04);
   }
 }
 
@@ -130,5 +208,17 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  #home {
+    background-image: url('/svgs/light-background.svg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+  }
+  
+  .dark #home {
+    background-image: url('/svgs/dark-background.svg');
   }
 }

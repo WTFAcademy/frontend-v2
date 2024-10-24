@@ -42,7 +42,7 @@ export default function TextBorderAnimation({ text = "Programming", className }:
       <div className="relative mt-1 h-[2px] w-full">
         <div
           className={cn(
-            "absolute left-0 top-0 h-full w-full bg-wtf-text-1 transition-transform duration-300",
+            "absolute left-0 top-0 h-full w-full bg-wtf-content-1 transition-transform duration-300",
             isHoveredIn
               ? "translate-x-0 transform opacity-100"
               : "-translate-x-full transform opacity-0",
@@ -50,7 +50,7 @@ export default function TextBorderAnimation({ text = "Programming", className }:
         ></div>
         <div
           className={cn(
-            "absolute left-0 top-0 h-full w-full translate-x-0 transform bg-wtf-text-1 opacity-0 transition-transform duration-300",
+            "absolute left-0 top-0 h-full w-full translate-x-0 transform bg-wtf-content-1 opacity-0 transition-transform duration-300",
             isHoveredOut && "translate-x-full opacity-100",
           )}
         ></div>

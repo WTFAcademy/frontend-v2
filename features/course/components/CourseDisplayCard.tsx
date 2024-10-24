@@ -25,7 +25,7 @@ const CourseDisplayCard = ({
   const keywordsArray = keywords.split(",");
 
   return (
-    <div className="course-display-card w-full p-8 md:p-10 4xl:p-20 border-wtf-border-divider border-[0.5px] border-solid flex flex-col items-center gap-y-8 cursor-pointer transition-all hover:bg-wtf-bg-gray">
+    <div className="course-display-card w-full p-8 md:p-10 4xl:p-20 border-wtf-border-divider border-[0.5px] border-solid flex flex-col items-center gap-y-8 cursor-pointer transition-all hover:bg-wtf-background-hover">
       <div className="relative w-full h-[186px] md:h-[240px]">
         <Image
           src={image || "/images/course-placeholder.png"}

@@ -22,7 +22,7 @@ const SectionEvents = () => {
         moreUrl="/events"
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 4xl:grid-cols-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 4xl:grid-cols-4 border-wtf-border-divider border-x-[0.5px]">
         {events.map((event) => (
           <div
             key={event.name}
@@ -37,10 +37,10 @@ const SectionEvents = () => {
               />
             </div>
             <div className="flex flex-col gap-y-2">
-              <div className="text-wtf-text-1 text-[22px] font-bold leading-none">
+              <div className="text-wtf-content-1 text-[22px] font-bold leading-none">
                 {event.name}
               </div>
-              <div className="text-wtf-text-3 text-sm font-normal leading-6">
+              <div className="text-wtf-content-3 text-sm font-normal leading-6">
                 {event.start_date} ~ {event.end_date}
               </div>
             </div>

@@ -50,7 +50,7 @@ const INFOS = {
 
 const SectionCommunity = () => {
   return (
-    <section className="w-full flex flex-col bg-wtf-bg-code">
+    <section className="w-full flex flex-col">
       <div className="container">
         <SectionHeader
           title="Blockchain-Powered Community"
@@ -63,7 +63,7 @@ const SectionCommunity = () => {
               className="flex-1 flex flex-col items-center mr-[-0.5px] gap-6 md:gap-8 p-8 md:px-10 md:py-14 border-wtf-border-divider border-[0.5px] border-solid"
             >
               {info.icon}
-              <div className="text-wtf-text-1 text-lg font-bold leading-none text-center">
+              <div className="text-wtf-content-1 text-lg font-bold leading-none text-center">
                 {info.title}
               </div>
             </div>

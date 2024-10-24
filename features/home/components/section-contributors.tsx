@@ -57,14 +57,14 @@ const SectionContributors = () => {
               src={contributor.avatar_url}
               fallback={`${contributor.login} (${contributor.contributions})`}
             />
-            <div className="w-full text-center text-wtf-text-1 text-ellipsis whitespace-nowrap text-sm font-normal truncate">
+            <div className="w-full text-center text-wtf-content-1 text-ellipsis whitespace-nowrap text-sm font-normal truncate">
               {contributor.login}
             </div>
           </div>
         ))}
       </div>
 
-      <div className="flex flex-col justify-center items-center gap-2.5 pt-6 pb-16">
+      <div className="flex flex-col justify-center items-center gap-2.5 pt-6 pb-16 border-wtf-border-divider border-[0.5px]">
         <Button
           variant="outline"
           size="xl"

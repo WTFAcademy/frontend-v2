@@ -33,7 +33,7 @@ const SectionProjects = () => {
               />
             </div>
             <div className="flex items-center gap-4">
-              <div className="relative w-16 h-16 shrink-0 rounded-full bg-wtf-black/[.16] inline-flex items-center justify-center">
+              <div className="relative w-16 h-16 shrink-0 rounded-full bg-black/[.16] inline-flex items-center justify-center">
                 <Image
                   src={project.logo_image}
                   alt={project.name}
@@ -43,10 +43,10 @@ const SectionProjects = () => {
                 />
               </div>
               <div className="flex flex-col gap-y-2">
-                <div className="text-wtf-text-1 text-[22px] font-bold leading-none">
+                <div className="text-wtf-content-1 text-[22px] font-bold leading-none">
                   {project.name}
                 </div>
-                <div className="text-wtf-text-3 text-base font-normal leading-6">
+                <div className="text-wtf-content-3 text-base font-normal leading-6">
                   {project.description}
                 </div>
               </div>
