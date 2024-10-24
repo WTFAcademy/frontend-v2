@@ -55,3 +55,4 @@ pnpm dev
 - web3基础库: `wagmi viem`
 - 请求库：`@tanstack/react-query`
 - UI库： `shadcn`（已存在的antd为antd-web3的依赖项，在项目中请勿使用）
+- Animation: `framer-motion` 和 参考 [animata](https://animata.design/)
