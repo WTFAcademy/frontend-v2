@@ -210,15 +210,15 @@ body {
     @apply bg-background text-foreground;
   }
 
-  #home {
+  #home-content {
     background-image: url('/svgs/light-background.svg');
     background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-size: contain;
+    background-repeat: repeat;
     min-height: 100vh;
   }
   
-  .dark #home {
+  .dark #home-content {
     background-image: url('/svgs/dark-background.svg');
   }
 }

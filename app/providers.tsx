@@ -3,6 +3,7 @@
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import AntProvider from '@/features/wallet/components/ant-provider'
 import AuthProvider from '@/features/auth/contexts/auth-context'
+
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <AntProvider>

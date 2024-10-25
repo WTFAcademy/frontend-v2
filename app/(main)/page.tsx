@@ -13,13 +13,15 @@ export default function Home() {
     <>
       <div id="home" className="w-full h-full flex flex-col">
         <SectionBanner />
-        <SectionStatistics />
-        <SectionCourses />
-        <SectionCommunity />
-        <SectionProjects />
-        <SectionEvents />
-        <SectionSponsors />
-        <SectionContributors />
+        <div id="home-content" className="w-full h-full flex flex-col">
+          <SectionStatistics />
+          <SectionCourses />
+          <SectionCommunity />
+          <SectionProjects />
+          <SectionEvents />
+          <SectionSponsors />
+          <SectionContributors />
+        </div>
       </div>
       <Footer />
     </>
