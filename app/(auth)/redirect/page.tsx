@@ -1,9 +1,9 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { useEffect, Suspense, useRef } from 'react';
 
-const RedirectPage = () => {
+const RedirectContent = () => {
     const searchParams = useSearchParams();
     const code = searchParams.get('code');
     const hasSentMessage = useRef(false);
@@ -17,6 +17,14 @@ const RedirectPage = () => {
     }, [code]);
 
     return <div>Redirecting...</div>
+}
+
+const RedirectPage = () => {
+    return (
+        <Suspense fallback={<div>加载中...</div>}>
+            <RedirectContent />
+        </Suspense>
+    );
 }
 
 export default RedirectPage;
