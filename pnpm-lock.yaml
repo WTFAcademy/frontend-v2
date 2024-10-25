@@ -74,6 +74,9 @@ importers:
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.14)
+      vaul:
+        specifier: ^1.1.0
+        version: 1.1.0(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       viem:
         specifier: ^2.21.28
         version: 2.21.28(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10)
@@ -5425,6 +5428,12 @@ packages:
   vary@1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
+
+  vaul@1.1.0:
+    resolution: {integrity: sha512-YhO/bikcauk48hzhMhvIvT+U87cuCbNbKk9fF4Ou5UkI9t2KkBMernmdP37pCzF15hrv55fcny1YhexK8h6GVQ==}
+    peerDependencies:
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
 
   viem@2.21.28:
     resolution: {integrity: sha512-CbS2Ldq+SdZYYSG+P4oNLi1s6xq7JnZoJsIkMhFcZUMRz3w2J1OvC1izUp6E1/Zp/XXo3wt6g/Ae+f3SGzup2A==}
@@ -12254,6 +12263,15 @@ snapshots:
       react: 18.3.1
 
   vary@1.1.2: {}
+
+  vaul@1.1.0(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      '@radix-ui/react-dialog': 1.1.2(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    transitivePeerDependencies:
+      - '@types/react'
+      - '@types/react-dom'
 
   viem@2.21.28(bufferutil@4.0.8)(typescript@5.6.3)(utf-8-validate@5.0.10):
     dependencies:
