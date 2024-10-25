@@ -12,7 +12,6 @@ export const LoginCard = () => {
   const { signInWithGithub } = useAuth();
   return (
     <DialogContent withoutClose className="flex flex-col items-center gap-6 p-8 ">
-
       <VisuallyHidden asChild>
         <DialogHeader>
           <DialogTitle>Login Card</DialogTitle>
