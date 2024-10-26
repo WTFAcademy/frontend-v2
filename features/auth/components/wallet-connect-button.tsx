@@ -1,23 +1,20 @@
-'use client'
+"use client";
 
-import { Connector, ConnectorTriggerProps } from '@ant-design/web3'
-import { Button } from '@/components/ui/button'
-
-const ConnectButton: React.FC<ConnectorTriggerProps> = (props) => {
-    const { loading, onConnectClick, account } = props;
-    return (
-        <Button onClick={() => onConnectClick?.()} variant='outline' className='flex h-12 w-full text-base font-medium leading-6'>
-            Sign in with Ethereum
-        </Button>
-    )
-}
+import { Button } from "@/components/ui/button";
+import { useAppKit } from "@reown/appkit/react";
 
 export const WalletConnectButton = () => {
-    return (
-        <Connector >
-            <ConnectButton />
-        </Connector>
-    )
-}
+  const { open } = useAppKit();
+
+  return (
+    <Button
+      onClick={() => open()}
+      variant="outline"
+      className="flex h-12 w-full text-base font-medium leading-6"
+    >
+      Sign in with Ethereum
+    </Button>
+  );
+};
 
 export default WalletConnectButton;

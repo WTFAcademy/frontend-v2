@@ -3,12 +3,12 @@
 import UserAvatar from "@/features/user/components/user-avatar";
 import { Icons } from "../icons";
 import { ModeToggle } from "../theme/mode-toggle";
-import { LoginButton } from "@/features/auth/components/login-button";
+import { AuthButton } from "@/features/auth/components/auth-button";
 import useAuth from "@/features/auth/hooks/use-auth";
 
 const Header = () => {
-  const { data } = useAuth();
-  console.log('data', data);
+  const { authUser } = useAuth();
+  console.log('authUser', authUser);
   return (
     <header className="fixed z-50 top-4 inset-x-0 px-4 md:px-10 4xl:px-[20rem] container">
       <div className="w-full rounded-full bg-wtf-background-navbar backdrop-blur-[20px] h-[60px] px-4 py-3 md:px-8 md:py-[18px] flex justify-between items-center">
@@ -17,7 +17,7 @@ const Header = () => {
         </div>
         <div className="flex items-center gap-x-2">
           <ModeToggle />
-          {data ? <UserAvatar src={data.avatar_url} fallback={data.login} /> : <LoginButton />}
+          {authUser ? <UserAvatar src={authUser.avatar_url} fallback={authUser.login} /> : <AuthButton />}
         </div>
       </div>
     </header>

@@ -36,8 +36,10 @@ DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName
 
 const DrawerContent = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
->(({ className, children, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> & {
+    closeOnOverlayClick?: boolean;
+  }
+>(({ className, children, closeOnOverlayClick = false, ...props }, ref) => (
   <DrawerPortal>
     <DrawerOverlay />
     <DrawerPrimitive.Content
@@ -47,6 +49,7 @@ const DrawerContent = React.forwardRef<
         className
       )}
       {...props}
+      onPointerDownOutside={closeOnOverlayClick ? (e) => e.preventDefault() : undefined}
     >
       <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
       {children}
