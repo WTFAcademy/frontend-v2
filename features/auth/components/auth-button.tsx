@@ -5,29 +5,35 @@ import { useDisconnect } from "wagmi";
 import useAuth from "../hooks/use-auth";
 import UserAvatar from "@/features/user/components/user-avatar";
 
-const AuthButton = () => {
+const AuthButton = ({ onAvatarClick }: { onAvatarClick?: () => void }) => {
   const [open, setOpen] = useState(false);
-  const { disconnect } = useDisconnect();
   const { setIsRegistering, authUser } = useAuth();
 
   const handleAuthModalOpenChange = async (open: boolean) => {
     if (open) {
       setOpen(true);
     } else {
-      disconnect();
-      setIsRegistering(false);
       setOpen(false);
+      setIsRegistering(false);
     }
   };
 
   return (
     <>
       {authUser ? (
-        <UserAvatar src={authUser.avatar} fallback={authUser.username?.[0]} />
+        <UserAvatar
+          src={authUser.avatar}
+          fallback={authUser.username?.[0]}
+          onClick={onAvatarClick}
+        />
       ) : (
-        <Button onClick={() => setOpen(true)}>Login</Button>
+        <Button size="sm" onClick={() => setOpen(true)}>
+          Login
+        </Button>
       )}
-      <AuthModal open={open} onOpenChange={handleAuthModalOpenChange} />
+      {open && (
+        <AuthModal open={open} onOpenChange={handleAuthModalOpenChange} />
+      )}
     </>
   );
 };

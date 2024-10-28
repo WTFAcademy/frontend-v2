@@ -48,12 +48,6 @@ export const AuthModal = ({
     onOpenChange(false);
   };
 
-  useEffect(() => {
-    if (!open) {
-      setStep(STEP.Login);
-    }
-  }, [open]);
-
   if (isDesktop) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>

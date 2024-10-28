@@ -28,6 +28,6 @@ export type TAuthUser = {
 
 export type TAuthBindWalletBody = {
   signData: string;
-  message: string;
+  mesData: string;
   wallet: string;
 };

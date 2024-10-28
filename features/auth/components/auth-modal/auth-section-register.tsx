@@ -10,6 +10,7 @@ import { useAccount, useSignMessage, useTransactionCount } from "wagmi";
 import { bindWalletApi } from "../../api/use-auth-api";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { AnimatePresence, motion } from "framer-motion";
+import { toast } from "sonner";
 
 type AuthSectionRegisterProps = {
   updateStep: (step: STEP) => void;
@@ -158,7 +159,7 @@ const StepSignMessageAndBindWallet = ({
 
       const bindRes = await bindWalletApi({
         signData: signData,
-        message: message,
+        mesData: message,
         wallet: address as string,
       });
       console.log(bindRes);
@@ -169,7 +170,7 @@ const StepSignMessageAndBindWallet = ({
     },
     onSuccess: () => {
       setIsFinished(true);
-      setIsRegistering(false);
+      toast.success("Bind wallet successfully");
       close();
     },
     onError: (error: any) => {
