@@ -12,7 +12,7 @@ const buttonVariants = cva(
         default:
           "bg-wtf-brand-1 text-wtf-content-white hover:bg-wtf-brand-1/90",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+          "bg-wtf-function-errorBg text-wtf-function-error hover:bg-red-300",
         outline:
           "border border-wtf-border-outline bg-background hover:bg-accent hover:text-accent-foreground",
         secondary:

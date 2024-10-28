@@ -1,35 +1,22 @@
-import { TAuthLoginWithEthereumBody } from "../type";
+import { TAuthBindWalletBody, TAuthLoginWithEthereumBody } from "../type";
+import { request } from "@/lib/request";
 
 export const loginWithGithubApi = async (code: string) => {
-    console.log('loginWithGithub', code);
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/github_login`, {
-        method: 'POST',
-        body: JSON.stringify({ code }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-    return response.json();
+    const response = await request.post(`/auth/github_login`, { code });
+    return response.data;
 }
 
 export const getNonceApi = async (address: string) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/nonce`, {
-        method: 'POST',
-        body: JSON.stringify({ wallet: address }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-    return response.json();
+    const response = await request.post(`/auth/nonce`, { wallet: address });
+    return response.data;
 }
 
 export const loginWithEthereumApi = async (body: TAuthLoginWithEthereumBody) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-    return response.json();
+    const response = await request.post(`/auth/login`, body);
+    return response.data;
+}
+
+export const bindWalletApi = async (body: TAuthBindWalletBody) => {
+    const response = await request.post(`/user/wallet/bind`, body);
+    return response.data;
 }

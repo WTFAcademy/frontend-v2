@@ -5,25 +5,24 @@ import { useLocalStorageState } from "ahooks";
 import { loginWithGithubApi } from "../api/use-auth-api";
 import { LOCAL_STORAGE_TOKEN_KEY } from "../constants";
 import type { SetState } from "ahooks/lib/createUseStorageState";
+import { useQuery } from "@tanstack/react-query";
+import { getUserApi } from "../api/use-user-api";
+import { toast } from "sonner";
+import { TAuthUser } from "../type";
 
 type TProps = {
   children: React.ReactNode;
 };
 
-type TAuthUser = {
-  login: string;
-  avatar_url: string;
-  address: string;
-};
-
 type TAuthContext = {
+  isPendingAuthUser: boolean;
   isLogin: boolean;
-  setIsLogin: (login: boolean) => void;
   isRegistering: boolean;
   setIsRegistering: (register: boolean) => void;
   authUser: TAuthUser | null;
   signInWithGithub: () => Promise<any>;
   setToken: (value?: SetState<null> | undefined) => void;
+  refetchAuthUser: () => void;
 };
 
 export const AuthContext = React.createContext<TAuthContext>(
@@ -31,11 +30,31 @@ export const AuthContext = React.createContext<TAuthContext>(
 );
 
 export const AuthProvider = ({ children }: TProps) => {
-  const [authUser, setAuthUser] = useState<TAuthUser | null>(null);
-  const [isLogin, setIsLogin] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [token, setToken] = useLocalStorageState(LOCAL_STORAGE_TOKEN_KEY, {
     defaultValue: null,
+  });
+
+  console.log(token);
+
+  const {
+    data: authUser,
+    isPending: isPendingAuthUser,
+    refetch: refetchAuthUser,
+  } = useQuery({
+    queryKey: ["authUser", token],
+    queryFn: async () => {
+      const data = await getUserApi();
+
+      if (data.code === 200) {
+        return data.data;
+      } else {
+        toast.error(data.msg);
+        // setToken(null);
+        throw new Error(data.msg);
+      }
+    },
+    enabled: !!token,
   });
 
   const signInWithGithub = useCallback(() => {
@@ -62,8 +81,6 @@ export const AuthProvider = ({ children }: TProps) => {
 
           // 使用 code 获取 token
           const data = await loginWithGithubApi(event.data.code);
-          console.log(data);
-
           if (data.data && data.code === 200) {
             resolve(data);
           } else {
@@ -83,21 +100,23 @@ export const AuthProvider = ({ children }: TProps) => {
   const state = useMemo(
     () => ({
       authUser,
-      isLogin,
       isRegistering,
       signInWithGithub,
       setIsRegistering,
-      setIsLogin,
       setToken,
+      isLogin: !!token,
+      isPendingAuthUser,
+      refetchAuthUser,
     }),
     [
       authUser,
-      isLogin,
       isRegistering,
       signInWithGithub,
       setIsRegistering,
-      setIsLogin,
       setToken,
+      token,
+      isPendingAuthUser,
+      refetchAuthUser,
     ]
   );
 

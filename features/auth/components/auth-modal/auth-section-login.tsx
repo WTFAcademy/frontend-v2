@@ -3,27 +3,26 @@
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import Divider from "@/components/divider";
-import { WalletConnectButton } from "./wallet-connect-button";
 import useAuth from "@/features/auth/hooks/use-auth";
 import {
   useAppKit,
   useAppKitAccount,
-  useDisconnect,
 } from "@reown/appkit/react";
-import { useCallback, useEffect } from "react";
-import { STEP } from "./auth-button";
-import { getNonceApi, loginWithEthereumApi } from "../api/use-auth-api";
-import useSiwe from "../hooks/use-siwe";
+import { useEffect } from "react";
+import { STEP } from ".";
+import { getNonceApi, loginWithEthereumApi } from "../../api/use-auth-api";
+import useSiwe from "../../hooks/use-siwe";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 type AuthSectionLoginProps = {
   updateStep: (step: STEP) => void;
+  close: () => void;
 };
 
 export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
-  const { updateStep } = props;
-  const { signInWithGithub, setIsLogin, setToken } = useAuth();
+  const { updateStep, close } = props;
+  const { signInWithGithub, setToken } = useAuth();
   const { isConnected, address } = useAppKitAccount();
   const { open } = useAppKit();
   const { signMessage } = useSiwe();
@@ -39,16 +38,17 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
           signature: signature.signature,
         });
       } else {
-        updateStep(STEP.Register);
         throw new Error(nonceResponse.msg);
       }
     },
     onSuccess: (res: any) => {
-      setIsLogin(true);
       setToken(res.data.token);
+      close();
     },
     onError: (error: any) => {
-      if (error.message !== "record not found") {
+      if (error.message === "record not found") {
+        updateStep(STEP.Register);
+      } else {
         toast.error("Login failed");
       }
     },
@@ -60,8 +60,8 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
     },
     onSuccess: (res: any) => {
       console.log(res);
-      setIsLogin(true);
       setToken(res.data.token);
+      close();
     },
     onError: () => {
       toast.error("Login failed");
