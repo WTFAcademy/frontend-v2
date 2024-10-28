@@ -13,7 +13,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "../ui/navigation-menu";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -94,9 +94,28 @@ const ListItem = React.forwardRef<
 ListItem.displayName = "ListItem";
 
 const Header = () => {
-  const isDesktop = useMediaQuery("(min-width: 768px)");
+  // 添加一个状态来追踪是否在客户端
+  const [isMounted, setIsMounted] = React.useState(false);
   const { isLogin } = useAuth();
   const [openSheet, setOpenSheet] = useState(false);
+
+  // 添加一个useEffect来处理客户端挂载
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // 如果还没有挂载，返回一个骨架屏或者null
+  if (!isMounted) {
+    return (
+      <header className="fixed z-50 top-4 inset-x-0 px-4 md:px-10 4xl:px-[20rem] container">
+        <div className="w-full rounded-full bg-wtf-background-navbar backdrop-blur-[20px] h-[60px] px-4 py-3 md:px-8 md:py-[18px] flex justify-between items-center">
+          <div className="flex items-center gap-x-8">
+            <Icons.logo className="w-[66px] h-6" />
+          </div>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className="fixed z-50 top-4 inset-x-0 px-4 md:px-10 4xl:px-[20rem] container">
