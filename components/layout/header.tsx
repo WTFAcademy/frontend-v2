@@ -16,14 +16,9 @@ import {
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { useMediaQuery } from "@/hooks/use-media-query";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
 } from "../ui/sheet";
 import { Button } from "../ui/button";
 import useAuth from "@/features/auth/hooks/use-auth";
