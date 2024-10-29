@@ -1,7 +1,8 @@
+"use client";
+
 import { useState } from "react";
 import AuthModal from "./auth-modal";
 import { Button } from "@/components/ui/button";
-import { useDisconnect } from "wagmi";
 import useAuth from "../hooks/use-auth";
 import UserAvatar from "@/features/user/components/user-avatar";
 
@@ -27,7 +28,13 @@ const AuthButton = ({ onAvatarClick }: { onAvatarClick?: () => void }) => {
           onClick={onAvatarClick}
         />
       ) : (
-        <Button size="sm" onClick={() => setOpen(true)}>
+        <Button
+          size="sm"
+          onClick={(e) => {
+            e.stopPropagation();
+            setOpen(true);
+          }}
+        >
           Login
         </Button>
       )}

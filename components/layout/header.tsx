@@ -16,13 +16,21 @@ import {
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import {
-  Sheet,
-  SheetContent,
-} from "../ui/sheet";
+import { Sheet, SheetContent } from "../ui/sheet";
 import { Button } from "../ui/button";
 import useAuth from "@/features/auth/hooks/use-auth";
 import { Close as SheetClose } from "@radix-ui/react-dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import UserAvatar from "@/features/user/components/user-avatar";
+import { shortWallet } from "@/features/user/utils/short-wallet";
+import { CascaderPanel } from "../cascader-panel";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -88,18 +96,99 @@ const ListItem = React.forwardRef<
 });
 ListItem.displayName = "ListItem";
 
-const Header = () => {
-  // 添加一个状态来追踪是否在客户端
-  const [isMounted, setIsMounted] = React.useState(false);
-  const { isLogin } = useAuth();
-  const [openSheet, setOpenSheet] = useState(false);
+const options = [
+  {
+    label: "Solidity",
+    value: "Solidity",
+    children: [
+      {
+        label: "Solidity 101",
+        value: "Solidity 101",
+      },
+      {
+        label: "Solidity 102",
+        value: "Solidity 102",
+      },
+      {
+        label: "Solidity 103",
+        value: "Solidity 103",
+      },
+    ],
+  },
+  {
+    label: "Ethers",
+    value: "Ethers",
+    children: [
+      {
+        label: "Ethers 101",
+        value: "Ethers 101",
+      },
+      {
+        label: "Ethers 102",
+        value: "Ethers 102",
+      },
 
-  // 添加一个useEffect来处理客户端挂载
+      {
+        label: "Ethers 103",
+        value: "Ethers 103",
+      },
+    ],
+  },
+  {
+    label: "Web3",
+    value: "Web3", 
+    children: [
+      {
+        label: "Web3 101",
+        value: "Web3 101",
+      },
+    ],
+  },
+  {
+    label: "Layer2",
+    value: "Layer2",
+    children: [
+      {
+        label: "Layer2 101",
+        value: "Layer2 101",
+      },
+      {
+        label: "Layer2 102",
+        value: "Layer2 102",
+      },
+      {
+        label: "Layer2 103",
+        value: "Layer2 103",
+      },
+    ]
+  },
+  {
+    label: "Frontend",
+    value: "Frontend",
+    children: [
+      {
+        label: "Frontend 101",
+        value: "Frontend 101",
+      },
+    ],
+  },
+  {
+    label: "ZK",
+    value: "ZK"
+  },
+];
+
+const Header = () => {
+  // @dev(daxiongya): 添加一个状态来追踪是否在客户端
+  const [isMounted, setIsMounted] = React.useState(false);
+  const { isLogin, authUser } = useAuth();
+  const [openSheet, setOpenSheet] = useState(false);
+  const [selectedKeys, setSelectedKeys] = React.useState<string[]>([]);
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // 如果还没有挂载，返回一个骨架屏或者null
   if (!isMounted) {
     return (
       <header className="fixed z-50 top-4 inset-x-0 px-4 md:px-10 4xl:px-[20rem] container">
@@ -123,54 +212,21 @@ const Header = () => {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Courses</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                    <li className="row-span-3">
-                      <NavigationMenuLink asChild>
-                        <a
-                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                          href="/"
-                        >
-                          <Icons.logo className="h-6 w-6" />
-                          <div className="mb-2 mt-4 text-lg font-medium">
-                            shadcn/ui
-                          </div>
-                          <p className="text-sm leading-tight text-muted-foreground">
-                            Beautifully designed components built with Radix UI
-                            and Tailwind CSS.
-                          </p>
-                        </a>
-                      </NavigationMenuLink>
-                    </li>
-                    <ListItem href="/docs" title="Introduction">
-                      Re-usable components built using Radix UI and Tailwind
-                      CSS.
-                    </ListItem>
-                    <ListItem href="/docs/installation" title="Installation">
-                      How to install dependencies and structure your app.
-                    </ListItem>
-                    <ListItem
-                      href="/docs/primitives/typography"
-                      title="Typography"
-                    >
-                      Styles for headings, paragraphs, lists...etc
-                    </ListItem>
-                  </ul>
+                  <CascaderPanel
+                    options={options}
+                    onSelect={setSelectedKeys}
+                    className="w-fit"
+                  />
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Projects</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                    {components.map((component) => (
-                      <ListItem
-                        key={component.title}
-                        title={component.title}
-                        href={component.href}
-                      >
-                        {component.description}
-                      </ListItem>
-                    ))}
-                  </ul>
+                  <CascaderPanel
+                    options={options}
+                    onSelect={setSelectedKeys}
+                    className="w-fit"
+                  />
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
@@ -199,7 +255,46 @@ const Header = () => {
         </div>
         <div className="hidden md:flex items-center gap-x-2">
           <ModeToggle />
-          <AuthButton />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild className="outline-none">
+              <AuthButton onAvatarClick={() => setOpenSheet(true)} />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className="w-[240px]"
+              align="end"
+              sideOffset={8}
+            >
+              <div className="flex items-center gap-2 px-3 py-4 rounded-lg bg-wtf-background-block">
+                <UserAvatar size="lg" />
+                <div className="flex flex-col gap-1">
+                  <span className="text-base font-medium">
+                    {authUser?.username}
+                  </span>
+                  {authUser?.wallet && (
+                    <span className="text-xs text-wtf-content-3">
+                      {shortWallet(authUser?.wallet)}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem className="font-medium">
+                  <Icons.wallet className="w-5 h-5 mr-2" />
+                  Bind Wallet
+                </DropdownMenuItem>
+                <DropdownMenuItem className="font-medium">
+                  <Icons.profile className="w-5 h-5 mr-2" />
+                  Personal Center
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="text-wtf-function-error font-medium">
+                <Icons.logout className="w-5 h-5 mr-2" />
+                Log out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
         <div className="flex md:hidden items-center gap-x-2">
           <AuthButton onAvatarClick={() => setOpenSheet(true)} />
