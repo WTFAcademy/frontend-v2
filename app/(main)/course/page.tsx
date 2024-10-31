@@ -1,16 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Footer from "@/components/layout/footer";
 import NumberTag from "@/components/number-tag";
 import CourseDisplayCard from "@/features/course/components/course-display-card";
+import { Skeleton as SkeletonUI } from "@/components/ui/skeleton";
+import { useQuery } from "@tanstack/react-query";
+import { getCourses, TCourse } from "@/features/course/api/use-courses.api";
+import { get, set } from "lodash-es";
+import { toast } from "sonner";
 
 const CoursePage = () => {
+
+
   const typeList = ["All", "Solidity", "Ethers", "EVM", "Layer 2", "Frontend", "zk", "AI", "Basecamp"];
 
   const [currentType, setCurrentType] = useState<string | null>(typeList && typeList[0]);
 
+  const [popularCourses, setPopularCourses] = useState<TCourse[]>([]);
+  const [upcomingCourses, setUpcomingCourses] = useState<TCourse[]>([]);
+
+  const { data, isLoading } = useQuery<Record<"published" | "unpublished", TCourse[]>>({
+    queryKey: ["courses"],
+    queryFn: async () => {
+      const data = await getCourses();
+
+      if (data.code === 200) {
+        return data.data;
+      } else {
+        toast.error(data.msg);
+        throw new Error(data.msg);
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (data) {
+      setPopularCourses(get(data, "published", []));
+      setUpcomingCourses(get(data, "unpublished", []));
+    }
+  }, [data]);
+  
   const selectCourseType = (type: string) => {
     setCurrentType(type);
   };
@@ -50,65 +81,61 @@ const CoursePage = () => {
           <div className="w-full flex flex-col">
             <div className="flex items-center gap-x-3 px-8 mb-[-0.5px] md:px-10 py-9 border-wtf-border-divider border-[0.5px] border-solid">
               <span className="text-2xl font-bold leading-8">Popular Courses</span>
-              <NumberTag number={2} />
+              {
+                isLoading ? <SkeletonUI className="w-6 h-6" /> : <NumberTag number={popularCourses.length} />
+              }
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-5">
-              <CourseDisplayCard
-                title="Solidity 101"
-                description="Learn Solidity Basics Learn Solidity Basics Learn Solidity Basics"
-                keywords="react, javascript, frontend"
-                image="/images/solidity101.jpg"
-              />
-              <CourseDisplayCard
-                title="Solidity 101"
-                description="Learn Solidity Basics Learn Solidity Basics Learn Solidity Basics"
-                keywords="react, javascript, frontend"
-                image="/images/solidity101.jpg"
-              />
+              {isLoading ? 
+              <>
+                <CourseDisplayCard.Skeleton />
+                <CourseDisplayCard.Skeleton />
+                <CourseDisplayCard.Skeleton />
+                <CourseDisplayCard.Skeleton />
+                <CourseDisplayCard.Skeleton />
+                <CourseDisplayCard.Skeleton />
+                <CourseDisplayCard.Skeleton />
+                <CourseDisplayCard.Skeleton />
+              </> :
+              popularCourses.map((course: TCourse) => (
+                <CourseDisplayCard
+                  key={course.path}
+                  title={course.title}
+                  description={course.description}
+                  keywords={""}
+                  image={course.cover_img}
+                />
+              ))}
             </div>
           </div>
           <div className="w-full flex flex-col">
             <div className="flex items-center gap-x-3 px-8 my-[-0.5px] md:px-10 py-9 border-wtf-border-divider border-[0.5px] border-solid">
               <span className="text-2xl font-bold leading-8">Upcomming Courses</span>
-              <NumberTag number={108} />
+              {
+                isLoading ? <SkeletonUI className="w-6 h-6" /> : <NumberTag number={upcomingCourses.length} />
+              }
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-5">
-              <CourseDisplayCard
-                title="Solidity 101"
-                description="Learn Solidity Basics Learn Solidity Basics Learn Solidity Basics"
-                keywords="react, javascript, frontend"
-                image="/images/solidity101.jpg"
-              />
-              <CourseDisplayCard
-                title="Solidity 101"
-                description="Learn Solidity Basics Learn Solidity Basics Learn Solidity Basics"
-                keywords="react, javascript, frontend"
-                image="/images/solidity101.jpg"
-              />
-              <CourseDisplayCard
-                title="Solidity 101"
-                description="Learn Solidity Basics Learn Solidity Basics Learn Solidity Basics"
-                keywords="react, javascript, frontend"
-                image="/images/course-placeholder.jpg"
-              />
-              <CourseDisplayCard
-                title="Solidity 101"
-                description="Learn Solidity Basics Learn Solidity Basics Learn Solidity Basics"
-                keywords="react, javascript, frontend"
-                image="/images/course-placeholder.jpg"
-              />
-              <CourseDisplayCard
-                title="Solidity 101"
-                description="Learn Solidity Basics Learn Solidity Basics Learn Solidity Basics"
-                keywords="react, javascript, frontend"
-                image="/images/course-placeholder.jpg"
-              />
-              <CourseDisplayCard
-                title="Solidity 101"
-                description="Learn Solidity Basics Learn Solidity Basics Learn Solidity Basics"
-                keywords="react, javascript, frontend"
-                image="/images/course-placeholder.jpg"
-              />
+              {isLoading ? 
+              <>
+                <CourseDisplayCard.Skeleton />
+                <CourseDisplayCard.Skeleton />
+                <CourseDisplayCard.Skeleton />
+                <CourseDisplayCard.Skeleton />
+                <CourseDisplayCard.Skeleton />
+                <CourseDisplayCard.Skeleton />
+                <CourseDisplayCard.Skeleton />
+                <CourseDisplayCard.Skeleton />
+              </> :
+              upcomingCourses.map((course: TCourse) => (
+                <CourseDisplayCard
+                  key={course.path}
+                  title={course.title}
+                  description={course.description}
+                  keywords={""}
+                  image={course.cover_img}
+                />
+              ))}
             </div>
           </div>
         </section>
