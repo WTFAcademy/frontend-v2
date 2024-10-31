@@ -98,7 +98,7 @@ const options = [
   },
   {
     label: "Web3",
-    value: "Web3", 
+    value: "Web3",
     children: [
       {
         label: "Web3 101",
@@ -122,7 +122,7 @@ const options = [
         label: "Layer2 103",
         value: "Layer2 103",
       },
-    ]
+    ],
   },
   {
     label: "Frontend",
@@ -136,7 +136,7 @@ const options = [
   },
   {
     label: "ZK",
-    value: "ZK"
+    value: "ZK",
   },
 ];
 
@@ -221,7 +221,9 @@ const Header = () => {
           <ModeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild className="outline-none">
-              <AuthButton onAvatarClick={() => setOpenSheet(true)} />
+              <div>
+                <AuthButton />
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent
               className="w-[240px]"

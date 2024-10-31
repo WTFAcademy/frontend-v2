@@ -61,12 +61,13 @@ export const AuthProvider = ({ children }: TProps) => {
     return new Promise((resolve, reject) => {
       const uri = window.location.href.replace(window.location.origin, "");
       const authUrl = `https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}&redirect_uri=http://localhost:3000/redirect?uri=${uri}`;
-
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      
       // 打开新窗口
       const authWindow = window.open(
         authUrl,
         "GitHub 登录",
-        "width=600,height=600"
+        isMobile ? "_blank" : "width=600,height=600"
       );
 
       // 创建一个只执行一次的事件处理函数
