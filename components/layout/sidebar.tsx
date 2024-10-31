@@ -13,7 +13,6 @@ import { useTheme } from "next-themes";
 
 const Sidebar = () => {
   const [language, setLanguage] = useState("en");
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const { setTheme, theme } = useTheme();
 
   const { data } = useSuspenseQuery({
