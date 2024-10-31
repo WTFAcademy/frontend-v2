@@ -4,6 +4,7 @@ import * as React from "react";
 import { ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { Skeleton as SkeletonUI } from "./ui/skeleton";
 
 interface CascaderOption {
   label: string;
@@ -155,3 +156,14 @@ export function CascaderLevel({ level, options }: CascaderLevelProps) {
     </motion.div>
   );
 }
+
+const Skeleton = () => {
+  return (
+    <div className="min-w-[200px] border-r-[0.5px] p-2 border-wtf-border-line last:border-r-0">
+      <SkeletonUI className="w-full h-[40px] mb-2" />
+      <SkeletonUI className="w-full h-[40px]" />
+    </div>
+  );
+};
+
+CascaderPanel.Skeleton = Skeleton;

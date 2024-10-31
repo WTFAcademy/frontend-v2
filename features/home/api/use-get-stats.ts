@@ -9,6 +9,6 @@ type TGetWtfStatsResponse = TRequestResponse<{
 }>;
 
 export const getWtfStats = async (): Promise<TGetWtfStatsResponse> => {
-    const res = await request.get<TGetWtfStatsResponse>("/courses/stats");
+    const res = await request.get<TGetWtfStatsResponse>("/wtf/stats");
     return res.data;
 };

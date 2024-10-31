@@ -13,7 +13,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "../ui/navigation-menu";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent } from "../ui/sheet";
@@ -31,6 +31,10 @@ import {
 import UserAvatar from "@/features/user/components/user-avatar";
 import { shortWallet } from "@/features/user/utils/short-wallet";
 import { CascaderPanel } from "../cascader-panel";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { getCourseWithType } from "@/features/course/api/use-courses.api";
+import CourseCascaderPanel from "@/features/course/components/course-cascader-panel";
+import Sidebar from "./sidebar";
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -60,84 +64,13 @@ ListItem.displayName = "ListItem";
 
 const options = [
   {
-    label: "Solidity",
-    value: "Solidity",
-    children: [
-      {
-        label: "Solidity 101",
-        value: "Solidity 101",
-      },
-      {
-        label: "Solidity 102",
-        value: "Solidity 102",
-      },
-      {
-        label: "Solidity 103",
-        value: "Solidity 103",
-      },
-    ],
+    label: "WTF Town",
+    value: "https://wtf.town",
   },
   {
-    label: "Ethers",
-    value: "Ethers",
-    children: [
-      {
-        label: "Ethers 101",
-        value: "Ethers 101",
-      },
-      {
-        label: "Ethers 102",
-        value: "Ethers 102",
-      },
-
-      {
-        label: "Ethers 103",
-        value: "Ethers 103",
-      },
-    ],
-  },
-  {
-    label: "Web3",
-    value: "Web3",
-    children: [
-      {
-        label: "Web3 101",
-        value: "Web3 101",
-      },
-    ],
-  },
-  {
-    label: "Layer2",
-    value: "Layer2",
-    children: [
-      {
-        label: "Layer2 101",
-        value: "Layer2 101",
-      },
-      {
-        label: "Layer2 102",
-        value: "Layer2 102",
-      },
-      {
-        label: "Layer2 103",
-        value: "Layer2 103",
-      },
-    ],
-  },
-  {
-    label: "Frontend",
-    value: "Frontend",
-    children: [
-      {
-        label: "Frontend 101",
-        value: "Frontend 101",
-      },
-    ],
-  },
-  {
-    label: "ZK",
-    value: "ZK",
-  },
+    label: "RescuEth",
+    value: "https://rescu-eth-app.vercel.app/",
+  }
 ];
 
 const Header = () => {
@@ -146,8 +79,6 @@ const Header = () => {
   const { isLogin, authUser } = useAuth();
   const [openSheet, setOpenSheet] = useState(false);
   const [selectedKeys, setSelectedKeys] = React.useState<string[]>([]);
-
-  console.log("selectedKeys: ", selectedKeys);
 
   useEffect(() => {
     setIsMounted(true);
@@ -176,11 +107,9 @@ const Header = () => {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Courses</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <CascaderPanel
-                    options={options}
-                    onSelect={setSelectedKeys}
-                    className="w-fit"
-                  />
+                  <Suspense fallback={<CascaderPanel.Skeleton />}>
+                    <CourseCascaderPanel />
+                  </Suspense>
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
@@ -281,6 +210,9 @@ const Header = () => {
                   <Icons.close className="w-5 h-5" />
                   <span className="sr-only">Close</span>
                 </SheetClose>
+              </div>
+              <div className="flex flex-col w-full">
+                <Sidebar />
               </div>
             </SheetContent>
           </Sheet>
