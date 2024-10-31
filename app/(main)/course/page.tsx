@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getCourses, TCourse } from "@/features/course/api/use-courses.api";
 import { get, set } from "lodash-es";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 
 const CoursePage = () => {
 
@@ -64,15 +65,30 @@ const CoursePage = () => {
               <p className="relative text-[28px] leading-[36px] text-center font-bold md:text-4xl md:leading-[48px]">Courses specially designed by developers for developers</p>
           </div>
           <div className="relative w-full p-[5px] bg-wtf-border-line rounded-[6px] md:w-auto">
-            <div className="flex w-full overflow-x-auto">
+            <div className="flex w-full overflow-x-auto relative">
               {typeList.map((type, index) => (
-                <div
+                <motion.div
                   key={index}
-                  className={`relative px-4 py-1.5 text-base leading-[20px] text-wtf-content-2 font-medium rounded-[3px] cursor-pointer whitespace-nowrap ${currentType === type ? 'bg-white text-[#121212]' : ''}`}
-                  onClick={() => selectCourseType(type)}
+                  className="relative"
                 >
-                  {type}
-                </div>
+                  {currentType === type && (
+                    <motion.div
+                      layoutId="tabs"
+                      className="absolute inset-0 bg-wtf-background-primary rounded-[3px]"
+                      transition={{ type: "spring", duration: 0.5 }}
+                    />
+                  )}
+                  <div
+                    className={`relative px-4 py-1.5 text-base leading-[20px] font-medium rounded-[3px] cursor-pointer whitespace-nowrap ${
+                      currentType === type 
+                        ? 'text-wtf-content-1 z-10' 
+                        : 'text-wtf-content-2'
+                    }`}
+                    onClick={() => selectCourseType(type)}
+                  >
+                    {type}
+                  </div>
+                </motion.div>
               ))}
             </div>
           </div>
