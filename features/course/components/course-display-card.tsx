@@ -1,5 +1,5 @@
 import Image from "next/image";
-import CourseKeywordTag from "./CourseKeywordTag";
+import CourseKeywordTag from "./course-keyword-tag";
 
 type TCourseDisplayCardProps = {
   image?: string;

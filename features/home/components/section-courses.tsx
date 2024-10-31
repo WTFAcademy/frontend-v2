@@ -1,6 +1,6 @@
 import NumberTag from "@/components/number-tag";
 import SectionHeader from "./section-header";
-import CourseDisplayCard from "@/features/course/components/CourseDisplayCard";
+import CourseDisplayCard from "@/features/course/components/course-display-card";
 
 const SectionCourses = () => {
   return (

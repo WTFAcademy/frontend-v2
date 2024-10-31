@@ -2,7 +2,7 @@
 
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import AuthProvider from "@/features/auth/contexts/auth-context";
-import WagmiProvider from "@/features/wallet/contexts/wagmi-context";
+import WagmiProvider from "@/features/auth/contexts/wagmi-context";
 
 const Providers = ({
   children,

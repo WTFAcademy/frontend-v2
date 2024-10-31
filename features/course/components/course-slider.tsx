@@ -1,6 +1,8 @@
 
 const CourseSlider = () => {
-  return <div>CourseSlider</div>;
+  return (
+    <div>CourseSlider</div>
+  );
 };
 
 export default CourseSlider;

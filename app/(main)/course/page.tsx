@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Footer from "@/components/layout/footer";
 import NumberTag from "@/components/number-tag";
-import CourseDisplayCard from "@/features/course/components/CourseDisplayCard";
+import CourseDisplayCard from "@/features/course/components/course-display-card";
 
 const CoursePage = () => {
   const typeList = ["All", "Solidity", "Ethers", "EVM", "Layer 2", "Frontend", "zk", "AI", "Basecamp"];
