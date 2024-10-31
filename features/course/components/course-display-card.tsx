@@ -1,5 +1,6 @@
 import Image from "next/image";
 import CourseKeywordTag from "./course-keyword-tag";
+import { Skeleton as SkeletonUI } from "@/components/ui/skeleton";
 
 type TCourseDisplayCardProps = {
   image?: string;
@@ -47,7 +48,9 @@ const CourseDisplayCard = ({
       </div>
       <div className="w-full flex flex-col gap-y-3">
         <div className="text-[22px] font-bold leading-none">{title}</div>
-        <div className="text-base font-normal leading-7">{description}</div>
+        <div className="text-base font-normal leading-7 overflow-hidden line-clamp-2">
+          {description}
+        </div>
       </div>
       <div className="w-full flex justify-between">
         <div className="w-full flex items-center gap-x-2">
@@ -62,5 +65,25 @@ const CourseDisplayCard = ({
     </div>
   );
 };
+
+const Skeleton = () => {
+  return (
+    <div className="course-display-card w-full p-8 md:p-10 4xl:p-20 border-wtf-border-divider border-[0.5px] border-solid flex flex-col items-center gap-y-8 cursor-pointer transition-all hover:bg-wtf-background-hover">
+      <SkeletonUI className="relative w-full h-[186px] md:h-[240px]" />
+      <div className="w-full flex flex-col gap-y-3">
+        <SkeletonUI className="w-full h-[22px] mb-3" />
+        <SkeletonUI className="w-full h-[14px]" />
+      </div>
+      <div className="w-full flex justify-between">
+        <div className="w-full flex items-center gap-x-2">
+          <SkeletonUI className="w-full h-[14px]" />
+          <SkeletonUI className="w-full h-[14px]" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+CourseDisplayCard.Skeleton = Skeleton;
 
 export default CourseDisplayCard;

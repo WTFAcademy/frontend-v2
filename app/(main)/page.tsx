@@ -7,6 +7,7 @@ import SectionEvents from "@/features/home/components/section-events";
 import SectionProjects from "@/features/home/components/section-projects";
 import SectionSponsors from "@/features/home/components/section-sponsors";
 import SectionStatistics from "@/features/home/components/section-statistics";
+import { Suspense } from "react";
 
 export default function Home() {
   return (
@@ -14,8 +15,12 @@ export default function Home() {
       <div id="home" className="w-full h-full flex flex-col">
         <SectionBanner />
         <div id="home-content" className="w-full h-full flex flex-col">
-          <SectionStatistics />
-          <SectionCourses />
+          <Suspense fallback={<SectionStatistics.Skeleton />}>
+            <SectionStatistics />
+          </Suspense>
+          <Suspense fallback={<SectionCourses.Skeleton />}>
+            <SectionCourses />
+          </Suspense>
           <SectionCommunity />
           <SectionProjects />
           <SectionEvents />

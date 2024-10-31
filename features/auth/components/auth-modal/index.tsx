@@ -15,7 +15,7 @@ import {
   DrawerContent,
   DrawerFooter,
 } from "@/components/ui/drawer";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useAppKitState } from "@reown/appkit/react";
 
