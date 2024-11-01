@@ -96,6 +96,10 @@ const Header = () => {
     );
   }
 
+  const handleSelect = (keys: string[]) => {
+    window.location.href = keys[keys.length - 1];
+  };
+
   return (
     <header className="fixed z-50 top-4 inset-x-0 px-4 md:px-10 4xl:px-[20rem] container">
       <div className="w-full rounded-full bg-wtf-background-navbar backdrop-blur-[20px] h-[60px] px-4 py-3 md:px-8 md:py-[18px] flex justify-between items-center">
@@ -117,7 +121,7 @@ const Header = () => {
                 <NavigationMenuContent>
                   <CascaderPanel
                     options={options}
-                    onSelect={setSelectedKeys}
+                    onSelect={handleSelect}
                     className="w-fit"
                   />
                 </NavigationMenuContent>

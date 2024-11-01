@@ -2,8 +2,10 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { getCourseWithType, TCourse } from "../api/use-courses.api";
 import { CascaderPanel } from "@/components/cascader-panel";
 import { get } from "lodash-es";
+import { redirect, useRouter } from "next/navigation";
 
 const CourseCascaderPanel = () => {
+  const router = useRouter();
   const { data } = useSuspenseQuery({
     queryKey: ["courses"],
     queryFn: () => getCourseWithType(),
@@ -23,7 +25,7 @@ const CourseCascaderPanel = () => {
   });
 
   const handleSelect = (keys: string[]) => {
-    console.log(keys);
+    router.push(`/course/${keys[keys.length - 1]}`);
   };
 
   return (
