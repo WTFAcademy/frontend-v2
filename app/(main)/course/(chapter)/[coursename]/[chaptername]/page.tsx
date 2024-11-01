@@ -1,7 +1,7 @@
-import CoursesChapter from "@/features/course/components/CoursesChapter";
-import CoursesList from "@/features/course/components/CoursesList";
-import CoursesNFT from "@/features/course/components/CoursesNFT";
-import CoursesOverview from "@/features/course/components/CoursesOverview";
+import CoursesChapter from "@/features/course/components/courses-chapter";
+import CoursesList from "@/features/course/components/courses-list";
+import CoursesNFT from "@/features/course/components/courses-nft";
+import CoursesOverview from "@/features/course/components/courses-overview";
 import Footer from "@/components/layout/footer";
 
 const CourseChapterPage = ({params}: {params: {coursename: string, chaptername: string}}) => {
