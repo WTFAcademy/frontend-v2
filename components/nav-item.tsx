@@ -28,6 +28,13 @@ const NavItem = ({
 }: TNavItemProps & { url?: string }) => {
   const pathname = usePathname();
 
+  const [isExpanded, setIsExpanded] = useState(
+    items.some((item) => item.url === pathname)
+  );
+  const [expandedItems, setExpandedItems] = useState<{
+    [key: string]: boolean;
+  }>({});
+
   if (!items?.length) {
     return (
       <Link href={url!} className="relative z-20 flex flex-col mt-2">
@@ -40,13 +47,6 @@ const NavItem = ({
       </Link>
     );
   }
-
-  const [isExpanded, setIsExpanded] = useState(
-    items.some((item) => item.url === pathname)
-  );
-  const [expandedItems, setExpandedItems] = useState<{
-    [key: string]: boolean;
-  }>({});
 
   const isActive = (path: string) => {
     return pathname === path ? "bg-white rounded-md text-black" : "";

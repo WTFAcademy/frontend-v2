@@ -8,7 +8,7 @@ import CourseDisplayCard from "@/features/course/components/course-display-card"
 import { Skeleton as SkeletonUI } from "@/components/ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
 import { getCourses, TCourse } from "@/features/course/api/use-courses-api";
-import { get, set } from "lodash-es";
+import { get } from "lodash-es";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 
