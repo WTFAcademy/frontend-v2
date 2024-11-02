@@ -5,9 +5,10 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import { getCourseWithType, TCourse } from "../api/use-courses.api";
+import { getCourseWithType, TCourse } from "../api/use-courses-api";
 import { get } from "lodash-es";
 import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
 
 const CourseDetailHeader = () => {
   const router = useRouter();
@@ -76,26 +77,25 @@ const CourseDetailHeader = () => {
   }, [selectedCourse, data]);
 
   return (
-    <div className="w-full relative px-10 py-5 border-b-[0.5px] border-wtf-border-divider">
+    <div className="w-full relative px-8 py-4 border-b-[0.5px] border-wtf-border-divider">
       {showLeftGradient && (
-        <>
-          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10" />
+        <div className="absolute left-0 top-0 bottom-0 w-24 [background:linear-gradient(270deg,rgba(249,250,251,0.00)_0%,#F9FAFB_63%)] dark:[background:linear-gradient(270deg,rgba(28,32,40,0.00)_0%,#1C2028_63%)] z-10 flex items-center justify-start px-4">
           <motion.button
             onClick={() => scroll("left")}
-            className="absolute left-2 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-white shadow-lg hover:bg-gray-50"
+            className="p-2 rounded-full bg-wtf-background-navButton hover:bg-wtf-background-navButtonHover"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
             <ChevronLeft size={20} />
           </motion.button>
-        </>
+        </div>
       )}
 
       <div
         ref={scrollContainerRef}
         onScroll={handleScroll}
-        className="w-full flex gap-x-5 overflow-x-auto scrollbar-hide"
+        className="w-full flex gap-x-5 overflow-x-auto scrollbar-hide px-2 py-1"
       >
         {courseGroups.map((group, groupIndex) => (
           <>
@@ -110,11 +110,17 @@ const CourseDetailHeader = () => {
                     onClick={() => handleSelectCourse(course.path)}
                     className={`w-[108px] h-[72px] bg-wtf-background-block rounded-sm cursor-pointer relative`}
                   >
+                    <Image
+                      src={course.cover_img}
+                      alt={course.title}
+                      fill
+                      className="object-cover rounded-sm"
+                    />
                     {/* 可以添加课程缩略图 */}
                     {selectedCourse === course.path && (
                       <motion.div
                         layoutId="tabs"
-                        className="absolute inset-0 z-30 border-[2px] border-wtf-content-1 rounded-md"
+                        className="absolute inset-[-4px] z-40 border-[2px] border-wtf-content-1 rounded-md"
                         transition={{
                           type: "spring",
                           bounce: 0.2,
@@ -122,9 +128,6 @@ const CourseDetailHeader = () => {
                         }}
                       />
                     )}
-                    <div className="absolute bottom-2 left-2 text-xs text-white">
-                      {course.title}
-                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -141,10 +144,10 @@ const CourseDetailHeader = () => {
 
       {showRightGradient && (
         <>
-          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10 flex items-center justify-end px-4">
+          <div className="absolute right-0 top-0 bottom-0 w-24 [background:linear-gradient(90deg,rgba(249,250,251,0.00)_0%,#F9FAFB_63%)] dark:[background:linear-gradient(90deg,rgba(28,32,40,0.00)_0%,#1C2028_63%)] z-10 flex items-center justify-end px-4">
             <motion.button
               onClick={() => scroll("right")}
-              className="p-2 rounded-full bg-white shadow-lg hover:bg-gray-50"
+              className="p-2 rounded-full bg-wtf-background-navButton hover:bg-wtf-background-navButtonHover"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}

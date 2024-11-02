@@ -1,23 +1,21 @@
-"use client";
-
-import { Icons } from "@/components/icons";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import React from "react";
+import React, { Suspense } from "react";
 import CourseDetailCard from "@/features/course/components/course-detail-card";
 import ChapterList from "@/features/course/components/chapter-list";
+import CourseDetailCardSkeleton from "@/features/course/components/skeletons/course-detail-card-skeleton";
+import ChapterListSkeleton from "@/features/course/components/skeletons/chapter-list-skeleton";
 
 const CourseDetailPage = ({ params }: { params: { coursename: string } }) => {
-  console.log(params);
-
   return (
     <div className="flex md:flex-row flex-col border-b-[0.5px] border-wtf-border-divider">
       <div className="md:w-[480px] w-full p-10 border-r-[0.5px] border-wtf-border-divider">
-        <CourseDetailCard />
+        <Suspense fallback={<CourseDetailCardSkeleton />}>
+          <CourseDetailCard coursePath={params.coursename} />
+        </Suspense>
       </div>
       <div className="md:flex-auto flex flex-col p-10 gap-6">
-        <ChapterList />
+        <Suspense fallback={<ChapterListSkeleton />}>
+          <ChapterList coursePath={params.coursename} />
+        </Suspense>
       </div>
     </div>
   );

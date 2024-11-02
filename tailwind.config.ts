@@ -167,7 +167,9 @@ const config: Config = {
     				navbar2: 'var(--wtf-background-navbar-2)',
     				footer: 'var(--wtf-background-footer)',
     				mask: 'var(--wtf-background-mask)',
-    				hover: 'var(--wtf-background-hover)'
+    				hover: 'var(--wtf-background-hover)',
+					navButton: 'var(--wtf-background-nav-button)',
+					navButtonHover: 'var(--wtf-background-nav-button-hover)'
     			},
     			sidebar: {
     				DEFAULT: 'hsl(var(--sidebar-background))',

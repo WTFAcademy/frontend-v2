@@ -1,11 +1,85 @@
 "use client";
 
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { getChaptersByPath } from "../api/use-chapters-api";
+import { Icons } from "@/components/icons";
 
-const ChapterList = () => {
+const ChapterProgressButton = ({
+  progress,
+  children,
+  onClick,
+}: {
+  progress: number;
+  children: React.ReactNode;
+  onClick?: () => void;
+}) => {
+  return (
+    <div
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick?.();
+      }}
+      className="relative border border-wtf-border-outline rounded-sm w-[80px] h-[34px] flex items-center justify-center overflow-hidden cursor-pointer"
+    >
+      {children}
+      <div className="absolute bottom-0 left-0 w-full h-[4px] bg-wtf-function-successBg">
+        <motion.div
+          initial={{ width: 0 }}
+          animate={{ width: `${progress * 100}%` }}
+          transition={{ duration: 0.5 }}
+          className="h-full bg-wtf-function-success"
+        />
+      </div>
+    </div>
+  );
+};
+
+const ChapterProgressStatus = ({
+  progress,
+  active,
+}: {
+  progress: number;
+  active: boolean;
+}) => {
+  switch (progress) {
+    case 0:
+      return active ? (
+        <div className="flex items-center gap-1 text-sm font-medium text-wtf-function-link">
+          Start <Icons.arrowRight2 className="w-4 h-4 ml-2" />
+        </div>
+      ) : (
+        <div className="text-wtf-content-4 font-medium text-sm relative z-10">
+          Not Started
+        </div>
+      );
+    case 1:
+      return (
+        <div className="text-wtf-function-success font-medium text-sm relative z-10 flex items-center">
+          Completed
+          <Icons.complete className="w-4 h-4 ml-1" />
+        </div>
+      );
+    default:
+      return (
+        <div className="text-wtf-content-2 font-medium text-sm relative z-10">
+          In Progress
+        </div>
+      );
+  }
+};
+
+const ChapterList = ({ coursePath }: { coursePath: string }) => {
   const [activeChapter, setActiveChapter] = useState<number | null>(null);
   const [selectedChapter, setSelectedChapter] = useState<number | null>(null);
+
+  const { data } = useSuspenseQuery({
+    queryKey: ["chapters", coursePath],
+    queryFn: () => getChaptersByPath(coursePath),
+  });
+
+  const chapters = data?.data || [];
 
   const handleChapterClick = (chapterIndex: number) => {
     setSelectedChapter(chapterIndex);
@@ -17,10 +91,10 @@ const ChapterList = () => {
       <h1 className="text-wtf-content-1 text-xl font-bold">
         Chapters <span>(15)</span>
       </h1>
-      <div className="flex flex-col gap-1">
-        {[1, 2, 3].map((chapter, index) => (
+      <div className="flex flex-col gap-1 mt-6">
+        {chapters.map((chapter, index) => (
           <motion.div
-            key={chapter}
+            key={chapter.route_path}
             className="border-b-[0.5px] border-wtf-border-divider py-1"
             onHoverStart={() => setActiveChapter(index)}
             onHoverEnd={() => setActiveChapter(null)}
@@ -33,14 +107,40 @@ const ChapterList = () => {
             >
               <div className="flex items-center gap-4 relative z-10">
                 <div className="rounded-full w-[30px] h-[30px] text-wtf-function-link bg-wtf-function-brandBg flex items-center justify-center">
-                  {chapter}
+                  {chapter.sort}
                 </div>
                 <h2 className="text-wtf-content-1 text-base font-semibold">
-                  HelloWeb3
+                  {chapter.title}
                 </h2>
               </div>
-              <div className="text-wtf-content-4 text-sm relative z-10">
-                Not Started
+
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
+                  <ChapterProgressButton
+                    progress={chapter.quiz_progress}
+                    onClick={() => handleChapterClick(index)}
+                  >
+                    <Icons.document className="w-4 h-4 text-wtf-content-3" />
+                    <span className="text-wtf-content-2 text-sm font-medium ml-1">
+                      Quiz
+                    </span>
+                  </ChapterProgressButton>
+                  <ChapterProgressButton
+                    progress={chapter.code_progress}
+                    onClick={() => handleChapterClick(index)}
+                  >
+                    <Icons.code2 className="w-4 h-4 text-wtf-content-3" />
+                    <span className="text-wtf-content-2 text-sm font-medium ml-1">
+                      Code
+                    </span>
+                  </ChapterProgressButton>
+                </div>
+                <div className="w-[128px] flex justify-end">
+                  <ChapterProgressStatus
+                    progress={chapter.quiz_progress}
+                    active={selectedChapter === index}
+                  />
+                </div>
               </div>
 
               {activeChapter === index && (

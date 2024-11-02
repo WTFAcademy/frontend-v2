@@ -2,7 +2,7 @@ import NumberTag from "@/components/number-tag";
 import SectionHeader from "./section-header";
 import CourseDisplayCard from "@/features/course/components/course-display-card";
 import { Skeleton as SkeletonUI } from "@/components/ui/skeleton";
-import { getCourses, TCourse } from "@/features/course/api/use-courses.api";
+import { getCourses, TCourse } from "@/features/course/api/use-courses-api";
 import { get } from "lodash-es";
 
 const SectionCourses = async () => {

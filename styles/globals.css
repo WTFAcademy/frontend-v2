@@ -147,6 +147,8 @@ body {
     --wtf-background-footer: hsl(var(--wtf-base-gray-100));
     --wtf-background-mask: rgba(18, 18, 18, 0.6);
     --wtf-background-hover: rgba(18, 18, 18, 0.04);
+    --wtf-background-nav-button: rgba(18, 18, 18, 0.16);
+    --wtf-background-nav-button-hover: rgba(18, 18, 18, 0.24);
   }
 
   .dark {
@@ -217,6 +219,8 @@ body {
     --wtf-background-footer: hsl(var(--wtf-base-black));
     --wtf-background-mask: rgba(18, 18, 18, 0.5);
     --wtf-background-hover: rgba(243, 244, 246, 0.04);
+    --wtf-background-nav-button: rgba(243, 244, 246, 0.16);
+    --wtf-background-nav-button-hover: rgba(243, 244, 246, 0.24);
   }
 }
 
@@ -239,4 +243,11 @@ body {
   .dark #home-content {
     background-image: url('/svgs/dark-background.svg');
   }
+
+  #course-certificate-background {
+    background-image: url('/svgs/course-certificate-background.svg');
+    background-position: center;
+    background-size: contain;
+  }
+
 }

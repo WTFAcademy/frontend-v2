@@ -5,7 +5,7 @@ import NavItem, { NavSelectionItem, NavSwitchItem } from "../nav-item";
 import {
   getCourseWithType,
   TCourse,
-} from "@/features/course/api/use-courses.api";
+} from "@/features/course/api/use-courses-api";
 import { get } from "lodash-es";
 import { Separator } from "../ui/separator";
 import { useState } from "react";
