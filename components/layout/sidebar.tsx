@@ -16,7 +16,7 @@ const Sidebar = () => {
   const { setTheme, theme } = useTheme();
 
   const { data } = useSuspenseQuery({
-    queryKey: ["courses"],
+    queryKey: ["coursesWithType"],
     queryFn: () => getCourseWithType(),
   });
 

@@ -31,10 +31,9 @@ import {
 import UserAvatar from "@/features/user/components/user-avatar";
 import { shortWallet } from "@/features/user/utils/short-wallet";
 import { CascaderPanel } from "../cascader-panel";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
-import { getCourseWithType } from "@/features/course/api/use-courses.api";
 import CourseCascaderPanel from "@/features/course/components/course-cascader-panel";
 import Sidebar from "./sidebar";
+import AuthModal from "@/features/auth/components/auth-modal";
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -70,15 +69,24 @@ const options = [
   {
     label: "RescuEth",
     value: "https://rescu-eth-app.vercel.app/",
-  }
+  },
 ];
 
 const Header = () => {
   // @dev(daxiongya): 添加一个状态来追踪是否在客户端
   const [isMounted, setIsMounted] = React.useState(false);
-  const { isLogin, authUser } = useAuth();
+  const { authUser, setIsRegistering, logout } = useAuth();
   const [openSheet, setOpenSheet] = useState(false);
-  const [selectedKeys, setSelectedKeys] = React.useState<string[]>([]);
+  const [openLoginModal, setOpenLoginModal] = useState(false);
+
+  const handleAuthModalOpenChange = async (open: boolean) => {
+    if (open) {
+      setOpenLoginModal(true);
+    } else {
+      setOpenLoginModal(false);
+      setIsRegistering(false);
+    }
+  };
 
   useEffect(() => {
     setIsMounted(true);
@@ -152,59 +160,93 @@ const Header = () => {
         </div>
         <div className="hidden md:flex items-center gap-x-2">
           <ModeToggle />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild className="outline-none">
-              <div>
-                <AuthButton />
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              className="w-[240px]"
-              align="end"
-              sideOffset={8}
-            >
-              <div className="flex items-center gap-2 px-3 py-4 rounded-lg bg-wtf-background-block">
-                <UserAvatar size="lg" />
-                <div className="flex flex-col gap-1">
-                  <span className="text-base font-medium">
-                    {authUser?.username}
-                  </span>
-                  {authUser?.wallet && (
-                    <span className="text-xs text-wtf-content-3">
-                      {shortWallet(authUser?.wallet)}
-                    </span>
-                  )}
+          {authUser ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild className="outline-none">
+                <div>
+                  <UserAvatar
+                    src={authUser.avatar}
+                    fallback={authUser.username?.[0]}
+                  />
                 </div>
-              </div>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuItem className="font-medium">
-                  <Icons.wallet className="w-5 h-5 mr-2" />
-                  Bind Wallet
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                className="w-[240px]"
+                align="end"
+                sideOffset={8}
+              >
+                <div className="flex items-center gap-2 px-3 py-4 rounded-lg bg-wtf-background-block">
+                  <UserAvatar size="lg" />
+                  <div className="flex flex-col gap-1">
+                    <span className="text-base font-medium">
+                      {authUser?.username}
+                    </span>
+                    {authUser?.wallet && (
+                      <span className="text-xs text-wtf-content-3">
+                        {shortWallet(authUser?.wallet)}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem className="font-medium">
+                    <Icons.wallet className="w-5 h-5 mr-2" />
+                    Bind Wallet
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="font-medium">
+                    <Icons.profile className="w-5 h-5 mr-2" />
+                    Personal Center
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="text-wtf-function-error font-medium"
+                  onClick={logout}
+                >
+                  <Icons.logout className="w-5 h-5 mr-2" />
+                  Log out
                 </DropdownMenuItem>
-                <DropdownMenuItem className="font-medium">
-                  <Icons.profile className="w-5 h-5 mr-2" />
-                  Personal Center
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-wtf-function-error font-medium">
-                <Icons.logout className="w-5 h-5 mr-2" />
-                Log out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button
+              size="sm"
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpenLoginModal(true);
+              }}
+            >
+              Login
+            </Button>
+          )}
         </div>
         <div className="flex md:hidden items-center gap-x-2">
-          <AuthButton onAvatarClick={() => setOpenSheet(true)} />
-          {!isLogin && (
-            <Button
-              variant="ghost"
-              size="icon"
+          {authUser ? (
+            <UserAvatar
+              src={authUser.avatar}
+              fallback={authUser.username?.[0]}
               onClick={() => setOpenSheet(true)}
-            >
-              <Icons.menu className="w-5 h-5" />
-            </Button>
+            />
+          ) : (
+            <>
+              <Button
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpenLoginModal(true);
+                }}
+              >
+                Login
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setOpenSheet(true)}
+              >
+                <Icons.menu className="w-5 h-5" />
+              </Button>
+            </>
           )}
           <Sheet open={openSheet} onOpenChange={setOpenSheet}>
             <SheetContent className="w-[340px] p-0" withoutClose>
@@ -222,6 +264,13 @@ const Header = () => {
           </Sheet>
         </div>
       </div>
+
+      {openLoginModal && (
+        <AuthModal
+          open={openLoginModal}
+          onOpenChange={handleAuthModalOpenChange}
+        />
+      )}
     </header>
   );
 };

@@ -7,7 +7,7 @@ import { redirect, useRouter } from "next/navigation";
 const CourseCascaderPanel = () => {
   const router = useRouter();
   const { data } = useSuspenseQuery({
-    queryKey: ["courses"],
+    queryKey: ["coursesWithType"],
     queryFn: () => getCourseWithType(),
   });
 

@@ -7,8 +7,8 @@ import { LOCAL_STORAGE_TOKEN_KEY } from "../constants";
 import type { SetState } from "ahooks/lib/createUseStorageState";
 import { useQuery } from "@tanstack/react-query";
 import { getUserApi } from "../api/use-user-api";
-import { toast } from "sonner";
 import { TAuthUser } from "../type";
+import { useDisconnect } from "@reown/appkit/react";
 
 type TProps = {
   children: React.ReactNode;
@@ -23,6 +23,7 @@ type TAuthContext = {
   signInWithGithub: () => Promise<any>;
   setToken: (value?: SetState<null> | undefined) => void;
   refetchAuthUser: () => void;
+  logout: () => void;
 };
 
 export const AuthContext = React.createContext<TAuthContext>(
@@ -34,8 +35,7 @@ export const AuthProvider = ({ children }: TProps) => {
   const [token, setToken] = useLocalStorageState(LOCAL_STORAGE_TOKEN_KEY, {
     defaultValue: null,
   });
-
-  console.log(token);
+  const { disconnect } = useDisconnect();
 
   const {
     data: authUser,
@@ -49,8 +49,8 @@ export const AuthProvider = ({ children }: TProps) => {
       if (data.code === 200) {
         return data.data;
       } else {
-        toast.error(data.msg);
-        // setToken(null);
+        // toast.error(data.msg);
+        setToken(null);
         throw new Error(data.msg);
       }
     },
@@ -98,6 +98,12 @@ export const AuthProvider = ({ children }: TProps) => {
     });
   }, []);
 
+  const logout = useCallback(() => {
+    setToken(null);
+    disconnect();
+    refetchAuthUser();
+  }, [refetchAuthUser]);
+
   const state = useMemo(
     () => ({
       authUser,
@@ -108,6 +114,7 @@ export const AuthProvider = ({ children }: TProps) => {
       isLogin: !!token,
       isPendingAuthUser,
       refetchAuthUser,
+      logout,
     }),
     [
       authUser,
@@ -118,6 +125,7 @@ export const AuthProvider = ({ children }: TProps) => {
       token,
       isPendingAuthUser,
       refetchAuthUser,
+      logout,
     ]
   );
 
