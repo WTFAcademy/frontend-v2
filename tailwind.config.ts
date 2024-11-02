@@ -10,7 +10,7 @@ const config: Config = {
 	],
 	theme: {
     	container: {
-    		center: 'true',
+    		center: true,
     		padding: {
     			DEFAULT: '0',
     			'4xl': '20rem'
