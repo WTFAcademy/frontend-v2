@@ -12,7 +12,7 @@ import { Suspense } from "react";
 export default function Home() {
   return (
     <>
-      <div id="home" className="w-full h-full flex flex-col">
+      <div id="home" className="w-full flex flex-col">
         <SectionBanner />
         <div id="home-content" className="w-full h-full flex flex-col">
           <Suspense fallback={<SectionStatistics.Skeleton />}>

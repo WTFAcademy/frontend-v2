@@ -2,7 +2,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { getCourseWithType, TCourse } from "../api/use-courses-api";
 import { CascaderPanel } from "@/components/cascader-panel";
 import { get } from "lodash-es";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const CourseCascaderPanel = () => {
   const router = useRouter();

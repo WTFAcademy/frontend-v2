@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { getChaptersByPath } from "../api/use-chapters-api";
 import { Icons } from "@/components/icons";
+import Link from "next/link";
 
 const ChapterProgressButton = ({
   progress,
@@ -93,70 +94,75 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
       </h1>
       <div className="flex flex-col gap-1 mt-6">
         {chapters.map((chapter, index) => (
-          <motion.div
+          <Link
             key={chapter.route_path}
-            className="border-b-[0.5px] border-wtf-border-divider py-1"
-            onHoverStart={() => setActiveChapter(index)}
-            onHoverEnd={() => setActiveChapter(null)}
-            onClick={() => handleChapterClick(index)}
+            href={`/course/${coursePath}/${chapter.route_path}`}
           >
-            <div
-              className={`flex items-center justify-between py-4 relative cursor-pointer ${
-                selectedChapter === index ? "bg-wtf-background-selected" : ""
-              }`}
+            <motion.div
+              key={chapter.route_path}
+              className="border-b-[0.5px] border-wtf-border-divider py-1"
+              onHoverStart={() => setActiveChapter(index)}
+              onHoverEnd={() => setActiveChapter(null)}
+              onClick={() => handleChapterClick(index)}
             >
-              <div className="flex items-center gap-4 relative z-10">
-                <div className="rounded-full w-[30px] h-[30px] text-wtf-function-link bg-wtf-function-brandBg flex items-center justify-center">
-                  {chapter.sort}
+              <div
+                className={`flex items-center justify-between py-4 relative cursor-pointer ${
+                  selectedChapter === index ? "bg-wtf-background-selected" : ""
+                }`}
+              >
+                <div className="flex items-center gap-4 relative z-10">
+                  <div className="rounded-full w-[30px] h-[30px] text-wtf-function-link bg-wtf-function-brandBg flex items-center justify-center">
+                    {chapter.sort}
+                  </div>
+                  <h2 className="text-wtf-content-1 text-base font-semibold">
+                    {chapter.title}
+                  </h2>
                 </div>
-                <h2 className="text-wtf-content-1 text-base font-semibold">
-                  {chapter.title}
-                </h2>
-              </div>
 
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-3">
-                  <ChapterProgressButton
-                    progress={chapter.quiz_progress}
-                    onClick={() => handleChapterClick(index)}
-                  >
-                    <Icons.document className="w-4 h-4 text-wtf-content-3" />
-                    <span className="text-wtf-content-2 text-sm font-medium ml-1">
-                      Quiz
-                    </span>
-                  </ChapterProgressButton>
-                  <ChapterProgressButton
-                    progress={chapter.code_progress}
-                    onClick={() => handleChapterClick(index)}
-                  >
-                    <Icons.code2 className="w-4 h-4 text-wtf-content-3" />
-                    <span className="text-wtf-content-2 text-sm font-medium ml-1">
-                      Code
-                    </span>
-                  </ChapterProgressButton>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3">
+                    <ChapterProgressButton
+                      progress={chapter.quiz_progress}
+                      onClick={() => handleChapterClick(index)}
+                    >
+                      <Icons.document className="w-4 h-4 text-wtf-content-3" />
+                      <span className="text-wtf-content-2 text-sm font-medium ml-1">
+                        Quiz
+                      </span>
+                    </ChapterProgressButton>
+                    <ChapterProgressButton
+                      progress={chapter.code_progress}
+                      onClick={() => handleChapterClick(index)}
+                    >
+                      <Icons.code2 className="w-4 h-4 text-wtf-content-3" />
+                      <span className="text-wtf-content-2 text-sm font-medium ml-1">
+                        Code
+                      </span>
+                    </ChapterProgressButton>
+                  </div>
+                  <div className="w-[128px] flex justify-end">
+                    <ChapterProgressStatus
+                      progress={chapter.quiz_progress}
+                      active={selectedChapter === index}
+                    />
+                  </div>
                 </div>
-                <div className="w-[128px] flex justify-end">
-                  <ChapterProgressStatus
-                    progress={chapter.quiz_progress}
-                    active={selectedChapter === index}
+
+                {activeChapter === index && (
+                  <motion.div
+                    layoutId="chapterHighlight"
+                    className="absolute inset-0 rounded-lg bg-wtf-background-hover"
+                    initial={false}
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 30,
+                    }}
                   />
-                </div>
+                )}
               </div>
-
-              {activeChapter === index && (
-                <motion.div
-                  layoutId="chapterHighlight"
-                  className="absolute inset-0 rounded-lg bg-wtf-background-hover"
-                  initial={false}
-                  transition={{
-                    type: "spring",
-                    stiffness: 500,
-                    damping: 30,
-                  }}
-                />
-              )}
-            </div>
-          </motion.div>
+            </motion.div>
+          </Link>
         ))}
       </div>
     </div>

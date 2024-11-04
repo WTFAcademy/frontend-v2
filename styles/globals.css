@@ -250,4 +250,32 @@ body {
     background-size: contain;
   }
 
+  /* 自定义滚动条样式 */
+  /* 修改全局滚动条样式，与 ScrollArea 组件保持一致 */
+  ::-webkit-scrollbar {
+    width: 9px;  /* 对应 w-2.5，考虑到像素转换 */
+    height: 9px; /* 对应 h-2.5 */
+  }
+
+  ::-webkit-scrollbar-track {
+    border-left: 1px solid transparent;
+    padding: 1px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+    transition-property: color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  /* 水平滚动条特殊处理 */
+  ::-webkit-scrollbar:horizontal {
+    height: 9px;
+  }
+
+  ::-webkit-scrollbar-track:horizontal {
+    border-top: 1px solid transparent;
+    border-left: none;
+  }
 }

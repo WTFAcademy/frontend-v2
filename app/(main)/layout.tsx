@@ -4,7 +4,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Header />
-      <main className="w-full h-full flex flex-col overflow-x-hidden">
+      <main className="w-full h-screen overflow-auto flex flex-col">
         {children}
       </main>
     </>
