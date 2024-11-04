@@ -14,8 +14,9 @@ export const request = axios.create({
 request.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {
     const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
+    console.log(token);
     if (token) {
-    config.headers.Authorization = `${JSON.parse(token)}`;
+      config.headers.Authorization = `${JSON.parse(token)}`;
     }
   }
   return config;

@@ -33,7 +33,7 @@ export const AuthContext = React.createContext<TAuthContext>(
 export const AuthProvider = ({ children }: TProps) => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [token, setToken] = useLocalStorageState(LOCAL_STORAGE_TOKEN_KEY, {
-    defaultValue: null,
+    defaultValue: undefined,
   });
   const { disconnect } = useDisconnect();
 
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }: TProps) => {
         return data.data;
       } else {
         // toast.error(data.msg);
-        setToken(null);
+        setToken(undefined);
         throw new Error(data.msg);
       }
     },
@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }: TProps) => {
   }, []);
 
   const logout = useCallback(() => {
-    setToken(null);
+    setToken(undefined);
     disconnect();
     refetchAuthUser();
   }, [refetchAuthUser]);
