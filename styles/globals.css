@@ -230,6 +230,7 @@ body {
   }
   html {
     @apply scroll-smooth;
+    overflow: overlay;
   }
   body {
     @apply bg-background text-foreground;
@@ -253,5 +254,33 @@ body {
     background-image: url('/svgs/course-certificate-background.svg');
     background-position: center;
     background-size: contain;
+  }
+
+  /* 自定义滚动条样式 */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--wtf-base-gray-300));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--wtf-base-gray-400));
+  }
+
+  /* 暗色模式下的滚动条 */
+  .dark ::-webkit-scrollbar-thumb {
+    background: hsl(var(--wtf-base-gray-700));
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--wtf-base-gray-600));
   }
 }

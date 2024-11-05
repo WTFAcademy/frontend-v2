@@ -12,21 +12,19 @@ import { Suspense } from "react";
 export default function Home() {
   return (
     <>
+      <SectionBanner />
       <div id="home-content" className="w-full h-full flex flex-col">
-        <SectionBanner />
-        <div id="home-content" className="w-full h-full flex flex-col">
-          <Suspense fallback={<SectionStatistics.Skeleton />}>
-            <SectionStatistics />
-          </Suspense>
-          <Suspense fallback={<SectionCourses.Skeleton />}>
-            <SectionCourses />
-          </Suspense>
-          <SectionCommunity />
-          <SectionProjects />
-          <SectionEvents />
-          <SectionSponsors />
-          <SectionContributors />
-        </div>
+        <Suspense fallback={<SectionStatistics.Skeleton />}>
+          <SectionStatistics />
+        </Suspense>
+        <Suspense fallback={<SectionCourses.Skeleton />}>
+          <SectionCourses />
+        </Suspense>
+        <SectionCommunity />
+        <SectionProjects />
+        <SectionEvents />
+        <SectionSponsors />
+        <SectionContributors />
       </div>
       <Footer />
     </>
