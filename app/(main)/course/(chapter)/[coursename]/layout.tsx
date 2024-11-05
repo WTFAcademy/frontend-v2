@@ -7,12 +7,14 @@ const CourseChapterLayout = ({
   params,
 }: {
   children: ReactNode;
-  params: { coursename: string; chaptername: string };
+  params: { coursename: string };
 }) => {
   return (
     <div className="flex pt-20 w-full h-screen">
       <Suspense fallback={<CourseSidebarSkeleton />}>
-        <CourseSidebar coursePath={params.coursename} />
+        <CourseSidebar
+          coursePath={params.coursename}
+        />
       </Suspense>
       {children}
     </div>
