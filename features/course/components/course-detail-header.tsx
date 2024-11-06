@@ -9,6 +9,7 @@ import { getCourseWithType, TCourse } from "../api/use-courses-api";
 import { get } from "lodash-es";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
+import React from "react";
 
 const CourseDetailHeader = () => {
   const router = useRouter();
@@ -98,7 +99,7 @@ const CourseDetailHeader = () => {
         className="w-full flex gap-x-5 overflow-x-auto scrollbar-hide px-2 py-1"
       >
         {courseGroups.map((group, groupIndex) => (
-          <>
+          <React.Fragment key={group.type}>
             <div key={group.type} className="flex flex-col flex-shrink-0">
               <div className="text-wtf-content-3 text-sm">{group.type}</div>
               <div className="flex items-center mt-[6px] gap-x-3">
@@ -138,7 +139,7 @@ const CourseDetailHeader = () => {
                 className="h-[96px] flex-shrink-0"
               />
             )}
-          </>
+          </React.Fragment>
         ))}
       </div>
 
