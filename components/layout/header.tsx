@@ -33,6 +33,10 @@ import { CascaderPanel } from "../cascader-panel";
 import CourseCascaderPanel from "@/features/course/components/course-cascader-panel";
 import Sidebar from "./sidebar";
 import AuthModal from "@/features/auth/components/auth-modal";
+import { usePathname } from "next/navigation";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { useMobileReaderInteraction } from "@/features/course/hooks/use-mobile-reader-interaction";
+import { AnimatePresence, motion } from "framer-motion";
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -77,6 +81,7 @@ const Header = () => {
   const { authUser, setIsRegistering, logout } = useAuth();
   const [openSheet, setOpenSheet] = useState(false);
   const [openLoginModal, setOpenLoginModal] = useState(false);
+  const { isControlVisible } = useMobileReaderInteraction();
 
   const handleAuthModalOpenChange = async (open: boolean) => {
     if (open) {
@@ -108,129 +113,121 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed z-50 top-4 inset-x-0 px-4 md:px-10 4xl:px-[20rem] container">
-      <div className="w-full rounded-full bg-wtf-background-navbar backdrop-blur-[20px] h-[60px] px-4 py-3 md:px-8 md:py-[18px] flex justify-between items-center">
-        <div className="flex items-center gap-x-8">
-          <Link href="/">
-            <Icons.logo className="w-[66px] h-6" />
-          </Link>
+    <AnimatePresence>
+      <motion.header
+        className="fixed z-50 top-4 inset-x-0 px-4 md:px-10 4xl:px-[20rem] container"
+        initial={{ y: 0 }}
+        animate={{ y: isControlVisible ? 0 : -100 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="w-full rounded-full bg-wtf-background-navbar backdrop-blur-[20px] h-[60px] px-4 py-3 md:px-8 md:py-[18px] flex justify-between items-center">
+          <div className="flex items-center gap-x-8">
+            <Link href="/">
+              <Icons.logo className="w-[66px] h-6" />
+            </Link>
 
-          <NavigationMenu className="hidden md:block">
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Courses</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <Suspense fallback={<CascaderPanel.Skeleton />}>
-                    <CourseCascaderPanel />
-                  </Suspense>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>Projects</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <CascaderPanel
-                    options={options}
-                    onSelect={handleSelect}
-                    className="w-fit"
-                  />
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Link href="/docs" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    Forum
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Link href="/docs" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    Shop
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Link href="/docs" legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    About us
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
-        <div className="hidden md:flex items-center gap-x-2">
-          <ModeToggle />
-          {authUser ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild className="outline-none">
-                <div>
-                  <UserAvatar
-                    src={authUser.avatar}
-                    fallback={authUser.username?.[0]}
-                  />
-                </div>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                className="w-[240px]"
-                align="end"
-                sideOffset={8}
-              >
-                <div className="flex items-center gap-2 px-3 py-4 rounded-lg bg-wtf-background-block">
-                  <UserAvatar size="lg" />
-                  <div className="flex flex-col gap-1">
-                    <span className="text-base font-medium">
-                      {authUser?.username}
-                    </span>
-                    {authUser?.wallet && (
-                      <span className="text-xs text-wtf-content-3">
-                        {shortWallet(authUser?.wallet)}
-                      </span>
-                    )}
+            <NavigationMenu className="hidden md:block">
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>Courses</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <Suspense fallback={<CascaderPanel.Skeleton />}>
+                      <CourseCascaderPanel />
+                    </Suspense>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>Projects</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <CascaderPanel
+                      options={options}
+                      onSelect={handleSelect}
+                      className="w-fit"
+                    />
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link href="/docs" legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      Forum
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link href="/docs" legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      Shop
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link href="/docs" legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      About us
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
+          <div className="hidden md:flex items-center gap-x-2">
+            <ModeToggle />
+            {authUser ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild className="outline-none">
+                  <div>
+                    <UserAvatar
+                      src={authUser.avatar}
+                      fallback={authUser.username?.[0]}
+                    />
                   </div>
-                </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem className="font-medium">
-                    <Icons.wallet className="w-5 h-5 mr-2" />
-                    Bind Wallet
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="font-medium">
-                    <Icons.profile className="w-5 h-5 mr-2" />
-                    Personal Center
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  className="text-wtf-function-error font-medium"
-                  onClick={logout}
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="w-[240px]"
+                  align="end"
+                  sideOffset={8}
                 >
-                  <Icons.logout className="w-5 h-5 mr-2" />
-                  Log out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <Button
-              size="sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                setOpenLoginModal(true);
-              }}
-            >
-              Login
-            </Button>
-          )}
-        </div>
-        <div className="flex md:hidden items-center gap-x-2">
-          {authUser ? (
-            <UserAvatar
-              src={authUser.avatar}
-              fallback={authUser.username?.[0]}
-              onClick={() => setOpenSheet(true)}
-            />
-          ) : (
-            <>
+                  <div className="flex items-center gap-2 px-3 py-4 rounded-lg bg-wtf-background-block">
+                    <UserAvatar size="lg" />
+                    <div className="flex flex-col gap-1">
+                      <span className="text-base font-medium">
+                        {authUser?.username}
+                      </span>
+                      {authUser?.wallet && (
+                        <span className="text-xs text-wtf-content-3">
+                          {shortWallet(authUser?.wallet)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem className="font-medium">
+                      <Icons.wallet className="w-5 h-5 mr-2" />
+                      Bind Wallet
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="font-medium">
+                      <Icons.profile className="w-5 h-5 mr-2" />
+                      Personal Center
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    className="text-wtf-function-error font-medium"
+                    onClick={logout}
+                  >
+                    <Icons.logout className="w-5 h-5 mr-2" />
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
               <Button
                 size="sm"
                 onClick={(e) => {
@@ -240,39 +237,60 @@ const Header = () => {
               >
                 Login
               </Button>
-              <Button
-                variant="ghost"
-                size="icon"
+            )}
+          </div>
+          <div className="flex md:hidden items-center gap-x-2">
+            {authUser ? (
+              <UserAvatar
+                src={authUser.avatar}
+                fallback={authUser.username?.[0]}
                 onClick={() => setOpenSheet(true)}
-              >
-                <Icons.menu className="w-5 h-5" />
-              </Button>
-            </>
-          )}
-          <Sheet open={openSheet} onOpenChange={setOpenSheet}>
-            <SheetContent className="w-[340px] p-0" withoutClose>
-              <div className="flex justify-between items-center px-5 py-8">
-                <Icons.logo className="w-[66px] h-6" />
-                <SheetClose>
-                  <Icons.close className="w-5 h-5" />
-                  <span className="sr-only">Close</span>
-                </SheetClose>
-              </div>
-              <div className="flex flex-col w-full">
-                <Sidebar />
-              </div>
-            </SheetContent>
-          </Sheet>
+              />
+            ) : (
+              <>
+                <Button
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setOpenLoginModal(true);
+                  }}
+                >
+                  Login
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setOpenSheet(true)}
+                >
+                  <Icons.menu className="w-5 h-5" />
+                </Button>
+              </>
+            )}
+            <Sheet open={openSheet} onOpenChange={setOpenSheet}>
+              <SheetContent className="w-[340px] p-0" withoutClose>
+                <div className="flex justify-between items-center px-5 py-8">
+                  <Icons.logo className="w-[66px] h-6" />
+                  <SheetClose>
+                    <Icons.close className="w-5 h-5" />
+                    <span className="sr-only">Close</span>
+                  </SheetClose>
+                </div>
+                <div className="flex flex-col w-full">
+                  <Sidebar />
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
-      </div>
 
-      {openLoginModal && (
-        <AuthModal
-          open={openLoginModal}
-          onOpenChange={handleAuthModalOpenChange}
-        />
-      )}
-    </header>
+        {openLoginModal && (
+          <AuthModal
+            open={openLoginModal}
+            onOpenChange={handleAuthModalOpenChange}
+          />
+        )}
+      </motion.header>
+    </AnimatePresence>
   );
 };
 

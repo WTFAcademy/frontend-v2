@@ -34,9 +34,11 @@ const CourseChapterLayout = ({
   params: { coursename: string };
 }) => {
   return (
-    <div className="flex pt-20 w-full h-screen">
+    <div className="flex w-full h-screen">
       <Suspense fallback={<CourseSidebarSkeleton />}>
-        <CourseSidebar coursePath={params.coursename} />
+        <div className="hidden md:block pt-20">
+          <CourseSidebar coursePath={params.coursename} />
+        </div>
       </Suspense>
       {children}
     </div>
