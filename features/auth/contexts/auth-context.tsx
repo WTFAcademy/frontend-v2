@@ -21,7 +21,7 @@ type TAuthContext = {
   setIsRegistering: (register: boolean) => void;
   authUser: TAuthUser | null;
   signInWithGithub: () => Promise<any>;
-  setToken: (value?: SetState<null> | undefined) => void;
+  setToken: (value?: SetState<undefined> | undefined) => void;
   refetchAuthUser: () => void;
   logout: () => void;
 };
