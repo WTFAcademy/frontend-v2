@@ -1,15 +1,15 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 import { useAtom } from 'jotai';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { controlVisibleAtom } from '../atoms/mobile-reader';
+import { throttle } from 'lodash-es';
 
 interface MobileReaderInteraction {
   isControlVisible: boolean;
   showControl: () => void;
   hideControl: () => void;
   toggleControl: () => void;
-  containerRef: React.RefObject<HTMLDivElement>;
   scrollRef: React.RefObject<HTMLDivElement>;
 }
 
@@ -20,9 +20,8 @@ interface TouchState {
 }
 
 export function useMobileReaderInteraction(): MobileReaderInteraction {
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollYRef = useRef(0);
   const [isControlVisible, setIsControlVisible] = useAtom(controlVisibleAtom);
-  const containerRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const touchState = useRef<TouchState | null>(null);
   const [isAtEdge, setIsAtEdge] = useState(true);
@@ -45,12 +44,12 @@ export function useMobileReaderInteraction(): MobileReaderInteraction {
     setIsControlVisible(prev => !prev);
   }, [setIsControlVisible]);
 
-  // 处理滚动事件
+  // 处理滚动事件控制显隐
   useEffect(() => {
     const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return;
+    if (!scrollContainer || isDesktop || !isChapterDetailPath) return;
 
-    const controlNavbar = () => {
+    const controlNavbar = throttle(() => {
       const currentScrollY = scrollContainer.scrollTop;
       const scrollHeight = scrollContainer.scrollHeight;
       const clientHeight = scrollContainer.clientHeight;
@@ -59,7 +58,7 @@ export function useMobileReaderInteraction(): MobileReaderInteraction {
       
       setIsAtEdge(isAtBottom || isAtTop);
       
-      if (Math.abs(currentScrollY - lastScrollY) < 10) return;
+      if (Math.abs(currentScrollY - lastScrollYRef.current) < 10) return;
       
       if (isChapterDetailPath && !isDesktop) {
         if (isAtTop || isAtBottom) {
@@ -71,34 +70,33 @@ export function useMobileReaderInteraction(): MobileReaderInteraction {
         showControl();
       }
       
-      setLastScrollY(currentScrollY);
-    };
+      lastScrollYRef.current = currentScrollY;
+    }, 100, {
+      leading: true,
+      trailing: true,
+    });
     
     scrollContainer.addEventListener('scroll', controlNavbar, { passive: true });
     return () => scrollContainer.removeEventListener('scroll', controlNavbar);
-  }, [lastScrollY, isChapterDetailPath, isDesktop, hideControl, showControl]);
+  }, [isChapterDetailPath, isDesktop, hideControl, showControl]);
 
-  // 当不在章节详情页或在桌面端时，强制显示control
   useEffect(() => {
     if (!isChapterDetailPath || isDesktop) {
       showControl();
     }
   }, [isChapterDetailPath, isDesktop, showControl]);
 
-  // 处理容器内的触摸事件
+  // 处理点击中间区域控制显隐
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    if (typeof window === 'undefined' || isDesktop) return;
 
     const handleTouchStart = (e: TouchEvent) => {
       if (isAtEdge) return;
 
-      const containerHeight = container.clientHeight;
+      const viewportHeight = window.innerHeight;
       const touchY = e.touches[0].clientY;
-      const rect = container.getBoundingClientRect();
-      const relativeY = touchY - rect.top;
       
-      if (relativeY > containerHeight * 0.25 && relativeY < containerHeight * 0.75) {
+      if (touchY > viewportHeight * 0.25 && touchY < viewportHeight * 0.75) {
         touchState.current = {
           startX: e.touches[0].clientX,
           startY: e.touches[0].clientY,
@@ -146,23 +144,29 @@ export function useMobileReaderInteraction(): MobileReaderInteraction {
       }
     };
 
-    container.addEventListener('touchstart', handleTouchStart, { passive: true });
-    container.addEventListener('touchmove', handleTouchMove, { passive: true });
-    container.addEventListener('touchend', handleTouchEnd);
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd);
 
     return () => {
-      container.removeEventListener('touchstart', handleTouchStart);
-      container.removeEventListener('touchmove', handleTouchMove);
-      container.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [showControl, isChapterDetailPath, isDesktop, isAtEdge]);
+  }, [isAtEdge, isChapterDetailPath, isDesktop, toggleControl]);
+
+  const controls = useMemo(
+    () => ({
+      isControlVisible,
+      showControl,
+      hideControl,
+      toggleControl,
+    }),
+    [isControlVisible, showControl, hideControl, toggleControl]
+  );
 
   return {
-    isControlVisible,
-    showControl,
-    hideControl,
-    toggleControl,
-    containerRef,
+    ...controls,
     scrollRef,
   };
 }
