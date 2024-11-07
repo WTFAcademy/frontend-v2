@@ -75,12 +75,15 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
   const [activeChapter, setActiveChapter] = useState<number | null>(null);
   const [selectedChapter, setSelectedChapter] = useState<number | null>(null);
 
-  const { data } = useSuspenseQuery({
+  const { data: chapterData } = useSuspenseQuery({
     queryKey: ["chapters", coursePath],
-    queryFn: () => getChaptersByPath(coursePath),
+    queryFn: async () => {
+      const res = await getChaptersByPath(coursePath);
+      return res?.data;
+    },
   });
 
-  const chapters = data?.data || [];
+  const chapters = chapterData || [];
 
   const handleChapterClick = (chapterIndex: number) => {
     setSelectedChapter(chapterIndex);

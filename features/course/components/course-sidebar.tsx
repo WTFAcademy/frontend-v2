@@ -29,6 +29,7 @@ const CourseSidebar = ({
     },
   });
   const chapters = chapterData || [];
+  console.log(chapters);
 
   const isActive = (routePath: string) => {
     return routePath === pathname.split("/").pop();
