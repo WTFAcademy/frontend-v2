@@ -8,9 +8,24 @@ export type TChapter = {
   code_progress: number;
 };
 
+export type TChapterDetail = {
+  content: string;
+  score: number;
+  study_time: number;
+  sort: number;
+  title: string;
+};
+
 export const getChaptersByPath = async (coursePath: string) => {
   const res = await request.get<TRequestResponse<TChapter[]>>(
     `courses/path/${coursePath}/chapters`
+  );
+  return res.data;
+};
+
+export const getChapterByPath = async (coursePath: string, chapterPath: string) => {
+  const res = await request.get<TRequestResponse<TChapterDetail>>(
+    `courses/path/${coursePath}/chapters/path/${chapterPath}`
   );
   return res.data;
 };

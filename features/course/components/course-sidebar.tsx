@@ -8,6 +8,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { getChaptersByPath } from "../api/use-chapters-api";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useSetAtom } from "jotai";
+import { chapterListAtom } from "../atoms/chapter";
 
 const CourseSidebar = ({
   coursePath,
@@ -16,12 +18,16 @@ const CourseSidebar = ({
 }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const setChapterList = useSetAtom(chapterListAtom);
 
-  const { data } = useSuspenseQuery({
+  const { data: chapters } = useSuspenseQuery({
     queryKey: ["chapters", coursePath],
-    queryFn: () => getChaptersByPath(coursePath),
+    queryFn: async () => {
+      const res = await getChaptersByPath(coursePath);
+      setChapterList(res?.data || []);
+      return res?.data || [];
+    },
   });
-  const chapters = data?.data || [];
 
   const isActive = (routePath: string) => {
     return routePath === pathname.split("/").pop();

@@ -3,9 +3,14 @@
 import { Button } from "@/components/ui/button";
 import { useMobileReaderInteraction } from "@/features/course/hooks/use-mobile-reader-interaction";
 import { AnimatePresence, motion } from "framer-motion";
+import { useAtomValue } from "jotai";
+import { chapterListAtom } from "../atoms/chapter";
 
 const ChapterDetailFooter = () => {
   const { isControlVisible } = useMobileReaderInteraction();
+  const chapters = useAtomValue(chapterListAtom);
+
+  console.log(chapters);
 
   return (
     <AnimatePresence>
