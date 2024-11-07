@@ -12,7 +12,7 @@ const CourseChapterPage = ({
 }: {
   params: { coursename: string; chaptername: string };
 }) => {
-  const { containerRef, scrollRef } = useMobileReaderInteraction();
+  const { scrollRef } = useMobileReaderInteraction();
 
   const { data } = useSuspenseQuery({
     queryKey: ["chapter", params.coursename, params.chaptername],
@@ -23,7 +23,7 @@ const CourseChapterPage = ({
 
   return (
     <div className="relative flex-auto overflow-y-auto pt-20" ref={scrollRef}>
-      <div className="p-10" ref={containerRef}>
+      <div className="p-10">
         <ChapterDetailHeader
           title={chapter.title}
           studyTime={chapter.study_time}
