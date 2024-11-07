@@ -20,14 +20,15 @@ const CourseSidebar = ({
   const pathname = usePathname();
   const setChapterList = useSetAtom(chapterListAtom);
 
-  const { data: chapters } = useSuspenseQuery({
+  const { data: chapterData } = useSuspenseQuery({
     queryKey: ["chapters", coursePath],
     queryFn: async () => {
       const res = await getChaptersByPath(coursePath);
-      setChapterList(res?.data || []);
-      return res?.data || [];
+      setChapterList(res?.data);
+      return res?.data;
     },
   });
+  const chapters = chapterData || [];
 
   const isActive = (routePath: string) => {
     return routePath === pathname.split("/").pop();
