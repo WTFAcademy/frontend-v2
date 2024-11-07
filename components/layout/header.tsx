@@ -33,8 +33,6 @@ import { CascaderPanel } from "../cascader-panel";
 import CourseCascaderPanel from "@/features/course/components/course-cascader-panel";
 import Sidebar from "./sidebar";
 import AuthModal from "@/features/auth/components/auth-modal";
-import { usePathname } from "next/navigation";
-import { useMediaQuery } from "@/hooks/use-media-query";
 import { useMobileReaderInteraction } from "@/features/course/hooks/use-mobile-reader-interaction";
 import { AnimatePresence, motion } from "framer-motion";
 
