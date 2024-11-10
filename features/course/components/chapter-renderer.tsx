@@ -108,7 +108,7 @@ const h1 = ({ node, ...props }: any) => {
             <div className="relative">
               <pre {...rest}>
                 <div
-                  className="absolute top-2 right-2 cursor-pointer px-2 py-1 rounded-sm border-solid bg-[#FFF] border-[#D1D5DB] border hover:bg-[#F3F4F6] opacity-40 transition-opacity hover:opacity-100"
+                  className="absolute top-2 right-2 cursor-pointer px-2 py-1 rounded-sm border-solid bg-wtf-background-block border-wtf-border-outline border hover:bg-wtf-background-block-hover opacity-40 transition-opacity hover:opacity-100"
                   onClick={() => {
                     navigator.clipboard.writeText(String(props.children));
                     setDisplay(false);
@@ -134,15 +134,15 @@ const h1 = ({ node, ...props }: any) => {
           gap: '16px',
           alignSelf: 'stretch',
           borderRadius: '4px',
-          border: '1px solid #D1D5DB',
-          background: '#F9FAFB',
+          // border: '1px solid hsl(var(--wtf-border-outline))',
+          // background: 'hsl(var(--wtf-background-block))',
         }}
         showLineNumbers
       />
     ) : (
       <code
         {...rest}
-        className="h-[28px] justify-center items-center gap-2.5 rounded border border-[#D1D5DB] bg-[#F3F4F6] px-2 mx-2 py-0 border-solid"
+        className="h-[28px] justify-center items-center gap-2.5 text-wtf-content-3 rounded border border-wtf-border-outline bg-wtf-background-block px-2 mx-2 py-0 border-solid"
       >
         {children}
       </code>

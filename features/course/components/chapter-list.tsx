@@ -93,7 +93,7 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
   return (
     <div className="w-full">
       <h1 className="text-wtf-content-1 text-xl font-bold">
-        Chapters <span>(15)</span>
+        Chapters <span>({chapters.length})</span>
       </h1>
       <div className="flex flex-col gap-1 mt-6">
         {chapters.map((chapter, index) => (
