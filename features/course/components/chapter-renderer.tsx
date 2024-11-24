@@ -5,6 +5,7 @@ import remarkToc from 'remark-toc';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import React, { useState } from 'react';
 import { Icons } from '@/components/icons';
+import { PhotoProvider, PhotoView } from "react-photo-view";
 
 const h1 = ({ node, ...props }: any) => {
     return <h1 className="self-stretch text-[32px] font-bold leading-10 mt-4 mb-2" {...props} />;
@@ -49,7 +50,7 @@ const h1 = ({ node, ...props }: any) => {
   const blockquote = ({ node, ...props }: any) => {
     return (
       <blockquote
-        className="flex flex-col items-start rounded-[0px_6px_6px_0px] bg-[#F3F4F6] px-5 border-l-[6px] border-[#3F69D4]"
+        className="flex flex-col items-start rounded-[0px_6px_6px_0px] bg-wtf-background-code px-5 border-l-[6px] border-wtf-border-outline"
         {...props}
       />
     );
@@ -106,7 +107,7 @@ const h1 = ({ node, ...props }: any) => {
           const [display, setDisplay] = useState(true);
           return (
             <div className="relative">
-              <pre {...rest}>
+              <pre className="bg-wtf-background-block">
                 <div
                   className="absolute top-2 right-2 cursor-pointer px-2 py-1 rounded-sm border-solid bg-wtf-background-block border-wtf-border-outline border hover:bg-wtf-background-block-hover opacity-40 transition-opacity hover:opacity-100"
                   onClick={() => {
@@ -134,8 +135,19 @@ const h1 = ({ node, ...props }: any) => {
           gap: '16px',
           alignSelf: 'stretch',
           borderRadius: '4px',
+          margin: 0,
+          width: "100%",
+          background: "transparent",
           // border: '1px solid hsl(var(--wtf-border-outline))',
           // background: 'hsl(var(--wtf-background-block))',
+        }}
+        lineNumberStyle={{
+          userSelect: "none",
+        }}
+        codeTagProps={{
+          style: {
+            fontSize: "0.9rem",
+          },
         }}
         showLineNumbers
       />
@@ -148,6 +160,21 @@ const h1 = ({ node, ...props }: any) => {
       </code>
     );
   };  
+
+  const img = (props: any) => {
+    return (
+        <div className="w-full mb-2">
+          <PhotoProvider loop={false}>
+            <PhotoView src={props.src}>
+              <img
+                {...props}
+                className="mx-auto w-auto max-h-[600px] rounded overflow-hidden cursor-zoom-in"
+              />
+            </PhotoView>
+          </PhotoProvider>
+        </div>
+      );
+  };
 
 export const ChapterRenderer = (props: any) => {
   return <Markdown
@@ -174,6 +201,7 @@ export const ChapterRenderer = (props: any) => {
     tbody,
     tr,
     table,
+    img,
   }}
     {...props}
   >

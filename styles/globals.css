@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url(react-photo-view/dist/react-photo-view.css);
+
 body {
   font-family: var(--font-inter);
 }
@@ -282,5 +284,9 @@ body {
 
   .dark ::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--wtf-base-gray-600));
+  }
+
+  .token {
+    background: transparent !important;
   }
 }
