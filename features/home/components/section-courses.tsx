@@ -29,7 +29,7 @@ const SectionCourses = async () => {
               key={course.path}
               title={course.title}
               description={course.description}
-              keywords={""}
+              keywords={course.category}
               image={course.cover_img}
             />
           ))}
@@ -48,7 +48,7 @@ const SectionCourses = async () => {
               key={course.path}
               title={course.title}
               description={course.description}
-              keywords={""}
+              keywords={course.category}
               image={course.cover_img}
             />
           ))}

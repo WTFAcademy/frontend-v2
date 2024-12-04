@@ -37,14 +37,13 @@ const CourseSidebar = ({
 
   const course = courseData?.data || {};
   const chapters = chapterData || [];
-  console.log(chapters);
 
   const isActive = (routePath: string) => {
     return routePath === pathname.split("/").pop();
   };
 
   const handleBack = () => {
-    router.back();
+    router.push(`/course/${coursePath}`);
   };
 
   return (

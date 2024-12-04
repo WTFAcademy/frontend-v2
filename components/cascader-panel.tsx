@@ -44,7 +44,6 @@ export function CascaderPanel({
       if (!option?.children) return [];
       currentOptions = option.children;
     }
-    console.log("currentOptions: ", currentOptions);
     
     return currentOptions;
   }, [options, activeKeys]);

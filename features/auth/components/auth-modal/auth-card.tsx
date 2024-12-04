@@ -12,7 +12,6 @@ type AuthCardProps = {
 
 const AuthCard = (props: AuthCardProps) => {
   const { updateStep, step, close } = props;
-  console.log(step);
 
   return (
     <>

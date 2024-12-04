@@ -12,7 +12,7 @@ import { useAtomValue } from "jotai";
 import { chapterListAtom } from "../atoms/chapter";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const ChapterMobileNav = ({
@@ -25,6 +25,7 @@ const ChapterMobileNav = ({
   const [open, setOpen] = useState(false);
   const chapters = useAtomValue(chapterListAtom);
   const pathname = usePathname();
+  const router = useRouter();
 
   const currentChapter = chapters.find(
     (chapter) => chapter.route_path === chapterPath
@@ -43,7 +44,10 @@ const ChapterMobileNav = ({
     <>
       <div className="md:hidden flex gap-3 px-4 mt-3">
         <div className="w-10 h-10 inline-flex items-center justify-center bg-wtf-background-block rounded">
-          <Icons.arrowLeft className="w-4 h-4" />
+          <Icons.arrowLeft
+            className="w-4 h-4 cursor-pointer"
+            onClick={() => router.push(`/course/${coursePath}`)}
+          />
         </div>
         <div
           className="flex-1 h-10 px-3 flex gap-2 items-center bg-wtf-background-block rounded"

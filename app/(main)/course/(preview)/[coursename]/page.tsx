@@ -41,12 +41,12 @@ export async function generateMetadata({
 const CourseDetailPage = ({ params }: { params: { coursename: string } }) => {
   return (
     <div className="flex md:flex-row flex-col border-b-[0.5px] border-wtf-border-divider">
-      <div className="md:w-[480px] w-full p-10 border-r-[0.5px] border-wtf-border-divider">
+      <div className="md:w-[480px] w-full px-4 py-10 md:p-10 border-r-[0.5px] border-wtf-border-divider">
         <Suspense fallback={<CourseDetailCardSkeleton />}>
           <CourseDetailCard coursePath={params.coursename} />
         </Suspense>
       </div>
-      <div className="md:flex-auto flex flex-col p-10 gap-6">
+      <div className="md:flex-auto flex flex-col px-4 py-10 md:p-10 gap-6">
         <Suspense fallback={<ChapterListSkeleton />}>
           <ChapterList coursePath={params.coursename} />
         </Suspense>

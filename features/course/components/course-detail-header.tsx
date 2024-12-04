@@ -8,7 +8,7 @@ import { useState, useRef, useEffect } from "react";
 import { getCourseWithType, TCourse } from "../api/use-courses-api";
 import { get } from "lodash-es";
 import { usePathname, useRouter } from "next/navigation";
-import Image from "next/image";
+import Image from "@/components/image";
 import React from "react";
 
 const CourseDetailHeader = () => {
@@ -78,7 +78,7 @@ const CourseDetailHeader = () => {
   }, [selectedCourse, data]);
 
   return (
-    <div className="w-full relative px-8 py-4 border-b-[0.5px] border-wtf-border-divider">
+    <div className="w-full relative px-4 py-4 md:px-8 md:py-4 border-b-[0.5px] border-wtf-border-divider">
       {showLeftGradient && (
         <div className="absolute left-0 top-0 bottom-0 w-24 [background:linear-gradient(270deg,rgba(249,250,251,0.00)_0%,#F9FAFB_63%)] dark:[background:linear-gradient(270deg,rgba(28,32,40,0.00)_0%,#1C2028_63%)] z-10 flex items-center justify-start px-4">
           <motion.button
@@ -112,6 +112,7 @@ const CourseDetailHeader = () => {
                     className={`w-[108px] h-[72px] bg-wtf-background-block rounded-sm cursor-pointer relative`}
                   >
                     <Image
+                      fallbackSrc="/images/course-fallback.png"
                       src={course.cover_img}
                       alt={course.title}
                       fill
@@ -145,7 +146,7 @@ const CourseDetailHeader = () => {
 
       {showRightGradient && (
         <>
-          <div className="absolute right-0 top-0 bottom-0 w-24 [background:linear-gradient(90deg,rgba(249,250,251,0.00)_0%,#F9FAFB_63%)] dark:[background:linear-gradient(90deg,rgba(28,32,40,0.00)_0%,#1C2028_63%)] z-10 flex items-center justify-end px-4">
+          <div className="absolute right-0 top-0 bottom-0 w-16 md:w-24 [background:linear-gradient(90deg,rgba(249,250,251,0.00)_0%,#F9FAFB_63%)] dark:[background:linear-gradient(90deg,rgba(28,32,40,0.00)_0%,#1C2028_63%)] z-10 flex items-center justify-end px-4">
             <motion.button
               onClick={() => scroll("right")}
               className="p-2 rounded-full bg-wtf-background-navButton hover:bg-wtf-background-navButtonHover"

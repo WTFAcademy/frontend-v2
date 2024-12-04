@@ -7,8 +7,6 @@ const countLines = (str: string): number => {
 };
 
 const useCode = (raw: any) => {
-    console.log("raw", raw);
-    
     if (!raw) return;
 
     const { children, className } = raw.props;

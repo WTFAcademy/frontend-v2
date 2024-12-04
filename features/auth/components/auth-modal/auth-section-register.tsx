@@ -162,7 +162,6 @@ const StepSignMessageAndBindWallet = ({
         mesData: message,
         wallet: address as string,
       });
-      console.log(bindRes);
       if (bindRes.code !== 200) {
         throw new Error(bindRes.msg);
       }

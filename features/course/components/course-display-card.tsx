@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/image";
 import CourseKeywordTag from "./course-keyword-tag";
 import { Skeleton as SkeletonUI } from "@/components/ui/skeleton";
 
@@ -40,6 +40,7 @@ const CourseDisplayCard = ({
     <div className="course-display-card w-full p-8 md:p-10 4xl:p-20 border-wtf-border-divider border-[0.5px] border-solid flex flex-col items-center gap-y-8 cursor-pointer transition-all hover:bg-wtf-background-hover">
       <div className="relative w-full h-[186px] md:h-[240px]">
         <Image
+          fallbackSrc="/images/course-fallback.png"
           src={image || "/images/course-placeholder.png"}
           alt={title}
           fill
@@ -54,7 +55,7 @@ const CourseDisplayCard = ({
       </div>
       <div className="w-full flex justify-between">
         <div className="w-full flex items-center gap-x-2">
-          {keywordsArray.map((keyword, index) => (
+          {keywordsArray.length > 0 && keywordsArray.map((keyword, index) => (
             <CourseKeywordTag key={`${keyword}-${index}`} text={keyword} />
           ))}
         </div>

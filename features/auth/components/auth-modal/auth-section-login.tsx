@@ -30,7 +30,6 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
   const { mutate: loginWithEthereum, isPending } = useMutation({
     mutationFn: async () => {
       const nonceResponse = await getNonceApi(address!);
-      console.log(nonceResponse);
       if (nonceResponse.code === 200) {
         const signature = await signMessage(nonceResponse.data);
         return await loginWithEthereumApi({
@@ -59,7 +58,6 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
       return await signInWithGithub();
     },
     onSuccess: (res: any) => {
-      console.log(res);
       setToken(res.data.token);
       close();
     },

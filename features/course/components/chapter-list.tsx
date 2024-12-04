@@ -102,16 +102,24 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
             href={`/course/${coursePath}/${chapter.route_path}`}
           >
             <motion.div
-              key={chapter.route_path}
               className="border-b-[0.5px] border-wtf-border-divider py-1"
               onHoverStart={() => setActiveChapter(index)}
               onHoverEnd={() => setActiveChapter(null)}
               onClick={() => handleChapterClick(index)}
+              whileTap={{ scale: 0.995 }}
             >
-              <div
-                className={`flex items-center justify-between py-4 relative cursor-pointer ${
+              <motion.div
+                className={`flex flex-col gap-y-2 md:flex-row md:items-center justify-between py-4 relative cursor-pointer ${
                   selectedChapter === index ? "bg-wtf-background-selected" : ""
                 }`}
+                animate={{
+                  y: activeChapter === index ? 0 : 2,
+                  scale: activeChapter === index ? 1 : 0.999,
+                }}
+                transition={{
+                  duration: 0.2,
+                  ease: "easeOut"
+                }}
               >
                 <div className="flex items-center gap-4 relative z-10">
                   <div className="rounded-full w-[30px] h-[30px] text-wtf-function-link bg-wtf-function-brandBg flex items-center justify-center">
@@ -122,48 +130,58 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
                   </h2>
                 </div>
 
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-3">
-                    <ChapterProgressButton
-                      progress={chapter.quiz_progress}
-                      onClick={() => handleChapterClick(index)}
-                    >
-                      <Icons.document className="w-4 h-4 text-wtf-content-3" />
-                      <span className="text-wtf-content-2 text-sm font-medium ml-1">
-                        Quiz
-                      </span>
-                    </ChapterProgressButton>
-                    <ChapterProgressButton
-                      progress={chapter.code_progress}
-                      onClick={() => handleChapterClick(index)}
-                    >
-                      <Icons.code2 className="w-4 h-4 text-wtf-content-3" />
-                      <span className="text-wtf-content-2 text-sm font-medium ml-1">
-                        Code
-                      </span>
-                    </ChapterProgressButton>
+                <div className="flex items-center gap-4 justify-end md:justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
+                      <ChapterProgressButton
+                        progress={chapter.quiz_progress}
+                        onClick={() => handleChapterClick(index)}
+                      >
+                        <Icons.document className="w-4 h-4 text-wtf-content-3" />
+                        <span className="text-wtf-content-2 text-sm font-medium ml-1">
+                          Quiz
+                        </span>
+                      </ChapterProgressButton>
+                      <ChapterProgressButton
+                        progress={chapter.code_progress}
+                        onClick={() => handleChapterClick(index)}
+                      >
+                        <Icons.code2 className="w-4 h-4 text-wtf-content-3" />
+                        <span className="text-wtf-content-2 text-sm font-medium ml-1">
+                          Code
+                        </span>
+                      </ChapterProgressButton>
+                    </div>
+                    <div className="w-[128px] flex justify-end">
+                      <ChapterProgressStatus
+                        progress={chapter.quiz_progress}
+                        active={selectedChapter === index}
+                      />
+                    </div>
                   </div>
-                  <div className="w-[128px] flex justify-end">
-                    <ChapterProgressStatus
-                      progress={chapter.quiz_progress}
-                      active={selectedChapter === index}
-                    />
-                  </div>
-                </div>
 
-                {activeChapter === index && (
                   <motion.div
                     layoutId="chapterHighlight"
                     className="absolute inset-0 rounded-lg bg-wtf-background-hover"
-                    initial={false}
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ 
+                      opacity: activeChapter === index ? 1 : 0,
+                      scale: activeChapter === index ? 1 : 0.98,
+                    }}
                     transition={{
                       type: "spring",
-                      stiffness: 500,
+                      stiffness: 350,
                       damping: 30,
+                      opacity: { duration: 0.2 },
+                      layout: {
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 30
+                      }
                     }}
                   />
-                )}
-              </div>
+                </div>
+              </motion.div>
             </motion.div>
           </Link>
         ))}
