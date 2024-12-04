@@ -3,8 +3,8 @@
 import { getChapterByPath } from "@/features/course/api/use-chapters-api";
 import ChapterDetailFooter from "@/features/course/components/chapter-detail-footer";
 import ChapterDetailHeader from "@/features/course/components/chapter-detail-header";
-import ChapterRenderer from "@/features/course/components/chapter-renderer";
 import { useMobileReaderInteraction } from "@/features/course/hooks/use-mobile-reader-interaction";
+import Markdown from "@/features/mdx/components/markdown";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 const CourseChapterPage = ({
@@ -29,7 +29,7 @@ const CourseChapterPage = ({
           studyTime={chapter.study_time}
           bestScore={chapter.score}
         />
-        <ChapterRenderer>{chapter.content}</ChapterRenderer>
+        <Markdown>{chapter.content}</Markdown>
       </div>
       <ChapterDetailFooter />
     </div>

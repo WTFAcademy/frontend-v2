@@ -5,12 +5,17 @@ import { TContributor } from "../type";
 export const getContributors = async (
   repo = "WTF-Solidity",
 ): Promise<TContributor[]> => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contributors`, {
-    method: 'POST',
-    body: JSON.stringify({ repo })
-  })
-  const { data }: { data: { [key: string]: TContributor[]}} = await res.json()
-  return data[repo]
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contributors`, {
+      method: 'POST',
+      body: JSON.stringify({ repo })
+    })
+    const { data }: { data: { [key: string]: TContributor[]}} = await res.json()
+    return data[repo]
+  } catch (error) {
+    console.error(error)
+    return []
+  }
 };
 
 export const useGetContributors = () => {

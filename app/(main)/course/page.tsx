@@ -13,8 +13,6 @@ import { toast } from "sonner";
 import { motion } from "framer-motion";
 
 const CoursePage = () => {
-
-
   const typeList = ["All", "Solidity", "Ethers", "EVM", "Layer 2", "Frontend", "zk", "AI", "Basecamp"];
 
   const [currentType, setCurrentType] = useState<string | null>(typeList && typeList[0]);

@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import url(react-photo-view/dist/react-photo-view.css);
+@import "./mdx.css";
 
 body {
   font-family: var(--font-inter);
