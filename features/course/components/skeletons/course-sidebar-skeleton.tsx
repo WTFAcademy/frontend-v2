@@ -14,7 +14,7 @@ const CourseSidebarSkeleton = () => {
   };
 
   return (
-    <div className="w-[320px] h-full overflow-hidden flex flex-col border-r-[0.5px] border-wtf-border-divider">
+    <div className="w-[320px] h-full overflow-hidden flex flex-col border-r-[0.5px] border-wtf-border-divider pt-20">
       <div className="flex flex-col h-full">
         <div className="px-6 pb-6 pt-4 h-[73px]">
           <Button variant="outline" onClick={() => handleBack()}>

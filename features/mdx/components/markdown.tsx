@@ -8,7 +8,7 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { escapeBrackets, escapeMhchem, fixMarkdownBold } from "../utils";
 import { PhotoProvider, PhotoView } from "react-photo-view";
-import Image from "../components/image";
+import Image from "../../../components/image";
 import "react-photo-view/dist/react-photo-view.css";
 import { motion } from "framer-motion";
 import CodeBlock from "./code/code-block";
@@ -24,7 +24,7 @@ export default function Markdown({ children }: { children: string }) {
       a: (props: any) => (
         <motion.a
           {...props}
-          className="text-wtf-function-link relative inline-block"
+          className="text-wtf-function-link relative inline-block break-all"
           initial="initial"
           whileHover="hover"
           variants={{
@@ -64,7 +64,7 @@ export default function Markdown({ children }: { children: string }) {
                 duration: 0.2,
                 ease: "easeInOut",
               }}
-              className="flex justify-center items-center cursor-zoom-in"
+              className="flex justify-center items-center cursor-zoom-in my-4"
             >
               <Image
                 src={props.src}

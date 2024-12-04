@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const CourseChapterPageLoading = () => {
   return (
-    <div className="relative flex-auto overflow-y-auto">
+    <div className="relative flex-auto overflow-y-auto pt-20">
       <div className="p-10">
         <Skeleton className="h-12 w-2/3" />
         
@@ -18,7 +18,7 @@ const CourseChapterPageLoading = () => {
         </div>
       </div>
 
-      <div className="sticky bottom-0 left-0 right-0 bg-wtf-background-block border-t border-wtf-border-divider px-6 py-4 flex justify-between items-center">
+      {/* <div className="sticky bottom-0 left-0 right-0 bg-wtf-background-block border-t border-wtf-border-divider px-6 py-4 flex justify-between items-center">
         <div className="flex items-center gap-4">
           <Skeleton className="h-10 w-20" />
           <Skeleton className="h-10 w-20" />
@@ -27,7 +27,7 @@ const CourseChapterPageLoading = () => {
           <Skeleton className="h-10 w-24" />
           <Skeleton className="h-10 w-24" />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

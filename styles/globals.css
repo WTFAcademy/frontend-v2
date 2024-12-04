@@ -236,7 +236,7 @@ body {
     overflow: overlay;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-wtf-background-primary text-wtf-content-2;
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
   }
@@ -289,5 +289,23 @@ body {
 
   .token {
     background: transparent !important;
+  }
+
+  .footer {
+    background-image: radial-gradient(
+      rgba(0, 0, 0, 0) 1px,
+      hsl(var(--wtf-base-white)) 1px
+    );
+    background-size: 4px 4px;
+    backdrop-filter: blur(3px);
+    font-size: 14px;
+    line-height: 14px;
+  }
+
+  .dark .footer {
+    background-image: radial-gradient(
+      rgba(0, 0, 0, 0) 1px,
+      var(--wtf-background-primary) 1px
+    );
   }
 }

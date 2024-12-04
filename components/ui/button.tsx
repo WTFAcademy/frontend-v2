@@ -10,17 +10,17 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-wtf-brand-1 text-wtf-content-white hover:bg-wtf-brand-1/90",
+          "bg-wtf-brand-1 text-wtf-content-white hover:bg-wtf-brand-1/90 disabled:bg-wtf-brand-1/50",
         destructive:
-          "bg-wtf-function-errorBg text-wtf-function-error hover:bg-red-300",
+          "bg-wtf-function-errorBg text-wtf-function-error hover:bg-red-300 disabled:bg-wtf-function-errorBg/50",
         outline:
-          "border border-wtf-border-outline bg-background hover:bg-accent hover:text-accent-foreground",
+          "border border-wtf-border-outline bg-background hover:bg-accent hover:text-accent-foreground disabled:bg-background/50",
         secondary:
-          "bg-wtf-function-brandBg text-wtf-function-link hover:bg-wtf-function-brandBg/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+          "bg-wtf-function-brandBg text-wtf-function-link hover:bg-wtf-function-brandBg/80 disabled:bg-wtf-function-brandBg/50",
+        ghost: "hover:bg-accent hover:text-accent-foreground disabled:bg-transparent",
+        link: "text-primary underline-offset-4 hover:underline disabled:no-underline",
         success:
-          "bg-wtf-function-successBg text-wtf-function-success hover:bg-green-300",
+          "bg-wtf-function-successBg text-wtf-function-success hover:bg-green-300 disabled:bg-wtf-function-successBg/50",
       },
       size: {
         default: "h-9 px-4 py-2",
@@ -44,13 +44,17 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, disabled, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(
+          buttonVariants({ variant, size, className }),
+          disabled && "pointer-events-none opacity-50"
+        )}
         ref={ref}
         {...props}
+        disabled={disabled}
       />
     );
   }

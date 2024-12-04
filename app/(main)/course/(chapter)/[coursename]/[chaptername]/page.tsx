@@ -23,7 +23,7 @@ const CourseChapterPage = ({
 
   return (
     <div className="relative flex-auto overflow-y-auto pt-20" ref={scrollRef}>
-      <div className="p-10">
+      <div className="px-4 py-6 md:p-10">
         <ChapterDetailHeader
           title={chapter.title}
           studyTime={chapter.study_time}
@@ -31,7 +31,10 @@ const CourseChapterPage = ({
         />
         <Markdown>{chapter.content}</Markdown>
       </div>
-      <ChapterDetailFooter />
+      <ChapterDetailFooter
+        currentChapterPath={params.chaptername}
+        coursePath={params.coursename}
+      />
     </div>
   );
 };
