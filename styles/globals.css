@@ -260,9 +260,16 @@ body {
   }
 
   /* 自定义滚动条样式 */
+  * {
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--wtf-base-gray-300)) transparent;
+  }
+
+  /* Chrome, Edge, Safari */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
   }
 
   ::-webkit-scrollbar-track {
@@ -276,15 +283,6 @@ body {
 
   ::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--wtf-base-gray-400));
-  }
-
-  /* 暗色模式下的滚动条 */
-  .dark ::-webkit-scrollbar-thumb {
-    background: hsl(var(--wtf-base-gray-700));
-  }
-
-  .dark ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--wtf-base-gray-600));
   }
 
   .token {

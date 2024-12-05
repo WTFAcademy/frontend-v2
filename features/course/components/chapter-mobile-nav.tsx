@@ -2,11 +2,7 @@
 
 import { Icons } from "@/components/icons";
 import { TCourse } from "../api/use-courses-api";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-} from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerHeader } from "@/components/ui/drawer";
 import { useState } from "react";
 import { useAtomValue } from "jotai";
 import { chapterListAtom } from "../atoms/chapter";
@@ -14,6 +10,7 @@ import { ScrollArea } from "@radix-ui/react-scroll-area";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useMobileReaderInteraction } from "../hooks/use-mobile-reader-interaction";
 
 const ChapterMobileNav = ({
   course,
@@ -26,6 +23,7 @@ const ChapterMobileNav = ({
   const chapters = useAtomValue(chapterListAtom);
   const pathname = usePathname();
   const router = useRouter();
+  const { isControlVisible } = useMobileReaderInteraction();
 
   const currentChapter = chapters.find(
     (chapter) => chapter.route_path === chapterPath
@@ -42,7 +40,12 @@ const ChapterMobileNav = ({
 
   return (
     <>
-      <div className="md:hidden flex gap-3 px-4 mt-3">
+      <div
+        className={cn(
+          "md:hidden flex gap-3 px-4 mt-3 sticky z-10",
+          isControlVisible ? "-top-0" : "-top-10"
+        )}
+      >
         <div className="w-10 h-10 inline-flex items-center justify-center bg-wtf-background-block rounded">
           <Icons.arrowLeft
             className="w-4 h-4 cursor-pointer"
