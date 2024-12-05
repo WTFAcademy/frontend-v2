@@ -27,7 +27,7 @@ const ChapterDetailFooter = ({
   return (
     <AnimatePresence>
       <motion.div
-        className="sticky footer bottom-0 left-0 right-0 border-t border-wtf-border-divider px-4 md:px-6 py-4 flex justify-between items-center"
+        className="sticky footer bottom-0 left-0 right-0 border-t-[0.5px] border-wtf-border-divider px-4 md:px-6 py-4 flex justify-between items-center"
         initial={{ y: 0 }}
         animate={{ y: isControlVisible ? 0 : 100 }}
         transition={{ duration: 0.3 }}

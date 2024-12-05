@@ -46,14 +46,14 @@ const ChapterMobileNav = ({
           isControlVisible ? "-top-0" : "-top-10"
         )}
       >
-        <div className="w-10 h-10 inline-flex items-center justify-center bg-wtf-background-block rounded">
+        <div className="w-10 h-10 inline-flex items-center justify-center bg-gray-100/50 dark:bg-gray-900/50 rounded shadow-sm backdrop-blur-[20px]">
           <Icons.arrowLeft
             className="w-4 h-4 cursor-pointer"
             onClick={() => router.push(`/course/${coursePath}`)}
           />
         </div>
         <div
-          className="flex-1 h-10 px-3 flex gap-2 items-center bg-wtf-background-block rounded"
+          className="flex-1 h-10 px-3 flex gap-2 items-center bg-gray-100/50 dark:bg-gray-900/50 rounded shadow-sm backdrop-blur-[20px]"
           onClick={handleOpen}
         >
           <Icons.menu className="text-wtf-content-1 w-5 h-5" />
