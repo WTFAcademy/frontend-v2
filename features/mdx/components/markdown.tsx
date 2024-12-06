@@ -13,8 +13,9 @@ import "react-photo-view/dist/react-photo-view.css";
 import { motion } from "framer-motion";
 import CodeBlock from "./code/code-block";
 import PreSingleLine from "./code/pre-single-line";
+import { cn } from "@/lib/utils";
 
-export default function Markdown({ children }: { children: string }) {
+export default function Markdown({ children, mode = 'normal' }: { children: string, mode?: 'normal' | 'quiz' }) {
   const escapedContent = useMemo(() => {
     return fixMarkdownBold(escapeMhchem(escapeBrackets(children)));
   }, [children]);
@@ -86,7 +87,7 @@ export default function Markdown({ children }: { children: string }) {
   }, []);
 
   return (
-    <article className="wtf-mdx">
+    <article className={cn(mode === "normal" ? "wtf-mdx" : "wtf-quiz-mdx")}>
       <ReactMarkdown
         rehypePlugins={[rehypeRaw, rehypeKatex]}
         remarkPlugins={[remarkMath, remarkGfm]}
