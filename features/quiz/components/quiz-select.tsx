@@ -15,8 +15,6 @@ const QuizSelect = ({ quiz, value, onChange }: IProps) => {
     return raws.join("\n");
   }, [quiz.content]);
 
-  console.log(extendRaw);
-
   return (
     <div>
       <div className="mb-4">

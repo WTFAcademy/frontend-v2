@@ -209,6 +209,7 @@
   }
 }
 
+/* TODO: 待重构 */
 .wtf-quiz-mdx {
   @apply font-inter leading-[1.75] text-wtf-content-2;
 
