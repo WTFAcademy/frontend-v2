@@ -6,22 +6,22 @@ import { useState } from "react";
 import { getChaptersByPath } from "../api/use-chapters-api";
 import { Icons } from "@/components/icons";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
+import useAuth from "@/features/auth/hooks/use-auth";
 
 const ChapterProgressButton = ({
   progress,
   children,
-  onClick,
+  href,
 }: {
   progress: number;
   children: React.ReactNode;
   onClick?: () => void;
+  href: string;
 }) => {
   return (
-    <div
-      onClick={(e) => {
-        e.stopPropagation();
-        onClick?.();
-      }}
+    <Link
+      href={href}
       className="relative border border-wtf-border-outline rounded-sm w-[80px] h-[34px] flex items-center justify-center overflow-hidden cursor-pointer"
     >
       {children}
@@ -33,7 +33,7 @@ const ChapterProgressButton = ({
           className="h-full bg-wtf-function-success"
         />
       </div>
-    </div>
+    </Link>
   );
 };
 
@@ -73,7 +73,7 @@ const ChapterProgressStatus = ({
 
 const ChapterList = ({ coursePath }: { coursePath: string }) => {
   const [activeChapter, setActiveChapter] = useState<number | null>(null);
-  const [selectedChapter, setSelectedChapter] = useState<number | null>(null);
+  const { isLogin } = useAuth();
 
   const { data: chapterData } = useSuspenseQuery({
     queryKey: ["chapters", coursePath],
@@ -84,11 +84,6 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
   });
 
   const chapters = chapterData || [];
-
-  const handleChapterClick = (chapterIndex: number) => {
-    setSelectedChapter(chapterIndex);
-    // 这里可以添加导航逻辑或其他处理
-  };
 
   return (
     <div className="w-full">
@@ -105,20 +100,17 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
               className="border-b-[0.5px] border-wtf-border-divider py-1"
               onHoverStart={() => setActiveChapter(index)}
               onHoverEnd={() => setActiveChapter(null)}
-              onClick={() => handleChapterClick(index)}
               whileTap={{ scale: 0.995 }}
             >
               <motion.div
-                className={`flex flex-col gap-y-2 md:flex-row md:items-center justify-between py-4 relative cursor-pointer ${
-                  selectedChapter === index ? "bg-wtf-background-selected" : ""
-                }`}
+                className={`flex flex-col gap-y-2 md:flex-row md:items-center justify-between py-4 relative cursor-pointer`}
                 animate={{
                   y: activeChapter === index ? 0 : 2,
                   scale: activeChapter === index ? 1 : 0.999,
                 }}
                 transition={{
                   duration: 0.2,
-                  ease: "easeOut"
+                  ease: "easeOut",
                 }}
               >
                 <div className="flex items-center gap-4 relative z-10">
@@ -132,10 +124,15 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
 
                 <div className="flex items-center gap-4 justify-end md:justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-3">
+                    <div
+                      className={cn(
+                        "flex items-center gap-3",
+                        !isLogin && "hidden"
+                      )}
+                    >
                       <ChapterProgressButton
+                        href={`/course/${coursePath}/${chapter.route_path}/quiz`}
                         progress={chapter.quiz_progress}
-                        onClick={() => handleChapterClick(index)}
                       >
                         <Icons.document className="w-4 h-4 text-wtf-content-3" />
                         <span className="text-wtf-content-2 text-sm font-medium ml-1">
@@ -143,8 +140,8 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
                         </span>
                       </ChapterProgressButton>
                       <ChapterProgressButton
+                        href={`/course/${coursePath}/${chapter.route_path}/code`}
                         progress={chapter.code_progress}
-                        onClick={() => handleChapterClick(index)}
                       >
                         <Icons.code2 className="w-4 h-4 text-wtf-content-3" />
                         <span className="text-wtf-content-2 text-sm font-medium ml-1">
@@ -155,16 +152,16 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
                     <div className="w-[128px] flex justify-end">
                       <ChapterProgressStatus
                         progress={chapter.quiz_progress}
-                        active={selectedChapter === index}
+                        active={false}
                       />
                     </div>
                   </div>
 
                   <motion.div
                     layoutId="chapterHighlight"
-                    className="absolute inset-0 rounded-lg bg-wtf-background-hover"
+                    className="absolute inset-0 rounded-lg bg-wtf-background-hover pointer-events-none"
                     initial={{ opacity: 0, scale: 0.98 }}
-                    animate={{ 
+                    animate={{
                       opacity: activeChapter === index ? 1 : 0,
                       scale: activeChapter === index ? 1 : 0.98,
                     }}
@@ -176,8 +173,8 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
                       layout: {
                         type: "spring",
                         stiffness: 300,
-                        damping: 30
-                      }
+                        damping: 30,
+                      },
                     }}
                   />
                 </div>

@@ -7,6 +7,8 @@ import { useAtomValue } from "jotai";
 import { chapterListAtom } from "../atoms/chapter";
 import { Icons } from "@/components/icons";
 import Link from "next/link";
+import useAuth from "@/features/auth/hooks/use-auth";
+import { cn } from "@/lib/utils";
 
 const ChapterDetailFooter = ({
   currentChapterPath,
@@ -17,6 +19,9 @@ const ChapterDetailFooter = ({
 }) => {
   const { isControlVisible } = useMobileReaderInteraction();
   const chapters = useAtomValue(chapterListAtom);
+  const { isLogin } = useAuth();
+
+  console.log("isLogin: ", isLogin);
 
   const currentChapterIndex = chapters.findIndex(
     (chapter) => chapter.route_path === currentChapterPath
@@ -32,23 +37,27 @@ const ChapterDetailFooter = ({
         animate={{ y: isControlVisible ? 0 : 100 }}
         transition={{ duration: 0.3 }}
       >
-        <div className="flex items-center gap-4">
-          <Button asChild>
-            <Link href={`/course/${coursePath}/${currentChapterPath}/quiz`}>
-              <Icons.document className="w-4 h-4" />
-              <span className="hidden md:block ml-1">Quiz</span>
-              <Icons.arrowRight className="hidden md:block w-3 h-3 ml-2" />
-            </Link>
-          </Button>
-          <Button asChild>
-            <Link href={`/course/${coursePath}/${currentChapterPath}/code`}>
-              <Icons.code2 className="w-4 h-4" />
-              <span className="hidden md:block ml-1">Code</span>
-              <Icons.arrowRight className="hidden md:block w-3 h-3 ml-2" />
-            </Link>
-          </Button>
+        <div className={cn("flex items-center gap-4")}>
+          {isLogin && (
+            <>
+              <Button asChild>
+                <Link href={`/course/${coursePath}/${currentChapterPath}/quiz`}>
+                  <Icons.document className="w-4 h-4" />
+                  <span className="hidden md:block ml-1">Quiz</span>
+                  <Icons.arrowRight className="hidden md:block w-3 h-3 ml-2" />
+                </Link>
+              </Button>
+              <Button asChild>
+                <Link href={`/course/${coursePath}/${currentChapterPath}/code`}>
+                  <Icons.code2 className="w-4 h-4" />
+                  <span className="hidden md:block ml-1">Code</span>
+                  <Icons.arrowRight className="hidden md:block w-3 h-3 ml-2" />
+                </Link>
+              </Button>
+            </>
+          )}
         </div>
-        <div className="flex items-center">
+        <div className={cn("flex items-center")}>
           <Button
             variant="link"
             className="gap-2"

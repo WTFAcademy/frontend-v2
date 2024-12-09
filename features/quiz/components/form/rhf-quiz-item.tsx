@@ -14,8 +14,8 @@ const RHFQuizItem = ({
   exercise: TExercise;
   index?: number;
   required?: boolean;
-  control: Control<{ exercises: TAnswer[] }>;
-  name: `exercises.${number}`;
+  control: Control<{ answers: TAnswer[] }>;
+  name: `answers.${number}`;
 }) => {
   const { field } = useController({
     control,

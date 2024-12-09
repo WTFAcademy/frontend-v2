@@ -112,7 +112,6 @@ const CourseDetailHeader = () => {
                     className={`w-[108px] h-[72px] bg-wtf-background-block rounded-sm cursor-pointer relative`}
                   >
                     <Image
-                      fallbackSrc="/images/course-fallback.png"
                       src={course.cover_img}
                       alt={course.title}
                       fill
