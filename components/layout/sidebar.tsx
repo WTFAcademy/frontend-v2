@@ -13,6 +13,7 @@ import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useDictionary } from "@/features/lang";
+import useAuth from "@/features/auth/hooks/use-auth";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -21,6 +22,7 @@ const Sidebar = () => {
   const [language, setLanguage] = useState(currentLang);
   const { setTheme, theme } = useTheme();
   const t = useDictionary();
+  const { logout } = useAuth();
 
   const { data } = useSuspenseQuery({
     queryKey: ["coursesWithType"],
@@ -38,6 +40,12 @@ const Sidebar = () => {
       })),
     };
   });
+
+  const handleLogout = () => {
+    logout();
+    // relaod
+    window.location.reload();
+  };
 
   return (
     <div className="flex flex-col w-full">
@@ -95,6 +103,14 @@ const Sidebar = () => {
         value={theme === "dark"}
         onChange={() => setTheme(theme === "dark" ? "light" : "dark")}
       />
+      <Separator className="my-4" />
+      <div className="relative z-20 flex flex-col mt-2">
+        <div className="flex items-center py-[18.5px] px-5 cursor-pointer" onClick={handleLogout}>
+          <div className="flex items-center gap-2 text-base font-medium text-wtf-function-error">
+            <span>{t.index.Logout}</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
