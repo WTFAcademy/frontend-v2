@@ -7,7 +7,7 @@ import RHFQuizItem from "./form/rhf-quiz-item";
 import { Button } from "@/components/ui/button";
 import { submitQuiz, TQuizResponse, TSubmitQuizBody } from "../api/use-quiz-api";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const QuizListForm = ({quiz}: {quiz: TQuizResponse}) => {
   const methods = useForm<{ answers: TAnswer[] }>({
