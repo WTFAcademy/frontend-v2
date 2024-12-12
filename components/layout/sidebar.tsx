@@ -85,8 +85,9 @@ const Sidebar = () => {
         groupName={t.mobile.Language}
         value={language}
         onChange={(value) => {
-          setLanguage(value)
-          router.push(pathname.replace(currentLang, value))
+          setLanguage(value);
+          document.cookie = `NEXT_LOCALE=${value};path=/;max-age=${60 * 60 * 24 * 365}`;
+          router.push(pathname.replace(currentLang, value));
         }}
       />
       <NavSwitchItem

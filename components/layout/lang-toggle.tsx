@@ -18,6 +18,10 @@ export function LangToggle() {
   const router = useRouter();
   const currentLang = pathname?.split('/')[1] || 'zh';
   
+  const setLanguageCookie = (lang: string) => {
+    document.cookie = `NEXT_LOCALE=${lang}; path=/; max-age=31536000`; // 保存一年
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -31,10 +35,16 @@ export function LangToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => router.push(pathname.replace(currentLang, 'en'))}>
+        <DropdownMenuItem onClick={() => {
+          setLanguageCookie('en');
+          router.push(pathname.replace(currentLang, 'en'));
+        }}>
           English
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push(pathname.replace(currentLang, 'zh'))}>
+        <DropdownMenuItem onClick={() => {
+          setLanguageCookie('zh');
+          router.push(pathname.replace(currentLang, 'zh'));
+        }}>
           中文
         </DropdownMenuItem>
       </DropdownMenuContent>
