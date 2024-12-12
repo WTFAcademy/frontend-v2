@@ -4,8 +4,14 @@ import CourseDisplayCard from "@/features/course/components/course-display-card"
 import { Skeleton as SkeletonUI } from "@/components/ui/skeleton";
 import { getCourses, TCourse } from "@/features/course/api/use-courses-api";
 import { get } from "lodash-es";
+import { headers } from "next/headers";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 const SectionCourses = async () => {
+  const heads = headers()
+  const lang = heads.get('x-current-lang')
+  const t = await getDictionary(lang)
+
   const data = await getCourses();
 
   const popularCourses = get(data, "data.published", []);
@@ -14,13 +20,13 @@ const SectionCourses = async () => {
   return (
     <section className="container w-full flex flex-col">
       <SectionHeader
-        title="Courses"
-        description="Courses specially designed by developers for developers"
-        moreUrl="/courses"
+        title={t.index.Courses}
+        description={t.index.Courses_specially_designed_by_developers_for_developers}
+        moreUrl="/course"
       />
       <div className="w-full flex flex-col">
         <div className="flex items-center gap-x-3 px-8 mb-[-0.5px] md:px-10 py-9 border-wtf-border-divider border-[0.5px] border-solid">
-          <span className="text-2xl font-bold leading-8">Popular Courses</span>
+          <span className="text-2xl font-bold leading-8">{t.index.Popular_Courses}</span>
           <NumberTag number={popularCourses.length} />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-5 border-wtf-border-divider border-x-[0.5px]">
@@ -38,7 +44,7 @@ const SectionCourses = async () => {
       <div className="w-full flex flex-col">
         <div className="flex items-center gap-x-3 px-8 my-[-0.5px] md:px-10 py-9 border-wtf-border-divider border-[0.5px] border-solid">
           <span className="text-2xl font-bold leading-8">
-            Upcomming Courses
+            {t.index.Upcomming_Courses}
           </span>
           <NumberTag number={upcomingCourses.length} />
         </div>
@@ -64,7 +70,7 @@ const Skeleton = () => {
       <SectionHeader
         title="Courses"
         description="Courses specially designed by developers for developers"
-        moreUrl="/courses"
+        moreUrl="/course"
       />
       <div className="w-full flex flex-col">
         <div className="flex items-center gap-x-3 px-8 mb-[-0.5px] md:px-10 py-9 border-wtf-border-divider border-[0.5px] border-solid">

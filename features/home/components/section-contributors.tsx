@@ -7,8 +7,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
 import useBreakpoint from "@/hooks/use-breakpoint";
 import { Button } from "@/components/ui/button";
+import { useDictionary } from "@/features/lang";
 
 const SectionContributors = () => {
+  const t = useDictionary();
   const { data, isLoading } = useGetContributors();
   const {width} = useBreakpoint();
   const [isExpanded, setIsExpanded] = useState(false);
@@ -20,8 +22,8 @@ const SectionContributors = () => {
     return (
       <section className="w-full">
         <SectionHeader
-          title="Contributors"
-          description="The best way to learn is to share"
+          title={t.index.Contributors}
+          description={t.index.The_best_way_to_learn_is_to_share}
         />
 
         <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
@@ -42,8 +44,8 @@ const SectionContributors = () => {
   return (
     <section className="container w-full">
       <SectionHeader
-        title="Contributors"
-        description="The best way to learn is to share"
+        title={t.index.Contributors}
+        description={t.index.The_best_way_to_learn_is_to_share}
       />
 
       <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 4xl:grid-cols-12">
@@ -70,7 +72,7 @@ const SectionContributors = () => {
           size="xl"
           onClick={() => setIsExpanded(!isExpanded)}
         >
-          {isExpanded ? "Collapse" : "Expand"} All Contributors
+          {isExpanded ? t.index.Collapse : t.index.Expand} {t.index.All_Contributors}
         </Button>
       </div>
     </section>

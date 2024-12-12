@@ -10,10 +10,17 @@ import { get } from "lodash-es";
 import { Separator } from "../ui/separator";
 import { useState } from "react";
 import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useDictionary } from "@/features/lang";
 
 const Sidebar = () => {
-  const [language, setLanguage] = useState("en");
+  const pathname = usePathname();
+  const router = useRouter();
+  const currentLang = pathname?.split('/')[1] || 'zh';
+  const [language, setLanguage] = useState(currentLang);
   const { setTheme, theme } = useTheme();
+  const t = useDictionary();
 
   const { data } = useSuspenseQuery({
     queryKey: ["coursesWithType"],
@@ -34,53 +41,56 @@ const Sidebar = () => {
 
   return (
     <div className="flex flex-col w-full">
-      <NavItem items={courseItems} groupName="Course" />
+      <NavItem items={courseItems} groupName={t.mobile.Course} />
       <NavItem
         items={[
           {
-            name: "WTF Town",
+            name: t.mobile.WTF_Town,
             url: "https://wtf.town",
           },
           {
-            name: "RescuETH",
+            name: t.mobile.RescuETH,
             url: "https://rescue.wtf",
           },
         ]}
-        groupName="Project"
+        groupName={t.mobile.Project}
       />
       <NavItem
         items={[]}
-        groupName="Forum"
+        groupName={t.mobile.Forum}
         url="/forum"
       />
       <NavItem
         items={[]}
-        groupName="Shop"
+        groupName={t.mobile.Shop}
         url="/shop"
       />
       <NavItem
         items={[]}
-        groupName="About us"
+        groupName={t.mobile.About_us}
         url="/about"
       />
       <Separator className="my-4" />
       <NavSelectionItem
         options={[
           {
-            label: "English",
+            label: t.mobile.English,
             value: "en",
           },
           {
-            label: "Chinese",
+            label: t.mobile.Chinese,
             value: "zh",
           },
         ]}
-        groupName="Language"
+        groupName={t.mobile.Language}
         value={language}
-        onChange={setLanguage}
+        onChange={(value) => {
+          setLanguage(value)
+          router.push(pathname.replace(currentLang, value))
+        }}
       />
       <NavSwitchItem
-        groupName="Dark Mode"
+        groupName={t.mobile.Dark_Mode}
         value={theme === "dark"}
         onChange={() => setTheme(theme === "dark" ? "light" : "dark")}
       />

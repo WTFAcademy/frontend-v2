@@ -6,6 +6,7 @@ import { useState } from "react";
 import { getChaptersByPath } from "../api/use-chapters-api";
 import { Icons } from "@/components/icons";
 import Link from "next/link";
+import { useDictionary } from "@/features/lang";
 import { cn } from "@/lib/utils";
 import useAuth from "@/features/auth/hooks/use-auth";
 
@@ -44,34 +45,36 @@ const ChapterProgressStatus = ({
   progress: number;
   active: boolean;
 }) => {
+  const t = useDictionary();
   switch (progress) {
     case 0:
       return active ? (
         <div className="flex items-center gap-1 text-sm font-medium text-wtf-function-link">
-          Start <Icons.arrowRight2 className="w-4 h-4 ml-2" />
+          {t.course.Start} <Icons.arrowRight2 className="w-4 h-4 ml-2" />
         </div>
       ) : (
         <div className="text-wtf-content-4 font-medium text-sm relative z-10">
-          Not Started
+          {t.course.Not_Started}
         </div>
       );
     case 1:
       return (
         <div className="text-wtf-function-success font-medium text-sm relative z-10 flex items-center">
-          Completed
+          {t.course.Completed}
           <Icons.complete className="w-4 h-4 ml-1" />
         </div>
       );
     default:
       return (
         <div className="text-wtf-content-2 font-medium text-sm relative z-10">
-          In Progress
+          {t.course.In_Progress}
         </div>
       );
   }
 };
 
 const ChapterList = ({ coursePath }: { coursePath: string }) => {
+  const t = useDictionary();
   const [activeChapter, setActiveChapter] = useState<number | null>(null);
   const { isLogin } = useAuth();
 
@@ -88,7 +91,7 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
   return (
     <div className="w-full">
       <h1 className="text-wtf-content-1 text-xl font-bold">
-        Chapters <span>({chapters.length})</span>
+        {t.course.Chapters} <span>({chapters.length})</span>
       </h1>
       <div className="flex flex-col gap-1 mt-6">
         {chapters.map((chapter, index) => (
@@ -136,7 +139,7 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
                       >
                         <Icons.document className="w-4 h-4 text-wtf-content-3" />
                         <span className="text-wtf-content-2 text-sm font-medium ml-1">
-                          Quiz
+                          {t.course.Quiz}
                         </span>
                       </ChapterProgressButton>
                       <ChapterProgressButton
@@ -145,7 +148,7 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
                       >
                         <Icons.code2 className="w-4 h-4 text-wtf-content-3" />
                         <span className="text-wtf-content-2 text-sm font-medium ml-1">
-                          Code
+                          {t.course.Code}
                         </span>
                       </ChapterProgressButton>
                     </div>

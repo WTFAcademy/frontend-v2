@@ -11,7 +11,7 @@ import { bindWalletApi } from "../../api/use-auth-api";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "sonner";
-
+import { useDictionary } from "@/features/lang";
 type AuthSectionRegisterProps = {
   updateStep: (step: STEP) => void;
   close: () => void;
@@ -33,6 +33,7 @@ const StepSignInWithGitHub = ({
   error?: string;
   setError: (error: string | undefined) => void;
 }) => {
+  const t = useDictionary();
   const { signInWithGithub, setIsRegistering, setToken } = useAuth();
   const [isFinished, setIsFinished] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -75,7 +76,7 @@ const StepSignInWithGitHub = ({
           1
         </span>
         <div className="flex flex-col gap-1">
-          <span className="text-base font-semibold">Sign in with GitHub</span>
+          <span className="text-base font-semibold">{t.login.Sign_in_with_Github}</span>
           {isDesktop && isErrorSignInWithGitHub && (
             <AnimatePresence mode="wait">
               <motion.span
@@ -99,7 +100,7 @@ const StepSignInWithGitHub = ({
           className="gap-2 hover:bg-wtf-function-successBg"
         >
           <Icons.check className="w-4 h-4" />
-          <span>Done</span>
+          <span>{t.login.Done}</span>
         </Button>
       )}
 
@@ -115,7 +116,7 @@ const StepSignInWithGitHub = ({
           ) : (
             <>
               <Icons.github />
-              <span>Sign in</span>
+              <span>{t.login.Sign_in}</span>
             </>
           )}
         </Button>
@@ -135,6 +136,7 @@ const StepSignMessageAndBindWallet = ({
   error?: string;
   setError: (error: string | undefined) => void;
 }) => {
+  const t = useDictionary();
   const [isFinished, setIsFinished] = useState(false);
   const { address } = useAccount();
   const { signMessageAsync } = useSignMessage();
@@ -169,7 +171,7 @@ const StepSignMessageAndBindWallet = ({
     },
     onSuccess: () => {
       setIsFinished(true);
-      toast.success("Bind wallet successfully");
+      toast.success(t.login.Bind_wallet_successfully);
       close();
     },
     onError: (error: any) => {
@@ -196,7 +198,7 @@ const StepSignMessageAndBindWallet = ({
           </span>
           <div className="flex flex-col gap-[2px]">
             <span className="text-base font-semibold">
-              Sign Message + Bind Wallet
+              {t.login.Sign_Message} + {t.login.Bind_Wallet}
             </span>
             {isDesktop && isErrorSignMessageAndBindWallet && (
               <AnimatePresence mode="wait">
@@ -221,7 +223,7 @@ const StepSignMessageAndBindWallet = ({
             className="gap-2 hover:bg-wtf-function-successBg"
           >
             <Icons.check className="w-4 h-4" />
-            <span>Done</span>
+            <span>{t.login.Done}</span>
           </Button>
         )}
 
@@ -236,7 +238,7 @@ const StepSignMessageAndBindWallet = ({
             {isPendingSignMessageAndBindWallet ? (
               <Icons.loading className="animate-spin w-4 h-4" />
             ) : (
-              <span>Sign & Bind</span>
+              <span>{t.login.Sign_Bind}</span>
             )}
           </Button>
         )}
@@ -260,6 +262,7 @@ const StepSignMessageAndBindWallet = ({
 };
 
 const AuthSectionRegister = (props: AuthSectionRegisterProps) => {
+  const t = useDictionary();
   const { updateStep, close } = props;
   const { disconnect } = useDisconnect();
   const [stepRegister, setStepRegister] = useState<STEP_REGISTER>(
@@ -282,7 +285,7 @@ const AuthSectionRegister = (props: AuthSectionRegisterProps) => {
     <div className="flex flex-col gap-6 pt-8 pb-6">
       <div className="flex flex-col items-center gap-4 w-full">
         <Icons.logo className="h-10" />
-        <p className="text-2xl font-bold leading-8">Connect to your GitHub</p>
+        <p className="text-2xl font-bold leading-8">{t.login.Connect_to_your_GitHub}</p>
       </div>
       <div className="flex flex-col w-full">
         <StepSignInWithGitHub
@@ -305,7 +308,7 @@ const AuthSectionRegister = (props: AuthSectionRegisterProps) => {
             className="text-wtf-content-3 text-base"
             onClick={backToLogin}
           >
-            Cancel
+            {t.login.Cancel}
           </Button>
         </div>
       </div>

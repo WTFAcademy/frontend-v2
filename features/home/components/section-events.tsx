@@ -1,6 +1,8 @@
 import SectionHeader from "./section-header";
 import Image from "next/image";
 import eventsData from "@/public/constants/events/events.json";
+import { headers } from "next/headers";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 type TEvent = {
   name: string;
@@ -13,12 +15,15 @@ type TEvent = {
 
 const events: TEvent[] = eventsData;
 
-const SectionEvents = () => {
+const SectionEvents = async () => {
+  const heads = headers()
+  const lang = heads.get('x-current-lang')
+  const t = await getDictionary(lang)
   return (
     <section className="container flex flex-col">
       <SectionHeader
-        title="Events"
-        description="The purpose of learning is to create together"
+        title={t.index.Events}
+        description={t.index.The_purpose_of_learning_is_to_create_together}
         moreUrl="/events"
       />
 

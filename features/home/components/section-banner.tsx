@@ -4,8 +4,10 @@ import BoxReveal from "@/components/animata/box-reveal";
 import { Button } from "@/components/ui/button";
 import { DiscordLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons";
 import React from "react";
+import { useDictionary } from "@/features/lang";
 
 const SectionBanner = () => {
+  const t = useDictionary();
   return (
     <section className="h-screen w-full bg-[url('/images/banner.jpeg')] bg-cover bg-center flex flex-col">
       <div className="relative flex flex-col justify-end flex-1 px-4 pb-5 md:px-10 md:pb-10 z-10">
@@ -34,7 +36,7 @@ const SectionBanner = () => {
 
           <BoxReveal duration={0.2}>
             <div className="mt-[24px] flex gap-x-4 items-center">
-              <Button size="xl">Start Learning</Button>
+              <Button size="xl">{t.index.Start_Learning}</Button>
               <Button
                 variant="ghost"
                 size="icon"

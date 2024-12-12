@@ -1,6 +1,8 @@
 import Image from "next/image";
 import SectionHeader from "./section-header";
 import projectsData from "@/public/constants/projects/projects.json";
+import { headers } from "next/headers";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 type TProject = {
   name: string;
@@ -11,12 +13,15 @@ type TProject = {
 
 const projects: TProject[] = projectsData;
 
-const SectionProjects = () => {
+const SectionProjects = async () => {
+  const heads = headers()
+  const lang = heads.get('x-current-lang')
+  const t = await getDictionary(lang)
   return (
     <section className="container flex flex-col">
       <SectionHeader
-        title="Community Development Projects"
-        description="Projects under development in the community"
+        title={t.index.Community_Development_Projects}
+        description={t.index.Projects_under_development_in_the_community}
       />
       <div className="grid grid-cols-1 md:grid-cols-2">
         {projects.map((project) => (

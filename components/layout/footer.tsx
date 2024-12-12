@@ -1,7 +1,10 @@
+"use client";
+
 import { DiscordLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import TextBorderAnimation from "../animata/text/text-border-animation";
 import Link, { LinkProps } from "next/link";
+import { useDictionary } from "@/features/lang";
 
 const FooterLink = ({ text, ...props }: { text: string } & LinkProps) => {
   return (
@@ -14,7 +17,8 @@ const FooterLink = ({ text, ...props }: { text: string } & LinkProps) => {
   );
 };
 
-const Footer = () => {
+const Footer = () => { 
+  const t = useDictionary();
   return (
     <footer className="w-full bg-wtf-background-footer">
       <div className="container">
@@ -39,17 +43,17 @@ const Footer = () => {
           </div>
           <div className="flex-grow flex flex-col p-10 border-wtf-border-divider border-r-[0.5px] border-b-[0.5px] md:border-b-0 border-solid gap-y-4">
             <div className="text-base font-medium leading-6 text-wtf-content-3">
-              Products
+              {t.index.Products}
             </div>
             <div className="flex flex-col gap-y-2 text-wtf-content-1 text-base font-semibold leading-6">
-              <FooterLink href="/learning-center" text="Learning Center" />
-              <FooterLink href="/learning-center" text="Courses" />
-              <FooterLink href="/learning-center" text="Forum" />
+              <FooterLink href="/learning-center" text={t.index.Learning_Center} />
+              <FooterLink href="/learning-center" text={t.index.Courses} />
+              <FooterLink href="/learning-center" text={t.index.Forum} />
             </div>
           </div>
           <div className="flex-grow flex flex-col p-10 border-wtf-border-divider border-r-[0.5px] border-b-[0.5px] md:border-b-0 border-solid gap-y-4">
             <div className="text-base font-medium leading-6 text-wtf-content-3">
-              Community
+              {t.index.Community}
             </div>
             <div className="flex flex-col gap-y-2 text-wtf-content-1 text-base font-semibold leading-6">
               <FooterLink href="/learning-center" text="GitHub" />
@@ -60,7 +64,7 @@ const Footer = () => {
           </div>
           <div className="flex-grow flex flex-col p-10 border-wtf-border-divider border-r-[0.5px] border-b-[0.5px] border-solid gap-y-4">
             <div className="text-base font-medium leading-6 text-wtf-content-3">
-              Donation
+              {t.index.Donation}
             </div>
             <div className="flex flex-col gap-y-2 text-wtf-content-1 text-base font-semibold leading-6">
               <FooterLink href="/learning-center" text="GitHub" />
@@ -69,7 +73,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex gap-y-2 flex-col md:flex-row justify-between items-center px-10 py-6 text-xs font-normal leading-4 text-wtf-content-3">
-          <span>Web3 Open University for Developers</span>
+          <span>{t.index.Web3_Open_University_for_Developers}</span>
           <span>©2024 WTF Academy</span>
         </div>
       </div>

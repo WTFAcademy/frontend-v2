@@ -3,6 +3,7 @@
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useDictionary } from "@/features/lang";
 
 type TSectionHeader = {
   title: string;
@@ -12,6 +13,7 @@ type TSectionHeader = {
 };
 
 const SectionHeader = ({ title, description, moreUrl, className }: TSectionHeader) => {
+  const t = useDictionary();
   return (
     <div className={`w-full pt-[72px] pb-9 px-8 md:px-10 border-wtf-border-divider my-[-0.5px] border-[0.5px] border-solid ${className}`}>
       <div className="flex flex-col gap-y-2 md:flex-row md:justify-between">
@@ -25,7 +27,7 @@ const SectionHeader = ({ title, description, moreUrl, className }: TSectionHeade
               href={moreUrl}
               className="group flex items-center text-wtf-content-link text-base"
             >
-              <span className="text-base leading-none mr-1">View All</span>
+              <span className="text-base leading-none mr-1">{t.index.View_All}</span>
               <motion.div
                 className="inline-flex items-center"
                 initial={{ x: 0 }}

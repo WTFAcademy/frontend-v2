@@ -7,6 +7,7 @@ import { useAtomValue } from "jotai";
 import { chapterListAtom } from "../atoms/chapter";
 import { Icons } from "@/components/icons";
 import Link from "next/link";
+import { useDictionary } from "@/features/lang";
 import useAuth from "@/features/auth/hooks/use-auth";
 import { cn } from "@/lib/utils";
 
@@ -17,6 +18,7 @@ const ChapterDetailFooter = ({
   currentChapterPath: string;
   coursePath: string;
 }) => {
+  const t = useDictionary();
   const { isControlVisible } = useMobileReaderInteraction();
   const chapters = useAtomValue(chapterListAtom);
   const { isLogin } = useAuth();
@@ -43,14 +45,14 @@ const ChapterDetailFooter = ({
               <Button asChild>
                 <Link href={`/course/${coursePath}/${currentChapterPath}/quiz`}>
                   <Icons.document className="w-4 h-4" />
-                  <span className="hidden md:block ml-1">Quiz</span>
+                  <span className="hidden md:block ml-1">{t.course.Quiz}</span>
                   <Icons.arrowRight className="hidden md:block w-3 h-3 ml-2" />
                 </Link>
               </Button>
               <Button asChild>
                 <Link href={`/course/${coursePath}/${currentChapterPath}/code`}>
                   <Icons.code2 className="w-4 h-4" />
-                  <span className="hidden md:block ml-1">Code</span>
+                  <span className="hidden md:block ml-1">{t.course.Code}</span>
                   <Icons.arrowRight className="hidden md:block w-3 h-3 ml-2" />
                 </Link>
               </Button>
@@ -69,7 +71,7 @@ const ChapterDetailFooter = ({
               href={`/course/${coursePath}/${previousChapterPath}`}
             >
               <Icons.arrowLeft className="w-4 h-4" />
-              <span className="hidden md:block">Previous</span>
+              <span className="hidden md:block">{t.course.Previous}</span>
             </Link>
           </Button>
           <Button
@@ -79,7 +81,7 @@ const ChapterDetailFooter = ({
             disabled={!nextChapterPath}
           >
             <Link href={`/course/${coursePath}/${nextChapterPath}`}>
-              <span className="hidden md:block">Next</span>
+              <span className="hidden md:block">{t.course.Next}</span>
               <Icons.arrowRight className="w-4 h-4" />
             </Link>
           </Button>

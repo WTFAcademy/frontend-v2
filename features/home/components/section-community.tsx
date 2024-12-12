@@ -1,5 +1,7 @@
 import Image from "next/image";
 import SectionHeader from "./section-header";
+import { headers } from "next/headers";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 const OpenSourceIconPath = "/svgs/open-source.svg";
 const OnChainCertificationIconPath = "/svgs/on-chain-certificates.svg";
@@ -48,13 +50,16 @@ const INFOS = {
   },
 };
 
-const SectionCommunity = () => {
+const SectionCommunity = async () => {
+  const heads = headers()
+  const lang = heads.get('x-current-lang')
+  const t = await getDictionary(lang)
   return (
     <section className="w-full flex flex-col">
       <div className="container">
         <SectionHeader
-          title="Blockchain-Powered Community"
-          description="Blockchain Technology and Community-Driven Open Source Incentive Mechanism"
+          title={t.index.Blockchain_Powered_Community}
+          description={t.index.Blockchain_Technology_and_Community_Driven_Open_Source_Incentive_Mechanism}
         />
         <div className="grid grid-cols-2 md:flex md:flex-row">
           {Object.values(INFOS).map((info, index) => (

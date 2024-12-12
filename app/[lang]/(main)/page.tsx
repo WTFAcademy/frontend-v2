@@ -9,7 +9,7 @@ import SectionSponsors from "@/features/home/components/section-sponsors";
 import SectionStatistics from "@/features/home/components/section-statistics";
 import { Suspense } from "react";
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
       <SectionBanner />

@@ -2,7 +2,7 @@
 
 import { Icons } from "../icons";
 import { ModeToggle } from "../theme/mode-toggle";
-
+import { LangToggle } from "./lang-toggle";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -35,6 +35,7 @@ import Sidebar from "./sidebar";
 import AuthModal from "@/features/auth/components/auth-modal";
 import { useMobileReaderInteraction } from "@/features/course/hooks/use-mobile-reader-interaction";
 import { AnimatePresence, motion } from "framer-motion";
+import { useDictionary } from "@/features/lang";
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -80,6 +81,7 @@ const Header = () => {
   const [openSheet, setOpenSheet] = useState(false);
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const { isControlVisible } = useMobileReaderInteraction();
+  const t = useDictionary();
 
   const handleAuthModalOpenChange = async (open: boolean) => {
     if (open) {
@@ -127,7 +129,7 @@ const Header = () => {
             <NavigationMenu className="hidden md:block">
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger>Courses</NavigationMenuTrigger>
+                  <NavigationMenuTrigger>{t.index.Courses}</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <Suspense fallback={<CascaderPanel.Skeleton />}>
                       <CourseCascaderPanel />
@@ -135,7 +137,7 @@ const Header = () => {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger>Projects</NavigationMenuTrigger>
+                  <NavigationMenuTrigger>{t.index.Projects}</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <CascaderPanel
                       options={options}
@@ -149,7 +151,7 @@ const Header = () => {
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle()}
                     >
-                      Forum
+                      {t.index.Forum}
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -158,7 +160,7 @@ const Header = () => {
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle()}
                     >
-                      Shop
+                      {t.index.Shop}
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -167,7 +169,7 @@ const Header = () => {
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle()}
                     >
-                      About us
+                      {t.index.About_us}
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -175,6 +177,7 @@ const Header = () => {
             </NavigationMenu>
           </div>
           <div className="hidden md:flex items-center gap-x-2">
+            <LangToggle />
             <ModeToggle />
             {authUser ? (
               <DropdownMenu>
@@ -208,11 +211,11 @@ const Header = () => {
                   <DropdownMenuGroup>
                     <DropdownMenuItem className="font-medium">
                       <Icons.wallet className="w-5 h-5 mr-2" />
-                      Bind Wallet
+                      {t.index.Bind_Wallet}
                     </DropdownMenuItem>
                     <DropdownMenuItem className="font-medium">
                       <Icons.profile className="w-5 h-5 mr-2" />
-                      Personal Center
+                      {t.index.Personal_Center}
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
@@ -221,7 +224,7 @@ const Header = () => {
                     onClick={logout}
                   >
                     <Icons.logout className="w-5 h-5 mr-2" />
-                    Log out
+                    {t.index.Logout}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -233,7 +236,7 @@ const Header = () => {
                   setOpenLoginModal(true);
                 }}
               >
-                Login
+                {t.index.Login}
               </Button>
             )}
           </div>
@@ -253,7 +256,7 @@ const Header = () => {
                     setOpenLoginModal(true);
                   }}
                 >
-                  Login
+                  {t.index.Login}
                 </Button>
                 <Button
                   variant="ghost"

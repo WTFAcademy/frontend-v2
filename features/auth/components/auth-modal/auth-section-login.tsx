@@ -14,6 +14,7 @@ import { getNonceApi, loginWithEthereumApi } from "../../api/use-auth-api";
 import useSiwe from "../../hooks/use-siwe";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useDictionary } from "@/features/lang";
 
 type AuthSectionLoginProps = {
   updateStep: (step: STEP) => void;
@@ -21,6 +22,7 @@ type AuthSectionLoginProps = {
 };
 
 export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
+  const t = useDictionary();
   const { updateStep, close } = props;
   const { signInWithGithub, setToken } = useAuth();
   const { isConnected, address } = useAppKitAccount();
@@ -62,7 +64,7 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
       close();
     },
     onError: () => {
-      toast.error("Login failed");
+      toast.error(t.login.Login_failed);
     },
   });
 
@@ -84,7 +86,7 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
     <div className="flex flex-col items-center gap-6 p-8">
       <div className="flex flex-col items-center gap-4 w-full">
         <Icons.logo className="h-10" />
-        <p className="text-2xl font-bold leading-8">Log in to WTF Academy</p>
+        <p className="text-2xl font-bold leading-8">{t.login.Log_in_to_WTF_Academy}</p>
       </div>
       <div className="flex flex-col items-center gap-4 w-full">
         <Button
@@ -98,12 +100,12 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
             <>
               <Icons.github />
               <span className="text-base font-medium leading-6">
-                Sign in with Github
+                {t.login.Sign_in_with_Github}
               </span>
             </>
           )}
         </Button>
-        <Divider>Or if your account is already connected to a wallet</Divider>
+        <Divider>{t.login.Or_if_your_account_is_already_connected_to_a_wallet}</Divider>
         <Button
           onClick={() => connectWallet()}
           variant="outline"
@@ -113,7 +115,7 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
           {isPending ? (
             <Icons.loading className="animate-spin" />
           ) : (
-            "Sign in with Ethereum"
+            t.login.Sign_in_with_Ethereum
           )}
         </Button>
       </div>

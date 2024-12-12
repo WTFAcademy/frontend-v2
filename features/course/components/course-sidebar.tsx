@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { useSetAtom } from "jotai";
 import { chapterListAtom } from "../atoms/chapter";
 import { getCourseDetailByPath } from "../api/use-courses-api";
+import { useDictionary } from "@/features/lang";
 
 const CourseSidebar = ({
   coursePath,
@@ -20,6 +21,7 @@ const CourseSidebar = ({
   const router = useRouter();
   const pathname = usePathname();
   const setChapterList = useSetAtom(chapterListAtom);
+  const t = useDictionary();
 
   const { data: courseData } = useSuspenseQuery({
     queryKey: ["course", coursePath],
@@ -52,7 +54,7 @@ const CourseSidebar = ({
         <div className="px-6 pt-4">
           <Button variant="outline" onClick={() => handleBack()}>
             <Icons.arrowLeft className="w-4 h-4" />
-            <span>Back</span>
+            <span>{t.course.Back}</span>
           </Button>
         </div>
         <h1 className="px-6 pt-6 pb-4 text-wtf-content-1 text-2xl font-bold">
