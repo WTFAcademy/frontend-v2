@@ -72,7 +72,7 @@ const SectionContributors = () => {
           size="xl"
           onClick={() => setIsExpanded(!isExpanded)}
         >
-          {isExpanded ? t.index.Collapse : t.index.Expand} {t.index.All_Contributors}
+          {isExpanded ? t.index.Collapse : t.index.Expand}{t.index.All_Contributors}
         </Button>
       </div>
     </section>
