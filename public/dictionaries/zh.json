@@ -92,5 +92,10 @@
         "Forum": "论坛",
         "Shop": "周边",
         "About_us": "关于我们"
+    },
+    "quiz": {
+        "Choose_answers": "选择答案",
+        "Choose_an_answer": "选择一个答案",
+        "Submit": "提交"
     }
 }

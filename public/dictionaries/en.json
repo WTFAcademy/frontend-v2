@@ -92,5 +92,10 @@
         "Forum": "Forum",
         "Shop": "Shop",
         "About_us": "About us"
+    },
+    "quiz": {
+        "Choose_answers": "Choose answers",
+        "Choose_an_answer": "Choose an answer",
+        "Submit": "Submit"
     }
 }

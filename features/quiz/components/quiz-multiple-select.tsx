@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { TExercise } from "../types";
 import Markdown from "@/features/mdx/components/markdown";
 import { cn } from "@/lib/utils";
+import { useDictionary } from "@/features/lang";
 
 const QuizMultipleSelect = ({
   quiz,
@@ -12,6 +13,7 @@ const QuizMultipleSelect = ({
   value?: string[];
   onChange?: (value: string[]) => void;
 }) => {
+  const t = useDictionary();
   const extendRaw = useMemo(() => {
     const raws = quiz.content?.extend?.map((md) => md.raw) || [];
     return raws.join("\n");
@@ -27,7 +29,7 @@ const QuizMultipleSelect = ({
           <Markdown>{extendRaw}</Markdown>
         </div>
       )}
-      <div className="text-xs mb-3">Choose answers</div>
+      <div className="text-xs mb-3">{t.quiz.Choose_answers}</div>
       <div className="flex flex-col gap-3">
         {quiz.content?.options?.map((answer) => (
           <div

@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button";
 import { submitQuiz, TQuizResponse, TSubmitQuizBody } from "../api/use-quiz-api";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useDictionary } from "@/features/lang";
 
 const QuizListForm = ({quiz}: {quiz: TQuizResponse}) => {
+  const t = useDictionary();
   const methods = useForm<{ answers: TAnswer[] }>({
     defaultValues: {
       answers: [],
@@ -45,7 +47,7 @@ const QuizListForm = ({quiz}: {quiz: TQuizResponse}) => {
         ))}
       </div>
       <div className="flex justify-end">
-        <Button type="submit">提交</Button>
+        <Button type="submit">{t.quiz.Submit}</Button>
       </div>
     </FormProvider>
   );

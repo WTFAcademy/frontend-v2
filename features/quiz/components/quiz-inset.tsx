@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { TExercise } from "../types";
 import Markdown from "@/features/mdx/components/markdown";
 import { cn } from "@/lib/utils";
-
+import { useDictionary } from "@/features/lang";
 const QuizInset = ({
   quiz,
   value,
@@ -12,6 +12,7 @@ const QuizInset = ({
   value?: string[];
   onChange?: (value: string[]) => void;
 }) => {
+  const t = useDictionary();
   const extend = useMemo(() => {
     return (value || []).reduce(
       (prev, next) =>
@@ -41,7 +42,7 @@ const QuizInset = ({
         ))}
       </div>
       <div className="mb-4">
-        <span className="text-xs opacity-50 text-content">Choose answers</span>
+        <span className="text-xs opacity-50 text-content">{t.quiz.Choose_answers}</span>
       </div>
       <div className="flex flex-wrap items-center gap-2 px-5 py-4 border border-solid border-wtf-border-outline">
         {quiz.content?.options?.map((answer) => (

@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { TExercise } from "../types";
 import Markdown from "@/features/mdx/components/markdown";
 import { cn } from "@/lib/utils";
+import { useDictionary } from "@/features/lang";
 
 interface IProps {
   quiz: TExercise;
@@ -10,6 +11,7 @@ interface IProps {
 }
 
 const QuizSelect = ({ quiz, value, onChange }: IProps) => {
+  const t = useDictionary();
   const extendRaw = useMemo(() => {
     const raws = quiz.content?.extend?.map((md) => md.raw) || [];
     return raws.join("\n");
@@ -25,7 +27,7 @@ const QuizSelect = ({ quiz, value, onChange }: IProps) => {
           <Markdown>{extendRaw}</Markdown>
         </div>
       )}
-      <div className="text-xs mb-3">Choose an answer</div>
+      <div className="text-xs mb-3">{t.quiz.Choose_an_answer}</div>
       <div className="flex flex-col gap-3">
         {quiz.content?.options?.map((answer) => (
           <div
