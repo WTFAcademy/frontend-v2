@@ -11,6 +11,7 @@ export type TCourse = {
   total_score: number;
   user_cnt: number;
   share_url: string;
+  study_time: number;
 };
 
 export const getCourses = async () => {

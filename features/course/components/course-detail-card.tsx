@@ -3,7 +3,7 @@
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import Image from "next/image";
+import Image from "@/components/image";
 import { getCourseDetailByPath } from "../api/use-courses-api";
 import { useDictionary } from "@/features/lang";
 
@@ -47,7 +47,7 @@ const CourseDetailCard = ({ coursePath }: CourseDetailCardProps) => {
         <div className="flex flex-col">
           <Icons.date className="w-6 h-6 text-wtf-brand-1" />
           <h3 className="mt-2 text-wtf-content-1 text-base font-medium">
-            30min
+            {course.study_time}min
           </h3>
           <span className="mt-1 text-wtf-content-3 text-xs">{t.course.Study_Time}</span>
         </div>
@@ -67,9 +67,9 @@ const CourseDetailCard = ({ coursePath }: CourseDetailCardProps) => {
             {t.course.Claim_certificate_NFT_after_you_complete_all_the_course_exercises}
           </p>
         </div>
-        <div className="w-[336px] h-[170px] p-2 bg-white dark:bg-wtf-black rounded-lg relative">
+        <div className="w-[336px] h-[222px] p-2 bg-white dark:bg-wtf-black rounded-lg relative">
           <Image
-            src="/images/course-placeholder.jpg"
+            src={course.cover_img}
             alt="course certificate"
             fill
             className="w-full h-full object-cover"
