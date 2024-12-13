@@ -30,8 +30,7 @@ const QuizListForm = ({quiz}: {quiz: TQuizResponse}) => {
     }
 
     const res = await submitQuizRequest(body)
-    console.log(res.data);
-    router.push(`/course/${quiz.simple_course.title}/${quiz.simple_chapter.title}/result?score=${res.data.score}&error_cnt=${res.data.error_cnt}`)
+    router.push(`/course/${quiz.simple_course.path}/${quiz.simple_chapter.chapter_path}/quiz/result?score=${res.data.score}&error_cnt=${res.data.error_cnt}`)
   };
 
   return (
