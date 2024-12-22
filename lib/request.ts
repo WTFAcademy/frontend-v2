@@ -18,6 +18,8 @@ request.interceptors.request.use((config) => {
       config.headers.Authorization = `${JSON.parse(token)}`;
     }
   }
+  const locale = typeof document !== "undefined" ? document.cookie.split('; ').find(row => row.startsWith('NEXT_LOCALE='))?.split('=')[1] : undefined;
+  config.headers.lang = locale;
   return config;
 });
 
