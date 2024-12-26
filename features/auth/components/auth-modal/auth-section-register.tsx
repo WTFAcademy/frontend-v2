@@ -1,17 +1,19 @@
 import { Icons } from "@/components/icons";
 import { STEP } from ".";
 import { Button } from "@/components/ui/button";
-import { useDisconnect } from "@reown/appkit/react";
+import { useAppKit, useAppKitAccount, useDisconnect } from "@reown/appkit/react";
 import { useState } from "react";
 import useAuth from "../../hooks/use-auth";
 import { cn } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { useAccount, useSignMessage, useTransactionCount } from "wagmi";
-import { bindWalletApi } from "../../api/use-auth-api";
+import { bindWalletApi, getNonceApi, TLoginWithGithubResponse } from "../../api/use-auth-api";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "sonner";
 import { useDictionary } from "@/features/lang";
+import useSiwe from "../../hooks/use-siwe";
+import { TResponse } from "@/lib/request";
 type AuthSectionRegisterProps = {
   updateStep: (step: STEP) => void;
   close: () => void;
@@ -46,12 +48,12 @@ const StepSignInWithGitHub = ({
   } = useMutation({
     mutationFn: async () => {
       const res = await signInWithGithub();
-      if (res.code !== 200) {
+      if (res.code !== 0) {
         throw new Error(res.msg);
       }
       return res;
     },
-    onSuccess: (res: any) => {
+    onSuccess: (res: TResponse<TLoginWithGithubResponse>) => {
       setIsRegistering(true);
       setToken(res.data.token);
       setIsFinished(true);
@@ -138,13 +140,13 @@ const StepSignMessageAndBindWallet = ({
 }) => {
   const t = useDictionary();
   const [isFinished, setIsFinished] = useState(false);
-  const { address } = useAccount();
+  const { isConnected, address } = useAppKitAccount();
+
   const { signMessageAsync } = useSignMessage();
-  const { setIsRegistering } = useAuth();
-  const { data: nonce } = useTransactionCount({
-    address: address,
-  });
+  const { setIsRegistering, refetchAuthUser } = useAuth();
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const { signMessage } = useSiwe();
+  const { open } = useAppKit();
 
   const {
     mutate: signMessageAndBindWallet,
@@ -154,23 +156,25 @@ const StepSignMessageAndBindWallet = ({
   } = useMutation({
     mutationFn: async () => {
       setError(undefined);
-      const message = `You are binding the wallet address to your github ID in WTF Academy. \n\nThis binding can not be changed later. \nPlease confirm the binding operation. \n\nGithub ID: \n\nWallet Address: ${address}\n\nNonce: ${nonce}`;
-      const signData = await signMessageAsync({
-        message: message,
-      });
-
-      const bindRes = await bindWalletApi({
-        signData: signData,
-        mesData: message,
-        wallet: address as string,
-      });
-      if (bindRes.code !== 200) {
-        throw new Error(bindRes.msg);
+      const nonceResponse = await getNonceApi(address!);
+      if (nonceResponse.code === 0) {
+        const signature = await signMessage(nonceResponse.data.nonce, "Bind wallet to your github ID in WTF Academy.");
+        const bindRes = await bindWalletApi({
+          message: signature.data,
+          signature: signature.signature,
+        });
+        if (bindRes.code !== 0) {
+          throw new Error(bindRes.msg);
+        }
+        return bindRes;
+      } else {
+        throw new Error(nonceResponse.msg);
       }
-      return bindRes;
     },
     onSuccess: () => {
       setIsFinished(true);
+      setIsRegistering(false);
+      refetchAuthUser();
       toast.success(t.login.Bind_wallet_successfully);
       close();
     },
@@ -179,6 +183,10 @@ const StepSignMessageAndBindWallet = ({
       setError(error.message);
     },
   });
+
+  const connectWallet = async () => {
+    await open();
+  };
 
   return (
     <div className="border-y-[0.5px] border-wtf-border-line py-5 px-3 md:px-8">
@@ -227,7 +235,23 @@ const StepSignMessageAndBindWallet = ({
           </Button>
         )}
 
-        {!isFinished && (
+        {!isFinished && !isConnected && (
+          <Button
+            size="lg"
+            className="space-x-3"
+            variant={active ? "default" : "outline"}
+            disabled={!active || isPendingSignMessageAndBindWallet}
+            onClick={() => connectWallet()}
+          >
+            {isPendingSignMessageAndBindWallet ? (
+              <Icons.loading className="animate-spin w-4 h-4" />
+            ) : (
+              <span>{t.login.Connect_Wallet}</span>
+            )}
+          </Button>
+        )}
+
+        {!isFinished && isConnected && (
           <Button
             size="lg"
             className="space-x-3"
@@ -265,6 +289,7 @@ const AuthSectionRegister = (props: AuthSectionRegisterProps) => {
   const t = useDictionary();
   const { updateStep, close } = props;
   const { disconnect } = useDisconnect();
+  const { setIsRegistering, isRegistering } = useAuth();
   const [stepRegister, setStepRegister] = useState<STEP_REGISTER>(
     STEP_REGISTER.SignInWithGitHub
   );
@@ -273,8 +298,14 @@ const AuthSectionRegister = (props: AuthSectionRegisterProps) => {
   console.log("error: ", error);
 
   const backToLogin = async () => {
-    await disconnect();
-    updateStep(STEP.Login);
+    if (isRegistering) {
+      await disconnect();
+      setIsRegistering(false);
+      close();
+    } else {
+      await disconnect();
+      updateStep(STEP.Login);
+    }
   };
 
   const nextStep = () => {

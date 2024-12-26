@@ -50,6 +50,7 @@
         "Bind_Wallet": "绑定钱包",
         "Bind_wallet_successfully": "绑定钱包成功",
         "Sign_Bind": "签名并绑定",
+        "Connect_Wallet": "连接钱包",
         "Cancel": "取消"
     },
     "course": {

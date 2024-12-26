@@ -23,13 +23,11 @@ const ChapterDetailFooter = ({
   const chapters = useAtomValue(chapterListAtom);
   const { isLogin } = useAuth();
 
-  console.log("isLogin: ", isLogin);
-
   const currentChapterIndex = chapters.findIndex(
-    (chapter) => chapter.route_path === currentChapterPath
+    (chapter) => chapter.path === currentChapterPath
   );
-  const nextChapterPath = chapters[currentChapterIndex + 1]?.route_path;
-  const previousChapterPath = chapters[currentChapterIndex - 1]?.route_path;
+  const nextChapterPath = chapters[currentChapterIndex + 1]?.path;
+  const previousChapterPath = chapters[currentChapterIndex - 1]?.path;
 
   return (
     <AnimatePresence>

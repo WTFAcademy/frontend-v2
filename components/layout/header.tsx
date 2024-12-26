@@ -36,6 +36,7 @@ import AuthModal from "@/features/auth/components/auth-modal";
 import { useMobileReaderInteraction } from "@/features/course/hooks/use-mobile-reader-interaction";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDictionary } from "@/features/lang";
+import { useSearchParams } from "next/navigation";
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -96,6 +97,7 @@ const Header = () => {
     setIsMounted(true);
   }, []);
 
+
   if (!isMounted) {
     return (
       <header className="fixed z-50 top-4 inset-x-0 px-4 md:px-10 4xl:px-[20rem] container">
@@ -129,7 +131,9 @@ const Header = () => {
             <NavigationMenu className="hidden md:block">
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger>{t.index.Courses}</NavigationMenuTrigger>
+                  <NavigationMenuTrigger>
+                    {t.index.Courses}
+                  </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <Suspense fallback={<CascaderPanel.Skeleton />}>
                       <CourseCascaderPanel />
@@ -137,7 +141,9 @@ const Header = () => {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger>{t.index.Projects}</NavigationMenuTrigger>
+                  <NavigationMenuTrigger>
+                    {t.index.Projects}
+                  </NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <CascaderPanel
                       options={options}
@@ -200,19 +206,27 @@ const Header = () => {
                       <span className="text-base font-medium">
                         {authUser?.username}
                       </span>
-                      {authUser?.wallet && (
+                      {authUser?.wallet_address && (
                         <span className="text-xs text-wtf-content-3">
-                          {shortWallet(authUser?.wallet)}
+                          {shortWallet(authUser?.wallet_address)}
                         </span>
                       )}
                     </div>
                   </div>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <DropdownMenuItem className="font-medium">
-                      <Icons.wallet className="w-5 h-5 mr-2" />
-                      {t.index.Bind_Wallet}
-                    </DropdownMenuItem>
+                    {!authUser?.wallet_address && (
+                      <DropdownMenuItem
+                        className="font-medium"
+                        onClick={() => {
+                          setOpenLoginModal(true);
+                          setIsRegistering(true);
+                        }}
+                      >
+                        <Icons.wallet className="w-5 h-5 mr-2" />
+                        {t.index.Bind_Wallet}
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem className="font-medium">
                       <Icons.profile className="w-5 h-5 mr-2" />
                       {t.index.Personal_Center}

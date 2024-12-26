@@ -10,11 +10,12 @@ import {
 } from "@reown/appkit/react";
 import { useEffect } from "react";
 import { STEP } from ".";
-import { getNonceApi, loginWithEthereumApi } from "../../api/use-auth-api";
+import { getNonceApi, loginWithEthereumApi, TLoginWithGithubResponse } from "../../api/use-auth-api";
 import useSiwe from "../../hooks/use-siwe";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useDictionary } from "@/features/lang";
+import { TResponse } from "@/lib/request";
 
 type AuthSectionLoginProps = {
   updateStep: (step: STEP) => void;
@@ -24,7 +25,7 @@ type AuthSectionLoginProps = {
 export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
   const t = useDictionary();
   const { updateStep, close } = props;
-  const { signInWithGithub, setToken } = useAuth();
+  const { signInWithGithub, setToken, isRegistering } = useAuth();
   const { isConnected, address } = useAppKitAccount();
   const { open } = useAppKit();
   const { signMessage } = useSiwe();
@@ -32,12 +33,17 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
   const { mutate: loginWithEthereum, isPending } = useMutation({
     mutationFn: async () => {
       const nonceResponse = await getNonceApi(address!);
-      if (nonceResponse.code === 200) {
-        const signature = await signMessage(nonceResponse.data);
-        return await loginWithEthereumApi({
+      if (nonceResponse.code === 0) {
+        const signature = await signMessage(nonceResponse.data.nonce, "Sign in with Ethereum to the app.");
+        const res = await loginWithEthereumApi({
           message: signature.data,
           signature: signature.signature,
         });
+        if (res.code === 0) {
+          return res;
+        } else {
+          throw new Error(res.msg);
+        }
       } else {
         throw new Error(nonceResponse.msg);
       }
@@ -47,7 +53,7 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
       close();
     },
     onError: (error: any) => {
-      if (error.message === "record not found") {
+      if (error.message === "This wallet is not linked to any user") {
         updateStep(STEP.Register);
       } else {
         toast.error("Login failed");
@@ -59,7 +65,8 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
     mutationFn: async () => {
       return await signInWithGithub();
     },
-    onSuccess: (res: any) => {
+    onSuccess: (res: TResponse<TLoginWithGithubResponse>) => {
+      console.log("loginWithGithub", res);
       setToken(res.data.token);
       close();
     },
@@ -77,10 +84,16 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
   };
 
   useEffect(() => {
-    if (isConnected) {
+    if (isConnected && !isRegistering) {
       loginWithEthereum();
     }
-  }, [isConnected, loginWithEthereum]);
+  }, [isConnected, isRegistering, loginWithEthereum]);
+
+  useEffect(() => {
+    if (isRegistering) {
+      updateStep(STEP.Register);
+    }
+  }, [isRegistering]);
 
   return (
     <div className="flex flex-col items-center gap-6 p-8">

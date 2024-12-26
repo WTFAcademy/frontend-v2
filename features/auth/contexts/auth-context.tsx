@@ -21,7 +21,7 @@ type TAuthContext = {
   setIsRegistering: (register: boolean) => void;
   authUser: TAuthUser | null;
   signInWithGithub: () => Promise<any>;
-  setToken: (value?: SetState<undefined> | undefined) => void;
+  setToken: (value?: SetState<string> | undefined) => void;
   refetchAuthUser: () => void;
   logout: () => void;
 };
@@ -32,7 +32,7 @@ export const AuthContext = React.createContext<TAuthContext>(
 
 export const AuthProvider = ({ children }: TProps) => {
   const [isRegistering, setIsRegistering] = useState(false);
-  const [token, setToken] = useLocalStorageState(LOCAL_STORAGE_TOKEN_KEY, {
+  const [token, setToken] = useLocalStorageState<string | undefined>(LOCAL_STORAGE_TOKEN_KEY, {
     defaultValue: undefined,
   });
   const { disconnect } = useDisconnect();
@@ -45,8 +45,7 @@ export const AuthProvider = ({ children }: TProps) => {
     queryKey: ["authUser", token],
     queryFn: async () => {
       const data = await getUserApi();
-
-      if (data.code === 200) {
+      if (data.code === 0) {
         return data.data;
       } else {
         // toast.error(data.msg);
@@ -60,7 +59,7 @@ export const AuthProvider = ({ children }: TProps) => {
   const signInWithGithub = useCallback(() => {
     return new Promise((resolve, reject) => {
       const uri = window.location.href.replace(window.location.origin, "");
-      const authUrl = `https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}&redirect_uri=http://localhost:3000/redirect?uri=${uri}`;
+      const authUrl = `https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}&redirect_uri=${window.location.origin}/redirect?uri=${uri}`;
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       
       // 打开新窗口
@@ -82,7 +81,7 @@ export const AuthProvider = ({ children }: TProps) => {
 
           // 使用 code 获取 token
           const data = await loginWithGithubApi(event.data.code);
-          if (data.data && data.code === 200) {
+          if (data.data && data.code === 0) {
             resolve(data);
           } else {
             reject(new Error("GitHub 登录失败"));
@@ -106,7 +105,7 @@ export const AuthProvider = ({ children }: TProps) => {
 
   const state = useMemo(
     () => ({
-      authUser,
+      authUser: authUser ?? null,
       isRegistering,
       signInWithGithub,
       setIsRegistering,

@@ -27,7 +27,7 @@ const CoursePage = () => {
     queryFn: async () => {
       const data = await getCourses();
 
-      if (data.code === 200) {
+      if (data.code === 0) {
         return data.data;
       } else {
         toast.error(data.msg);

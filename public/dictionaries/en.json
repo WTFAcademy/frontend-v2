@@ -50,6 +50,7 @@
         "Bind_Wallet": "Bind Wallet",
         "Bind_wallet_successfully": "Bind wallet successfully",
         "Sign_Bind": "Sign & Bind",
+        "Connect_Wallet": "Connect",
         "Cancel": "Cancel"
     },
     "course": {

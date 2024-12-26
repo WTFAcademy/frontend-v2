@@ -9,11 +9,11 @@ const useSiwe = () => {
     const { signMessageAsync } = useSignMessage();
     const { address } = useAppKitAccount();
 
-    const signMessage = async (nonce: string) => {
+    const signMessage = async (nonce: string, statement?: string) => {
         const message = new SiweMessage({
             domain: window.location.host,
             address,
-            statement: "Sign in with Ethereum to the app.",
+            statement: statement || "Sign in with Ethereum to the app.",
             uri: window.location.origin,
             version: "1",
             chainId: chainId as number,
@@ -37,7 +37,7 @@ const useSiwe = () => {
     }
 
     return {
-        signMessage: signMessage,
+        signMessage,
     }
 }
 
