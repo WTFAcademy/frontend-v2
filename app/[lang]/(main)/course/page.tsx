@@ -119,7 +119,7 @@ const CoursePage = () => {
                   title={course.title}
                   description={course.description}
                   keywords={""}
-                  image={course.cover_img}
+                  image={course.cover}
                 />
               ))}
             </div>
@@ -149,7 +149,7 @@ const CoursePage = () => {
                   title={course.title}
                   description={course.description}
                   keywords={""}
-                  image={course.cover_img}
+                  image={course.cover}
                 />
               ))}
             </div>

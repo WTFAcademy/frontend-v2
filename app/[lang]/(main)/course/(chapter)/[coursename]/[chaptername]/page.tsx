@@ -23,16 +23,23 @@ const CourseChapterPage = ({
 
   const { data } = useSuspenseQuery({
     queryKey: ["chapter", params.coursename, params.chaptername],
-    queryFn: () => getChapterByPath(params.coursename, params.chaptername),
+    queryFn: () => getChapterByPath(params.coursename, params.chaptername).catch((err) => {
+        console.log(err);
+        return {} as any;
+      }),
   });
 
   const chapter = data.data;
   const course = courseData.data;
 
+  if (!chapter) {
+    return <div className="relative flex-auto overflow-y-auto pt-20 px-4">not found</div>;
+  }
+
   return (
     <div className="relative flex-auto overflow-y-auto pt-20" ref={scrollRef}>
       <ChapterMobileNav 
-        course={course} 
+        course={course}
         chapterPath={params.chaptername}
       />
       <div className="px-4 py-6 md:p-10">

@@ -86,7 +86,7 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
     },
   });
 
-  const chapters = chapterData || [];
+  const chapters = chapterData?.list || [];
 
   return (
     <div className="w-full">
@@ -96,8 +96,8 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
       <div className="flex flex-col gap-1 mt-6">
         {chapters.map((chapter, index) => (
           <Link
-            key={chapter.route_path}
-            href={`/course/${coursePath}/${chapter.route_path}`}
+            key={chapter.path}
+            href={`/course/${coursePath}/${chapter.path}`}
           >
             <motion.div
               className="border-b-[0.5px] border-wtf-border-divider py-1"
@@ -134,7 +134,7 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
                       )}
                     >
                       <ChapterProgressButton
-                        href={`/course/${coursePath}/${chapter.route_path}/quiz`}
+                        href={`/course/${coursePath}/${chapter.path}/quiz`}
                         progress={chapter.quiz_progress}
                       >
                         <Icons.document className="w-4 h-4 text-wtf-content-3" />
@@ -143,7 +143,7 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
                         </span>
                       </ChapterProgressButton>
                       <ChapterProgressButton
-                        href={`/course/${coursePath}/${chapter.route_path}/code`}
+                        href={`/course/${coursePath}/${chapter.path}/code`}
                         progress={chapter.code_progress}
                       >
                         <Icons.code2 className="w-4 h-4 text-wtf-content-3" />

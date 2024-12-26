@@ -1,7 +1,7 @@
 import request from "@/lib/request";
-import { TRequestResponse } from "@/lib/request";
+import { TResponse } from "@/lib/request";
 
-type TGetWtfStatsResponse = TRequestResponse<{
+type TGetWtfStatsResponse = TResponse<{
   learner_count: number;
   contributor_count: number;
   star_count: number;
@@ -9,6 +9,6 @@ type TGetWtfStatsResponse = TRequestResponse<{
 }>;
 
 export const getWtfStats = async (): Promise<TGetWtfStatsResponse> => {
-    const res = await request.get<TGetWtfStatsResponse>("/wtf/stats");
+    const res = await request.get<TGetWtfStatsResponse>("/stats");
     return res.data;
 };

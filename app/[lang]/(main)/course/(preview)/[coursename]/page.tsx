@@ -22,7 +22,7 @@ export async function generateMetadata({
       description: course.description,
       images: [
         {
-          url: course.cover_img || "/images/course-placeholder.jpg",
+          url: course.cover || "/images/course-placeholder.jpg",
           width: 1200,
           height: 630,
           alt: course.title,
@@ -33,7 +33,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: course.title,
       description: course.description,
-      images: [course.cover_img || "/images/course-placeholder.jpg"],
+      images: [course.cover || "/images/course-placeholder.jpg"],
     },
   };
 }

@@ -4,9 +4,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import NavItem, { NavSelectionItem, NavSwitchItem } from "../nav-item";
 import {
   getCourseWithType,
-  TCourse,
 } from "@/features/course/api/use-courses-api";
-import { get } from "lodash-es";
 import { Separator } from "../ui/separator";
 import { useState } from "react";
 import { useTheme } from "next-themes";
@@ -29,12 +27,10 @@ const Sidebar = () => {
     queryFn: () => getCourseWithType(),
   });
 
-  const courseData = get(data, "data", {});
-  const courseItems = Object.keys(courseData).map((type) => {
-    const course: TCourse[] = get(courseData, type, []);
+  const courseItems = data.map(({name, list}) => {
     return {
-      name: type,
-      children: course.map((c) => ({
+      name,
+      children: list.map((c) => ({
         name: c.title,
         url: `/course/${c.path}`,
       })),

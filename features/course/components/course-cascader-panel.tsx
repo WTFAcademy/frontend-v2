@@ -1,7 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { getCourseWithType, TCourse } from "../api/use-courses-api";
+import { getCourseWithType } from "../api/use-courses-api";
 import { CascaderPanel } from "@/components/cascader-panel";
-import { get } from "lodash-es";
 import { useRouter } from "next/navigation";
 
 const CourseCascaderPanel = () => {
@@ -11,13 +10,11 @@ const CourseCascaderPanel = () => {
     queryFn: () => getCourseWithType(),
   });
 
-  const courseData = get(data, "data", {});
-  const courseOptions = Object.keys(courseData).map(type => {
-    const course: TCourse[] = get(courseData, type, []);
+  const courseOptions = data.map(({name, list}) => {
     return {
-      label: type,
-      value: type,
-      children: course.map(c => ({
+      label: name,
+      value: name,
+      children: list.map(c => ({
         label: c.title,
         value: c.path,
       })),

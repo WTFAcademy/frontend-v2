@@ -1,4 +1,4 @@
-import request, { TRequestResponse } from "@/lib/request";
+import request, { TResponse } from "@/lib/request";
 import { TAnswer } from "../types";
 
 type TSimpleChapter = {
@@ -42,7 +42,7 @@ export type TQuizResponse = {
 }
 
 export const getQuizzes = async (coursePath: string, chapterPath: string) => {
-    const res = await request.get<TRequestResponse<TQuizResponse>>(`/course/${coursePath}/chapter/${chapterPath}/quizzes`)
+    const res = await request.get<TResponse<TQuizResponse>>(`/course/${coursePath}/chapter/${chapterPath}/quizzes`)
     return res.data
 }
 
@@ -58,6 +58,6 @@ export type TSubmitQuizResponse = {
 }
 
 export const submitQuiz = async (data: TSubmitQuizBody) => {
-    const res = await request.post<TRequestResponse<TSubmitQuizResponse>>(`/grade`, data)
+    const res = await request.post<TResponse<TSubmitQuizResponse>>(`/grade`, data)
     return res.data
 }

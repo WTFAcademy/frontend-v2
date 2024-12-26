@@ -5,8 +5,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import { getCourseWithType, TCourse } from "../api/use-courses-api";
-import { get } from "lodash-es";
+import { getCourseWithType } from "../api/use-courses-api";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "@/components/image";
 import React from "react";
@@ -26,12 +25,10 @@ const CourseDetailHeader = () => {
     queryFn: () => getCourseWithType(),
   });
 
-  const courseData = get(data, "data", {});
-  const courseGroups = Object.keys(courseData).map((type) => {
-    const courses: TCourse[] = get(courseData, type, []);
+  const courseGroups = data.map(({name, list}) => {
     return {
-      type,
-      courses,
+      name,
+      list,
     };
   });
 
@@ -99,11 +96,11 @@ const CourseDetailHeader = () => {
         className="w-full flex gap-x-5 overflow-x-auto scrollbar-hide px-2 py-1"
       >
         {courseGroups.map((group, groupIndex) => (
-          <React.Fragment key={group.type}>
-            <div key={group.type} className="flex flex-col flex-shrink-0">
-              <div className="text-wtf-content-3 text-sm">{group.type}</div>
+          <React.Fragment key={group.name}>
+            <div key={group.name} className="flex flex-col flex-shrink-0">
+              <div className="text-wtf-content-3 text-sm">{group.name}</div>
               <div className="flex items-center mt-[6px] gap-x-3">
-                {group.courses.map((course) => (
+                {group.list.map((course) => (
                   <motion.div
                     key={course.path}
                     layoutId={`course-${course.path}`}
@@ -112,7 +109,7 @@ const CourseDetailHeader = () => {
                     className={`w-[108px] h-[72px] bg-wtf-background-block rounded-sm cursor-pointer relative`}
                   >
                     <Image
-                      src={course.cover_img}
+                      src={course.cover}
                       alt={course.title}
                       fill
                       className="object-cover rounded-sm"

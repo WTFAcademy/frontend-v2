@@ -26,7 +26,7 @@ const ChapterMobileNav = ({
   const { isControlVisible } = useMobileReaderInteraction();
 
   const currentChapter = chapters.find(
-    (chapter) => chapter.route_path === chapterPath
+    (chapter) => chapter.path === chapterPath
   );
   const coursePath = course?.path;
 
@@ -80,15 +80,15 @@ const ChapterMobileNav = ({
           <ScrollArea className="flex-auto flex flex-col overflow-y-auto max-h-[500px]">
             {chapters.map((chapter, index) => (
               <Link
-                key={chapter.route_path}
-                href={`/course/${coursePath}/${chapter.route_path}`}
+                key={chapter.path}
+                href={`/course/${coursePath}/${chapter.path}`}
                 className={cn(
                   "relative flex justify-between items-center px-6 py-[14px] hover:bg-wtf-background-block cursor-pointer",
-                  isActive(chapter.route_path.split("/").pop() || "") &&
+                  isActive(chapter.path.split("/").pop() || "") &&
                     "bg-wtf-background-block"
                 )}
               >
-                {isActive(chapter.route_path.split("/").pop() || "") && (
+                {isActive(chapter.path.split("/").pop() || "") && (
                   <div className="absolute left-0 top-0 w-[6px] h-full bg-wtf-brand-1" />
                 )}
                 <div>

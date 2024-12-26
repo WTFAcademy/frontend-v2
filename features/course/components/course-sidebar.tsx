@@ -32,13 +32,13 @@ const CourseSidebar = ({
     queryKey: ["chapters", coursePath],
     queryFn: async () => {
       const res = await getChaptersByPath(coursePath);
-      setChapterList(res?.data);
+      setChapterList(res?.data.list);
       return res?.data;
     },
   });
 
   const course = courseData?.data || {};
-  const chapters = chapterData || [];
+  const chapters = chapterData?.list || [];
 
   const isActive = (routePath: string) => {
     return routePath === pathname.split("/").pop();
@@ -64,15 +64,15 @@ const CourseSidebar = ({
         <ScrollArea className="flex-auto flex flex-col overflow-y-auto">
           {chapters.map((chapter, index) => (
             <Link
-              key={chapter.route_path}
-              href={`/course/${coursePath}/${chapter.route_path}`}
+              key={chapter.path}
+              href={`/course/${coursePath}/${chapter.path}`}
               className={cn(
                 "relative flex justify-between items-center px-6 py-[14px] hover:bg-wtf-background-block cursor-pointer",
-                isActive(chapter.route_path.split("/").pop() || "") &&
+                isActive(chapter.path.split("/").pop() || "") &&
                   "bg-wtf-background-block"
               )}
             >
-              {isActive(chapter.route_path.split("/").pop() || "") && (
+              {isActive(chapter.path.split("/").pop() || "") && (
                 <div className="absolute left-0 top-0 w-[6px] h-full bg-wtf-brand-1" />
               )}
               <div>{index + 1}. {chapter.title}</div>

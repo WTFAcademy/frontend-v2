@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Balancer } from "react-wrap-balancer";
 import { useDictionary } from "@/features/lang";
+import { isNil } from "lodash-es";
 
 const ChapterDetailHeader = ({
   title,
@@ -21,7 +22,7 @@ const ChapterDetailHeader = ({
       </div>
       <div className="my-4 flex items-center gap-4">
         <Button variant="secondary">{t.course.Time}: {studyTime} {t.course.minutes}</Button>
-        <Button variant="secondary">{t.course.Best_Score}: {bestScore}</Button>
+        {!isNil(bestScore) && <Button variant="secondary">{t.course.Best_Score}: {bestScore}</Button>}
       </div>
     </>
   );

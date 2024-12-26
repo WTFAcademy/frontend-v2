@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 
 export default function Markdown({ children, mode = 'normal' }: { children: string, mode?: 'normal' | 'quiz' }) {
   const escapedContent = useMemo(() => {
-    return fixMarkdownBold(escapeMhchem(escapeBrackets(children)));
+    return fixMarkdownBold(escapeMhchem(escapeBrackets(children || '')));
   }, [children]);
 
   const components = useMemo(() => {
