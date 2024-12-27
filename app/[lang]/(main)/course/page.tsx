@@ -42,6 +42,8 @@ const CoursePage = () => {
       setUpcomingCourses(get(data, "unpublished", []));
     }
   }, [data]);
+
+  console.log("popularCourses", popularCourses);
   
   const selectCourseType = (type: string) => {
     setCurrentType(type);
@@ -116,6 +118,7 @@ const CoursePage = () => {
               popularCourses.map((course: TCourse) => (
                 <CourseDisplayCard
                   key={course.path}
+                  path={course.path}
                   title={course.title}
                   description={course.description}
                   keywords={""}
@@ -146,6 +149,7 @@ const CoursePage = () => {
               upcomingCourses.map((course: TCourse) => (
                 <CourseDisplayCard
                   key={course.path}
+                  path={course.path}
                   title={course.title}
                   description={course.description}
                   keywords={""}

@@ -37,7 +37,7 @@ const NavItem = ({
 
   if (!items?.length) {
     return (
-      <Link href={url!} className="relative z-20 flex flex-col mt-2">
+      <Link href={url || ""} className="relative z-20 flex flex-col mt-2">
         <div className="flex items-center py-[18.5px] px-5">
           <div className="flex items-center gap-2 text-base font-medium">
             {groupIcon && groupIcon}

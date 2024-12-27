@@ -6,7 +6,6 @@ import { useState } from "react";
 import useAuth from "../../hooks/use-auth";
 import { cn } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
-import { useAccount, useSignMessage, useTransactionCount } from "wagmi";
 import { bindWalletApi, getNonceApi, TLoginWithGithubResponse } from "../../api/use-auth-api";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { AnimatePresence, motion } from "framer-motion";
@@ -141,8 +140,6 @@ const StepSignMessageAndBindWallet = ({
   const t = useDictionary();
   const [isFinished, setIsFinished] = useState(false);
   const { isConnected, address } = useAppKitAccount();
-
-  const { signMessageAsync } = useSignMessage();
   const { setIsRegistering, refetchAuthUser } = useAuth();
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const { signMessage } = useSiwe();

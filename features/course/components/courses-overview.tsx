@@ -27,7 +27,7 @@ function CoursesOverview() {
           <Button>Start Learning</Button>
           <div className="relative ml-4 inline-flex items-center">
             <UserSvg />
-            <span className="text-gray-500 text-sm leading-none ml-1">19,282 Builders Enrolled</span>
+            <span className="text-gray-500 text-sm leading-none ml-1">- Builders Enrolled</span>
           </div>
         </div>
     </div>

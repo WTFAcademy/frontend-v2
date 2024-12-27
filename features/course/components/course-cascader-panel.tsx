@@ -10,7 +10,7 @@ const CourseCascaderPanel = () => {
     queryFn: () => getCourseWithType(),
   });
 
-  const courseOptions = data.map(({name, list}) => {
+  const courseOptions = data?.map(({name, list}) => {
     return {
       label: name,
       value: name,
@@ -18,8 +18,8 @@ const CourseCascaderPanel = () => {
         label: c.title,
         value: c.path,
       })),
-    };
-  });
+      };
+    }) || [];
 
   const handleSelect = (keys: string[]) => {
     router.push(`/course/${keys[keys.length - 1]}`);

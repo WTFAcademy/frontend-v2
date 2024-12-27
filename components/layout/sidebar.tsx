@@ -27,7 +27,7 @@ const Sidebar = () => {
     queryFn: () => getCourseWithType(),
   });
 
-  const courseItems = data.map(({name, list}) => {
+  const courseItems = data?.map(({name, list}) => {
     return {
       name,
       children: list.map((c) => ({
@@ -35,7 +35,7 @@ const Sidebar = () => {
         url: `/course/${c.path}`,
       })),
     };
-  });
+  }) || [];
 
   const handleLogout = () => {
     logout();
@@ -64,7 +64,7 @@ const Sidebar = () => {
         groupName={t.mobile.Forum}
         url="/forum"
       />
-      <NavItem
+      {/* <NavItem
         items={[]}
         groupName={t.mobile.Shop}
         url="/shop"
@@ -73,7 +73,7 @@ const Sidebar = () => {
         items={[]}
         groupName={t.mobile.About_us}
         url="/about"
-      />
+      /> */}
       <Separator className="my-4" />
       <NavSelectionItem
         options={[

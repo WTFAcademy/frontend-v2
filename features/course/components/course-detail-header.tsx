@@ -25,12 +25,12 @@ const CourseDetailHeader = () => {
     queryFn: () => getCourseWithType(),
   });
 
-  const courseGroups = data.map(({name, list}) => {
+  const courseGroups = data?.map(({name, list}) => {
     return {
       name,
       list,
     };
-  });
+  }) || [];
 
   const handleScroll = () => {
     if (!scrollContainerRef.current) return;

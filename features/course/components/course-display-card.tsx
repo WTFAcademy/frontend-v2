@@ -1,12 +1,14 @@
 import Image from "@/components/image";
 import CourseKeywordTag from "./course-keyword-tag";
 import { Skeleton as SkeletonUI } from "@/components/ui/skeleton";
+import Link from "next/link";
 
 type TCourseDisplayCardProps = {
   image?: string;
   title: string;
   description: string;
   keywords: string;
+  path: string;
 };
 
 const LinkSvg = function () {
@@ -33,7 +35,10 @@ const CourseDisplayCard = ({
   title,
   description,
   keywords,
+  path,
 }: TCourseDisplayCardProps) => {
+  console.log("path", path);
+  
   const keywordsArray = keywords.split(",");
 
   return (
@@ -58,9 +63,9 @@ const CourseDisplayCard = ({
             <CourseKeywordTag key={`${keyword}-${index}`} text={keyword} />
           ))}
         </div>
-        <div className="w-6 h-6 flex-shrink-0">
+        <Link href={`/course/${path}`} className="w-6 h-6 flex-shrink-0">
           <LinkSvg />
-        </div>
+        </Link>
       </div>
     </div>
   );

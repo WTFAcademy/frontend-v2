@@ -6,6 +6,8 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import Image from "@/components/image";
 import { getCourseDetailByPath } from "../api/use-courses-api";
 import { useDictionary } from "@/features/lang";
+import dayjs from "dayjs";
+import { isNil } from "lodash-es";
 
 type CourseDetailCardProps = {
   coursePath: string;
@@ -35,21 +37,27 @@ const CourseDetailCard = ({ coursePath }: CourseDetailCardProps) => {
           <h3 className="mt-2 text-wtf-content-1 text-base font-medium">
             {course.category}
           </h3>
-          <span className="mt-1 text-wtf-content-3 text-xs">{t.course.Category}</span>
+          <span className="mt-1 text-wtf-content-3 text-xs">
+            {t.course.Category}
+          </span>
         </div>
         <div className="flex flex-col">
           <Icons.level className="w-6 h-6 text-wtf-brand-1" />
           <h3 className="mt-2 text-wtf-content-1 text-base font-medium">
             {course.level}
           </h3>
-          <span className="mt-1 text-wtf-content-3 text-xs">{t.course.Difficulty}</span>
+          <span className="mt-1 text-wtf-content-3 text-xs">
+            {t.course.Difficulty}
+          </span>
         </div>
         <div className="flex flex-col">
           <Icons.date className="w-6 h-6 text-wtf-brand-1" />
           <h3 className="mt-2 text-wtf-content-1 text-base font-medium">
-            {course.study_time}min
+            {isNil(course.study_time) ? "-" : Number(course.study_time)} {t.course.minutes}
           </h3>
-          <span className="mt-1 text-wtf-content-3 text-xs">{t.course.Study_Time}</span>
+          <span className="mt-1 text-wtf-content-3 text-xs">
+            {t.course.Study_Time}
+          </span>
         </div>
       </div>
       <div className="mt-10">
@@ -64,12 +72,15 @@ const CourseDetailCard = ({ coursePath }: CourseDetailCardProps) => {
             {t.course.Course_Certificate}
           </h3>
           <p className="text-wtf-content-3 text-xs">
-            {t.course.Claim_certificate_NFT_after_you_complete_all_the_course_exercises}
+            {
+              t.course
+                .Claim_certificate_NFT_after_you_complete_all_the_course_exercises
+            }
           </p>
         </div>
         <div className="w-[336px] h-[222px] p-2 bg-white dark:bg-wtf-black rounded-lg relative">
           <Image
-            src={course.cover_img}
+            src={course.cover}
             alt="course certificate"
             fill
             className="w-full h-full object-cover"
@@ -78,22 +89,26 @@ const CourseDetailCard = ({ coursePath }: CourseDetailCardProps) => {
             // }}
           />
         </div>
-        <Button className="bg-wtf-function-brandBg text-wtf-function-link w-fit">
-          <Icons.star className="w-4 h-4 mr-2" />
-          {t.course.Claim_NFT}
-        </Button>
+        {course.total_score === 100 && (
+          <Button className="bg-wtf-function-brandBg text-wtf-function-link w-fit">
+            <Icons.star className="w-4 h-4 mr-2" />
+            {t.course.Claim_NFT}
+          </Button>
+        )}
       </div>
       <div className="flex flex-col gap-4 mt-10">
         <div className="flex items-center gap-2">
           <Icons.cooperation className="w-4 h-4 text-wtf-content-3" />
           <span className="text-wtf-content-3 text-sm">
+            {isNil(course.learners) ? "-" : course.learners}{" "}
             {t.course.Builders_Enrolled}
           </span>
         </div>
         <div className="flex items-center gap-2">
           <Icons.fillDate className="w-4 h-4 text-wtf-content-3" />
           <span className="text-wtf-content-3 text-sm">
-            {t.course.Last_updated_on} <strong>Jun 25, 2024</strong>
+            {t.course.Last_updated_on}{" "}
+            <strong>{dayjs(course.updated_at).format("MMM DD, YYYY")}</strong>
           </span>
         </div>
       </div>

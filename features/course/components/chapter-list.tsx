@@ -29,7 +29,7 @@ const ChapterProgressButton = ({
       <div className="absolute bottom-0 left-0 w-full h-[4px] bg-wtf-function-successBg">
         <motion.div
           initial={{ width: 0 }}
-          animate={{ width: `${progress * 100}%` }}
+          animate={{ width: `${progress}%` }}
           transition={{ duration: 0.5 }}
           className="h-full bg-wtf-function-success"
         />
@@ -57,7 +57,7 @@ const ChapterProgressStatus = ({
           {t.course.Not_Started}
         </div>
       );
-    case 1:
+    case 100:
       return (
         <div className="text-wtf-function-success font-medium text-sm relative z-10 flex items-center">
           {t.course.Completed}
@@ -106,7 +106,7 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
               whileTap={{ scale: 0.995 }}
             >
               <motion.div
-                className={`flex flex-col gap-y-2 md:flex-row md:items-center justify-between py-4 relative cursor-pointer`}
+                className={`flex flex-col gap-y-2 md:flex-row md:items-center justify-between py-4 px-1 relative cursor-pointer`}
                 animate={{
                   y: activeChapter === index ? 0 : 2,
                   scale: activeChapter === index ? 1 : 0.999,
@@ -142,7 +142,7 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
                           {t.course.Quiz}
                         </span>
                       </ChapterProgressButton>
-                      <ChapterProgressButton
+                      {/* <ChapterProgressButton
                         href={`/course/${coursePath}/${chapter.path}/code`}
                         progress={chapter.code_progress}
                       >
@@ -150,9 +150,9 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
                         <span className="text-wtf-content-2 text-sm font-medium ml-1">
                           {t.course.Code}
                         </span>
-                      </ChapterProgressButton>
+                      </ChapterProgressButton> */}
                     </div>
-                    <div className="w-[128px] flex justify-end">
+                    <div className="max-w-[128px] flex justify-end">
                       <ChapterProgressStatus
                         progress={chapter.quiz_progress}
                         active={false}

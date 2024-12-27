@@ -21,7 +21,7 @@ const ChapterDetailHeader = ({
         <Balancer>{title}</Balancer>
       </div>
       <div className="my-4 flex items-center gap-4">
-        <Button variant="secondary">{t.course.Time}: {studyTime} {t.course.minutes}</Button>
+        <Button variant="secondary">{t.course.Time}: {isNil(studyTime) ? "-" : Number(studyTime)} {t.course.minutes}</Button>
         {!isNil(bestScore) && <Button variant="secondary">{t.course.Best_Score}: {bestScore}</Button>}
       </div>
     </>

@@ -4,7 +4,7 @@ import ChapterList from "@/features/course/components/chapter-list";
 import CourseDetailCardSkeleton from "@/features/course/components/skeletons/course-detail-card-skeleton";
 import ChapterListSkeleton from "@/features/course/components/skeletons/chapter-list-skeleton";
 import { Metadata } from "next";
-import { getCourseDetailByPath } from "@/features/course/api/use-courses-api";
+import { getCourseDetailByPath, TCourse } from "@/features/course/api/use-courses-api";
 
 export async function generateMetadata({
   params,
@@ -12,7 +12,7 @@ export async function generateMetadata({
   params: { coursename: string; chaptername: string };
 }): Promise<Metadata> {
   const courseData = await getCourseDetailByPath(params.coursename);
-  const course = courseData.data;
+  const course = courseData.data || {} as TCourse;
 
   return {
     title: course.title,

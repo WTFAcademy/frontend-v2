@@ -36,7 +36,8 @@ const SectionCourses = async () => {
               title={course.title}
               description={course.description}
               keywords={course.category}
-              image={course.cover_img}
+              image={course.cover}
+              path={course.path}
             />
           ))}
         </div>
@@ -55,7 +56,8 @@ const SectionCourses = async () => {
               title={course.title}
               description={course.description}
               keywords={course.category}
-              image={course.cover_img}
+              image={course.cover}
+              path={course.path}
             />
           ))}
         </div>
