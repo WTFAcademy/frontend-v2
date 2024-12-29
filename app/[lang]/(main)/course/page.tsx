@@ -43,8 +43,6 @@ const CoursePage = () => {
     }
   }, [data]);
 
-  console.log("popularCourses", popularCourses);
-  
   const selectCourseType = (type: string) => {
     setCurrentType(type);
   };

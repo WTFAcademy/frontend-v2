@@ -47,13 +47,13 @@ const ChapterDetailFooter = ({
                   <Icons.arrowRight className="hidden md:block w-3 h-3 ml-2" />
                 </Link>
               </Button>
-              <Button asChild>
+              {/* <Button asChild>
                 <Link href={`/course/${coursePath}/${currentChapterPath}/code`}>
                   <Icons.code2 className="w-4 h-4" />
                   <span className="hidden md:block ml-1">{t.course.Code}</span>
                   <Icons.arrowRight className="hidden md:block w-3 h-3 ml-2" />
                 </Link>
-              </Button>
+              </Button> */}
             </>
           )}
         </div>

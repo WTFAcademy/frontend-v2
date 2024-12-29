@@ -36,7 +36,6 @@ import AuthModal from "@/features/auth/components/auth-modal";
 import { useMobileReaderInteraction } from "@/features/course/hooks/use-mobile-reader-interaction";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDictionary } from "@/features/lang";
-import { useSearchParams } from "next/navigation";
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -97,11 +96,10 @@ const Header = () => {
     setIsMounted(true);
   }, []);
 
-
   if (!isMounted) {
     return (
       <header className="fixed z-50 top-4 inset-x-0 px-4 md:px-10 4xl:px-[20rem] container">
-        <div className="w-full rounded-full bg-wtf-background-navbar backdrop-blur-[20px] h-[60px] px-4 py-3 md:px-8 md:py-[18px] flex justify-between items-center">
+        <div className="w-full rounded-full border-[0.5px] border-wtf-background-navbar2 bg-wtf-background-navbar backdrop-blur-[20px] h-[60px] px-4 py-3 md:px-8 md:py-[18px] flex justify-between items-center">
           <div className="flex items-center gap-x-8">
             <Icons.logo className="w-[66px] h-6" />
           </div>
@@ -122,7 +120,7 @@ const Header = () => {
         animate={{ y: isControlVisible ? 0 : -100 }}
         transition={{ duration: 0.3 }}
       >
-        <div className="w-full rounded-full bg-wtf-background-navbar backdrop-blur-[20px] h-[60px] px-4 py-3 md:px-8 md:py-[18px] flex justify-between items-center">
+        <div className="w-full rounded-full border-[0.5px] border-wtf-background-navbar2 bg-wtf-background-navbar backdrop-blur-[20px] h-[60px] px-4 py-3 md:px-8 md:py-[18px] flex justify-between items-center">
           <div className="flex items-center gap-x-8">
             <Link href="/">
               <Icons.logo className="w-[66px] h-6" />
@@ -227,10 +225,12 @@ const Header = () => {
                         {t.index.Bind_Wallet}
                       </DropdownMenuItem>
                     )}
-                    <DropdownMenuItem className="font-medium">
-                      <Icons.profile className="w-5 h-5 mr-2" />
-                      {t.index.Personal_Center}
-                    </DropdownMenuItem>
+                    <Link href="/personal" className="cursor-pointer">
+                      <DropdownMenuItem className="font-medium">
+                        <Icons.profile className="w-5 h-5 mr-2" />
+                        {t.index.Personal_Center}
+                      </DropdownMenuItem>
+                    </Link>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem

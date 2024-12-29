@@ -37,8 +37,6 @@ const CourseDisplayCard = ({
   keywords,
   path,
 }: TCourseDisplayCardProps) => {
-  console.log("path", path);
-  
   const keywordsArray = keywords.split(",");
 
   return (
@@ -57,7 +55,7 @@ const CourseDisplayCard = ({
           {description}
         </div>
       </div>
-      <div className="w-full flex justify-between">
+      <div className="w-full flex items-center justify-between">
         <div className="w-full flex items-center gap-x-2">
           {keywordsArray.length > 0 && keywordsArray.map((keyword, index) => (
             <CourseKeywordTag key={`${keyword}-${index}`} text={keyword} />

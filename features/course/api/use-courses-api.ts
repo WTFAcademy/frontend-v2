@@ -58,7 +58,7 @@ export const getCourses = async () => {
 };
 
 export const getCourseWithType = async () => {
-  const res = await request.get<TResponse<{ published: TCourse[], unpublished: TCourse[], category: TCategory[] }>>(`/course-category`);
+  const res = await request.get<TResponse<{ category: TCategory[] }>>(`/category`);
   return get(res, "data.data.category", []);
 };
 
