@@ -152,6 +152,8 @@ body {
     --wtf-background-hover: rgba(18, 18, 18, 0.04);
     --wtf-background-nav-button: rgba(18, 18, 18, 0.16);
     --wtf-background-nav-button-hover: rgba(18, 18, 18, 0.24);
+
+    --wtf-shadow-modal: 0px 0px 32px 0px hsla(0, 0%, 0%, 0.16);
   }
 
   .dark {

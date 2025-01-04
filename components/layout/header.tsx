@@ -36,6 +36,8 @@ import AuthModal from "@/features/auth/components/auth-modal";
 import { useMobileReaderInteraction } from "@/features/course/hooks/use-mobile-reader-interaction";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDictionary } from "@/features/lang";
+import { useAtom } from "jotai";
+import { openAuthModal } from "@/features/auth/atoms/auth";
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -75,11 +77,11 @@ const options = [
 ];
 
 const Header = () => {
-  // @dev(daxiongya): 添加一个状态来追踪是否在客户端
-  const [isMounted, setIsMounted] = React.useState(false);
+  // @dev(daxiongya): 使用isMounted添加一个状态来追踪是否在客户端
+  const [isMounted, setIsMounted] = useState(false);
   const { authUser, setIsRegistering, logout } = useAuth();
   const [openSheet, setOpenSheet] = useState(false);
-  const [openLoginModal, setOpenLoginModal] = useState(false);
+  const [openLoginModal, setOpenLoginModal] = useAtom(openAuthModal);
   const { isControlVisible } = useMobileReaderInteraction();
   const t = useDictionary();
 

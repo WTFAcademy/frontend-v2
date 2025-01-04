@@ -26,7 +26,6 @@ enum STEP_REGISTER {
 const StepSignInWithGitHub = ({
   nextStep,
   active = false,
-  error,
   setError,
 }: {
   nextStep: () => void;

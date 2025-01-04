@@ -5,7 +5,7 @@ import useAuth from "@/features/auth/hooks/use-auth";
 import { TCourse } from "@/features/course/api/use-courses-api";
 
 const Title = ({ course }: { course: TCourse }) => {
-  const { user, isLogin } = useAuth();
+  const { isLogin } = useAuth();
 
   const canMintSbt = true;
 

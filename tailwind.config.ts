@@ -194,7 +194,10 @@ const config: Config = {
     		},
     		screens: {
     			'4xl': '2560px'
-    		}
+    		},
+			boxShadow: {
+				modal: 'var(--wtf-shadow-modal)'
+			}
     	}
     },
 	plugins: [
