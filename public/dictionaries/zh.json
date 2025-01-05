@@ -35,7 +35,8 @@
         "Courses_specially_designed_by_developers_for_developers": "由开发者为开发者设计的课程",
         "Popular_Courses": "热门课程",
         "Upcomming_Courses": "即将上线的课程",
-        "Toggle_theme": "切换主题"
+        "Toggle_theme": "切换主题",
+        "banner_desc": "WTF Academy 是一个 Web3 开源大学，旨在培训 100,000 名开发者。我们提供高质量的课程和动手项目，帮助您学习、贡献并获得认证。无论您是初学者还是经验丰富的开发者，WTF Academy 为您提供 Web3 世界中必不可少的技能。"
     },
     "login": {
         "Login": "登录",

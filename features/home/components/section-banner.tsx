@@ -25,12 +25,7 @@ const SectionBanner = () => {
           </BoxReveal>
           <BoxReveal duration={0.2} bgClassName="bg-wtf-background-navbar">
             <div className="text-white text-sm leading-[18px] md:text-base md:leading-[28px] mt-[14px] max-w-[824px]">
-              WTF Academy is an open university focused on Web3 technology,
-              aiming to train 100,000 developers. We offer high-quality courses
-              and practical projects to help you learn, contribute, and get
-              certified. Whether you&apos;re a beginner or an experienced
-              developer, WTF Academy provides the cutting-edge knowledge and
-              skills you need to succeed in the Web3 world.
+              {t.index.banner_desc}
             </div>
           </BoxReveal>
 

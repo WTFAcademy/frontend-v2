@@ -15,10 +15,12 @@ import { useDictionary } from "@/features/lang";
 
 const CoursePage = () => {
   const t = useDictionary();
-  const typeList = ["All", "Solidity", "Ethers", "EVM", "Layer 2", "Frontend", "zk", "AI", "Basecamp"];
+  
+  const [typeList, setTypeList] = useState<string[]>(["All"]);
+  const [currentType, setCurrentType] = useState<string>("All");
 
-  const [currentType, setCurrentType] = useState<string | null>(typeList && typeList[0]);
-
+  const [filteredPopularCourses, setFilteredPopularCourses] = useState<TCourse[]>([]);
+  const [filteredUpcomingCourses, setFilteredUpcomingCourses] = useState<TCourse[]>([]);
   const [popularCourses, setPopularCourses] = useState<TCourse[]>([]);
   const [upcomingCourses, setUpcomingCourses] = useState<TCourse[]>([]);
 
@@ -38,10 +40,33 @@ const CoursePage = () => {
 
   useEffect(() => {
     if (data) {
-      setPopularCourses(get(data, "published", []));
-      setUpcomingCourses(get(data, "unpublished", []));
+      const published = get(data, "published", []);
+      const unpublished = get(data, "unpublished", []);
+      
+      setPopularCourses(published);
+      setUpcomingCourses(unpublished);
+
+      const categories = new Set<string>();
+      categories.add("All");
+      [...published, ...unpublished].forEach(course => {
+        if (course.category) {
+          categories.add(course.category);
+        }
+      });
+      
+      setTypeList(Array.from(categories));
     }
   }, [data]);
+
+  useEffect(() => {
+    const filterCourses = (courses: TCourse[]) => {
+      if (currentType === "All") return courses;
+      return courses.filter(course => course.category === currentType);
+    };
+
+    setFilteredPopularCourses(filterCourses(popularCourses));
+    setFilteredUpcomingCourses(filterCourses(upcomingCourses));
+  }, [currentType, popularCourses, upcomingCourses]);
 
   const selectCourseType = (type: string) => {
     setCurrentType(type);
@@ -113,13 +138,13 @@ const CoursePage = () => {
                 <CourseDisplayCard.Skeleton />
                 <CourseDisplayCard.Skeleton />
               </> :
-              popularCourses.map((course: TCourse) => (
+              filteredPopularCourses.map((course: TCourse) => (
                 <CourseDisplayCard
                   key={course.path}
                   path={course.path}
                   title={course.title}
                   description={course.description}
-                  keywords={""}
+                  keywords={course.category}
                   image={course.cover}
                 />
               ))}
@@ -144,13 +169,13 @@ const CoursePage = () => {
                 <CourseDisplayCard.Skeleton />
                 <CourseDisplayCard.Skeleton />
               </> :
-              upcomingCourses.map((course: TCourse) => (
+              filteredUpcomingCourses.map((course: TCourse) => (
                 <CourseDisplayCard
                   key={course.path}
                   path={course.path}
                   title={course.title}
                   description={course.description}
-                  keywords={""}
+                  keywords={course.category}
                   image={course.cover}
                 />
               ))}
