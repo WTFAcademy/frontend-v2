@@ -34,7 +34,8 @@
         "Blockchain_Technology_and_Community_Driven_Open_Source_Incentive_Mechanism": "Blockchain Technology and Community-Driven Open Source Incentive Mechanism",
         "Courses_specially_designed_by_developers_for_developers": "Courses specially designed by developers for developers",
         "Popular_Courses": "Popular Courses",
-        "Upcomming_Courses": "Upcomming Courses"
+        "Upcomming_Courses": "Upcomming Courses",
+        "Toggle_theme": "Toggle theme"
     },
     "login": {
         "Login": "Login",
@@ -75,6 +76,7 @@
         "Builders_Enrolled": "Builders Enrolled",
         "Start_Learning": "Start Learning",
         "Claim_NFT": "Claim NFT",
+        "Claimed": "Claimed",
         "Back": "Back",
         "Upcomming_Courses": "Upcomming Courses",
         "Popular_Courses": "Popular Courses",
@@ -125,5 +127,55 @@
         "Bind_Wallet": "Bind Wallet",
         "Enter_your_nickname": "Enter your nickname",
         "Enter_your_bio": "Enter your bio"
+    },
+    "sbt": {
+        "congratulations": "🎉 Congratulations on graduating from the course",
+        "donation_thanks": "Thank you for donating {amount} ETH to the WTF team!",
+        "share_twitter": "Share on Twitter",
+        "view_nft": "View your NFT",
+        "sign_in": "Sign in",
+        "sign_in_wtf": "Sign in WTF Academy",
+        "connect_wallet": "Connect Wallet",
+        "get_nft": "Get NFT Certificate",
+        "mint": "Mint",
+        "minting": "Minting...",
+        "already_minted": "Already Minted",
+        "donation_desc": "Support WTF Academy",
+        "switch_wallet": "Switch Wallet",
+        "switch_network": "Switch Network",
+        "connect_bind": "Connect & Bind",
+        "bind": "Bind",
+        "claim_error": {
+            "already_minted": "Already minted, please do not repeat!",
+            "not_created": "This certification NFT has not been created yet",
+            "not_started": "Minting has not started yet, please wait",
+            "ended": "Minting has ended",
+            "invalid_signature": "Invalid signature",
+            "user_denied": "Transaction denied",
+            "default": "Claim error, please try again",
+            "donation_too_low": "Donation amount is less than {amount} ETH",
+            "course_id_error": "Invalid course ID"
+        },
+        "title": {
+            "login_first": "Please sign in first to claim your {course} NFT certificate",
+            "complete_first": "Please complete the course first to claim your {course} NFT certificate",
+            "already_claimed": "You have already claimed your {course} NFT certificate",
+            "test_passed": "The test passed",
+            "congratulations": "Congratulations on getting the {course} NFT certificate"
+        },
+        "stepper": {
+            "title": "Get NFT Certificate",
+            "steps": {
+                "login": "Sign in WTF Academy",
+                "wallet": "Connect Wallet",
+                "mint": "Mint NFT"
+            }
+        },
+        "get_nft_title": "Get NFT Certificate",
+        "donation": {
+            "title": "Donation",
+            "description": "Support WTF Academy",
+            "unit": "ETH"
+        }
     }
 }

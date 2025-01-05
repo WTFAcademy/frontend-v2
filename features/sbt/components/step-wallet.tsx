@@ -9,8 +9,9 @@ import {
   useAppKitNetwork,
 } from "@reown/appkit/react";
 import { useSetAtom } from "jotai";
-import { ClaimStep } from "./claim-steppter";
+import { ClaimStep } from "./claim-stepper";
 import { useEffect } from "react";
+import { useDictionary } from "@/features/lang";
 
 const StepWallet = ({ active, nextStep }: { active: boolean; nextStep: (target?: ClaimStep) => void }) => {
   const { setIsRegistering, authUser } = useAuth();
@@ -18,6 +19,7 @@ const StepWallet = ({ active, nextStep }: { active: boolean; nextStep: (target?:
   const { open } = useAppKit();
   const { isConnected, address } = useAppKitAccount();
   const { chainId, switchNetwork } = useAppKitNetwork();
+  const t = useDictionary();
 
   const isFinish =
     authUser?.wallet_address &&
@@ -28,7 +30,7 @@ const StepWallet = ({ active, nextStep }: { active: boolean; nextStep: (target?:
     if (!active && !isFinish) {
       return (
         <Button disabled variant="outline" className="rounded-full">
-          Connect & Bind
+          {t.sbt.connect_bind}
         </Button>
       );
     }
@@ -36,7 +38,7 @@ const StepWallet = ({ active, nextStep }: { active: boolean; nextStep: (target?:
     if (!isConnected) {
       return (
         <Button className="rounded-full" onClick={() => open()}>
-          Connect & Bind
+          {t.sbt.connect_bind}
         </Button>
       );
     }
@@ -108,7 +110,7 @@ const StepWallet = ({ active, nextStep }: { active: boolean; nextStep: (target?:
         >
           2
         </span>
-        <span>Connect the wallet</span>
+        <span>{t.sbt.connect_wallet}</span>
       </div>
 
       <ActionButton />

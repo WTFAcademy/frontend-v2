@@ -226,6 +226,8 @@ body {
     --wtf-background-hover: rgba(243, 244, 246, 0.04);
     --wtf-background-nav-button: rgba(243, 244, 246, 0.16);
     --wtf-background-nav-button-hover: rgba(243, 244, 246, 0.24);
+
+    --wtf-shadow-modal: box-shadow: 0px 0px 32px 0px hsla(220, 18%, 13%, 0.48);
   }
 }
 

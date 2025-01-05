@@ -135,7 +135,7 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
                     >
                       <ChapterProgressButton
                         href={`/course/${coursePath}/${chapter.path}/quiz`}
-                        progress={chapter.quiz_progress}
+                        progress={chapter.progress}
                       >
                         <Icons.document className="w-4 h-4 text-wtf-content-3" />
                         <span className="text-wtf-content-2 text-sm font-medium ml-1">
@@ -152,9 +152,9 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
                         </span>
                       </ChapterProgressButton> */}
                     </div>
-                    <div className="max-w-[128px] flex justify-end">
+                    <div className="w-[128px] flex justify-end">
                       <ChapterProgressStatus
-                        progress={chapter.quiz_progress}
+                        progress={chapter.progress}
                         active={false}
                       />
                     </div>

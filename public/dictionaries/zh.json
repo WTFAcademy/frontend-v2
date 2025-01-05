@@ -34,7 +34,8 @@
         "Blockchain_Technology_and_Community_Driven_Open_Source_Incentive_Mechanism": "区块链技术与社区驱动的开源激励机制",
         "Courses_specially_designed_by_developers_for_developers": "由开发者为开发者设计的课程",
         "Popular_Courses": "热门课程",
-        "Upcomming_Courses": "即将上线的课程"
+        "Upcomming_Courses": "即将上线的课程",
+        "Toggle_theme": "切换主题"
     },
     "login": {
         "Login": "登录",
@@ -75,6 +76,7 @@
         "Builders_Enrolled": "位开发者已报名",
         "Start_Learning": "开始学习",
         "Claim_NFT": "领取 NFT",
+        "Claimed": "已领取",
         "Back": "返回",
         "Upcomming_Courses": "即将上线的课程",
         "Popular_Courses": "热门课程",
@@ -125,5 +127,55 @@
         "Bind_Wallet": "绑定钱包",
         "Enter_your_nickname": "输入你的昵称",
         "Enter_your_bio": "输入你的简介"
+    },
+    "sbt": {
+        "congratulations": "🎉 恭喜你在课程中毕业",
+        "donation_thanks": "感谢您为WTF团队捐赠的 {amount} ETH！",
+        "share_twitter": "分享至 Twitter",
+        "view_nft": "查看你的NFT",
+        "sign_in": "Sign in",
+        "sign_in_wtf": "Sign in WTF Academy",
+        "connect_wallet": "Connect the wallet",
+        "get_nft": "Get the NFT certificate",
+        "mint": "Mint",
+        "minting": "Minting...",
+        "already_minted": "Already minted",
+        "donation_desc": "助力WTF茁壮成长",
+        "switch_wallet": "切换钱包",
+        "switch_network": "切换网络",
+        "connect_bind": "Connect & Bind",
+        "bind": "Bind",
+        "claim_error": {
+            "already_minted": "已铸造完成，请勿重复进行！",
+            "not_created": "该认证NFT还未进行未创建",
+            "not_started": "铸造还未开放，请等待",
+            "ended": "铸造已经结束",
+            "invalid_signature": "错误的签名",
+            "user_denied": "拒绝交易",
+            "default": "领取错误，请重试",
+            "donation_too_low": "捐赠金额低于 {amount} ETH",
+            "course_id_error": "课程ID错误"
+        },
+        "title": {
+            "login_first": "请先登录再进行领取{course}认证NFT",
+            "complete_first": "请先完成课程再进行领取{course}认证NFT",
+            "already_claimed": "您已领取{course}认证NFT",
+            "test_passed": "The test passed",
+            "congratulations": "Congratulations on getting the {course}-NFT certificate"
+        },
+        "stepper": {
+            "title": "获取 NFT 证书",
+            "steps": {
+                "login": "登录 WTF Academy",
+                "wallet": "连接钱包",
+                "mint": "铸造 NFT"
+            }
+        },
+        "get_nft_title": "获取 NFT 证书",
+        "donation": {
+            "title": "捐赠",
+            "description": "助力WTF茁壮成长",
+            "unit": "ETH"
+        }
     }
 }

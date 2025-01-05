@@ -2,35 +2,37 @@ import request, { TListResponse, TResponse } from "@/lib/request";
 
 export type TChapter = {
   id: number;
+  course_id: number;
   sort: number;
   path: string;
   lang: string;
   title: string;
   owner: {
     id: number;
+    bio: string;
     email: string;
     avatar: string;
     username: string;
     nickname: string;
     github_id: number;
-  };
+  },
   author: {
     id: number;
+    bio: string;
     email: string;
     avatar: string;
     username: string;
     nickname: string;
     github_id: number;
-  };
+  },
   content: string;
-  quizzes: number;
   keywords: string;
+  progress: number;
   learners: number;
+  study_time: number;
   created_at: string;
   updated_at: string;
   content_url: string;
-  quiz_progress: number;
-  code_progress: number;
 };
 
 export type TChapterDetail = {

@@ -76,9 +76,9 @@ const CourseSidebar = ({
                 <div className="absolute left-0 top-0 w-[6px] h-full bg-wtf-brand-1" />
               )}
               <div>{index + 1}. {chapter.title}</div>
-              {chapter.quiz_progress === 1 ? (
+              {chapter.progress === 100 ? (
                 <Icons.documentFinished className="w-6 h-6 text-wtf-function-success" />
-              ) : chapter.quiz_progress === 0 ? (
+              ) : chapter.progress === 0 ? (
                 <Icons.documentUnread className="w-6 h-6 text-wtf-border-divider" />
               ) : (
                 <Icons.documentPending className="w-6 h-6 text-wtf-brand-1" />

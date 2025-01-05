@@ -12,6 +12,7 @@ export type TCourse = {
   level: string;
   owner: {
     id: number;
+    bio: string;
     email: string;
     avatar: string;
     username: string;
@@ -20,30 +21,36 @@ export type TCourse = {
   };
   author: {
     id: number;
+    bio: string;
     email: string;
     avatar: string;
     username: string;
     nickname: string;
     github_id: number;
-  };
+  },
   passers: number;
   learners: number;
   category: string;
   schedule: string[];
   share_url: string;
-  study_time: string;
+  chapters: number[];
+  progress: number;
+  study_time: number;
   created_at: string;
   updated_at: string;
-  total_score: number;
   description: string;
+  claim_address: string;
+  claim_price: number;
   contributors: {
     id: number;
+    bio: string;
     email: string;
     avatar: string;
     username: string;
-    nickname: string;
-    github_id: number;
+      nickname: string;
+      github_id: number;
   }[];
+  sbt_token: string;
   sbt_preview_url: string;
 };
 

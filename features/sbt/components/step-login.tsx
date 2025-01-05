@@ -5,12 +5,18 @@ import useAuth from "@/features/auth/hooks/use-auth";
 import { useSetAtom } from "jotai";
 import { openAuthModal } from "@/features/auth/atoms/auth";
 import { useEffect } from "react";
-import { ClaimStep } from "./claim-steppter";
+import { ClaimStep } from "./claim-stepper";
 import { cn } from "@/lib/utils";
+import { useDictionary } from "@/features/lang";
 
-const StepLogin = ({ nextStep }: { nextStep: (target?: ClaimStep) => void }) => {
+const StepLogin = ({
+  nextStep,
+}: {
+  nextStep: (target?: ClaimStep) => void;
+}) => {
   const { isLogin, authUser } = useAuth();
   const setOpenAuth = useSetAtom(openAuthModal);
+  const t = useDictionary();
 
   const isFinish = isLogin;
 
@@ -18,12 +24,16 @@ const StepLogin = ({ nextStep }: { nextStep: (target?: ClaimStep) => void }) => 
     if (!isLogin) {
       return (
         <Button className="rounded-full" onClick={() => setOpenAuth(true)}>
-          Sign in
+          {t.sbt.sign_in}
         </Button>
       );
     }
 
-    return <Button variant="success" className="rounded-full">{authUser?.nickname}</Button>;
+    return (
+      <Button variant="success" className="rounded-full">
+        {authUser?.nickname}
+      </Button>
+    );
   };
 
   useEffect(() => {
@@ -45,7 +55,7 @@ const StepLogin = ({ nextStep }: { nextStep: (target?: ClaimStep) => void }) => 
         >
           1
         </span>
-        <span>Sign in WTF Academy</span>
+        <span>{t.sbt.sign_in_wtf}</span>
       </div>
 
       <ActionButton />

@@ -8,14 +8,13 @@ interface ImageProps extends NextImageProps {
   fallbackSrc?: string;
 }
 
-const safeSrc = (src: NextImageProps['src']) => typeof src === 'string' && src.startsWith('./') ? src.replace('./', '/') : src;
 
 const Image: React.FC<ImageProps> = ({ src, alt, fallbackSrc, ...props }) => {
-  const [imgSrc, setImgSrc] = useState(safeSrc(src));
+  const [imgSrc, setImgSrc] = useState(src);
   const { theme } = useTheme();
 
   useEffect(() => {
-    setImgSrc(safeSrc(src));
+    setImgSrc(src);
   }, [theme, src]);
 
   const handleError = () => {

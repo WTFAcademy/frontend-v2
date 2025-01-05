@@ -20,7 +20,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground disabled:bg-transparent",
         link: "text-primary underline-offset-4 hover:underline disabled:no-underline",
         success:
-          "bg-wtf-function-successBg text-wtf-function-success hover:bg-green-300 disabled:bg-wtf-function-successBg/50",
+          "bg-wtf-function-successBg text-wtf-function-success hover:bg-green-300 hover:text-green-700 disabled:bg-wtf-function-successBg/50",
       },
       size: {
         default: "h-9 px-4 py-2",
