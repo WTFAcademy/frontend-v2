@@ -125,11 +125,11 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
                   </h2>
                 </div>
 
-                <div className="flex items-center gap-4 justify-end md:justify-between">
-                  <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 justify-between">
+                  <div className="flex items-center gap-4 w-full ml-[46px]">
                     <div
                       className={cn(
-                        "flex items-center gap-3",
+                        "flex items-center gap-3 flex-1",
                         !isLogin && "hidden"
                       )}
                     >
