@@ -107,7 +107,7 @@ const StepSignInWithGitHub = ({
       {!isFinished && (
         <Button
           size="lg"
-          className="space-x-3"
+          className="space-x-3 rounded-full"
           onClick={() => handleSignInWithGitHub()}
           disabled={isPendingSignInWithGitHub}
         >
@@ -224,7 +224,7 @@ const StepSignMessageAndBindWallet = ({
           <Button
             size="lg"
             variant="success"
-            className="gap-2 hover:bg-wtf-function-successBg"
+            className="gap-2 hover:bg-wtf-function-successBg rounded-full"
           >
             <Icons.check className="w-4 h-4" />
             <span>{t.login.Done}</span>
@@ -234,7 +234,7 @@ const StepSignMessageAndBindWallet = ({
         {!isFinished && !isConnected && (
           <Button
             size="lg"
-            className="space-x-3"
+            className="space-x-3 rounded-full"
             variant={active ? "default" : "outline"}
             disabled={!active || isPendingSignMessageAndBindWallet}
             onClick={() => connectWallet()}
@@ -250,7 +250,7 @@ const StepSignMessageAndBindWallet = ({
         {!isFinished && isConnected && (
           <Button
             size="lg"
-            className="space-x-3"
+            className="space-x-3 rounded-full"
             variant={active ? "default" : "outline"}
             disabled={!active || isPendingSignMessageAndBindWallet}
             onClick={() => signMessageAndBindWallet()}

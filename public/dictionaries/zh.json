@@ -102,6 +102,7 @@
         "Submit": "提交"
     },
     "personal": {
+        "bio": "这个人很懒，什么都没留下。",
         "My_Certificates": "我的证书",
         "You_have_not_started_any_course_yet": "你还没有开始任何课程。",
         "You_have_not_obtained_any_certificates_yet": "你还没有获得任何证书。",

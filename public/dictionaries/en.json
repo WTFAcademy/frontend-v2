@@ -107,7 +107,8 @@
         "You_have_not_obtained_any_certificates_yet": "You have not obtained any certificates yet.",
         "My_Courses": "My Courses",
         "Settings": "Settings",
-        "Bind_Wallet": "Bind Wallet"
+        "Bind_Wallet": "Bind Wallet",
+        "bio": "The man was lazy and left nothing behind."
     },
     "settings": {
         "Nickname": "Nickname",

@@ -49,7 +49,7 @@ const PersonalPage = () => {
             </div>
             <div className="flex flex-col md:flex-row bg-wtf-background-navbar border border-wtf-background-navbar2 rounded-2xl w-full min-h-[50px] p-8">
               <div className="flex-1 flex flex-col gap-4">
-                <p className="text-wtf-content-3">{authUser?.bio}</p>
+                <p className="text-wtf-content-3">{authUser?.bio || t.personal.bio}</p>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-[10px]">
                     <Icons.github className="w-6 h-6 text-wtf-content-1" />
