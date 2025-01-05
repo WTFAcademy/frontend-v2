@@ -52,7 +52,7 @@ const StepWallet = ({ active, nextStep }: { active: boolean; nextStep: (target?:
             setIsRegistering(true);
           }}
         >
-          Bind
+          {t.sbt.bind}
         </Button>
       );
     }
@@ -67,7 +67,7 @@ const StepWallet = ({ active, nextStep }: { active: boolean; nextStep: (target?:
           variant="destructive"
           onClick={() => open({ view: "Account" })}
         >
-          切换钱包
+          {t.sbt.switch_wallet}
         </Button>
       );
     }
@@ -79,7 +79,7 @@ const StepWallet = ({ active, nextStep }: { active: boolean; nextStep: (target?:
           variant="destructive"
           onClick={() => switchNetwork(base)}
         >
-          切换网络
+          {t.sbt.switch_network}
         </Button>
       );
     }
