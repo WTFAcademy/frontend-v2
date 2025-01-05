@@ -16,8 +16,10 @@ import { updateUser, unbindWallet } from "@/features/user/api/use-user-api";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useAtom } from "jotai";
 import { openAuthModal } from "@/features/auth/atoms/auth";
+import { useDictionary } from "@/features/lang";
 
 const PersonalPage = () => {
+  const t = useDictionary();
   const { authUser, refetchAuthUser, setIsRegistering } = useAuth()
   const [openLoginModal, setOpenLoginModal] = useAtom(openAuthModal);
   const form = useForm({
@@ -32,10 +34,10 @@ const PersonalPage = () => {
     try {
       const res = await updateUser(data)
       refetchAuthUser()
-      toast.success("Settings updated successfully")
+      toast.success(t.settings.Settings_updated_successfully)
     } catch (error) {
       console.log(error)
-      toast.error("Failed to update settings")
+      toast.error(t.settings.Failed_to_update_settings)
     }
   }
 
@@ -43,10 +45,10 @@ const PersonalPage = () => {
     try {
       const res = await unbindWallet({ address: authUser?.wallet_address || "", provider: authUser?.wallet_provider || "" })
       refetchAuthUser()
-      toast.success("Wallet unbound successfully")
+      toast.success(t.settings.Wallet_unbound_successfully)
     } catch (error) {
       console.log(error)
-      toast.error("Failed to unbind wallet")
+      toast.error(t.settings.Failed_to_unbind_wallet)
     }
   }
 
@@ -72,16 +74,16 @@ const PersonalPage = () => {
         <section className="container relative z-10 container w-full flex flex-col">
           <div className="flex flex-col items-center px-10 pb-10">
             <div className="mt-[116px] text-center space-y-3">
-              <h1 className="text-[36px] font-bold">Settings</h1>
+              <h1 className="text-[36px] font-bold">{t.settings.Settings}</h1>
               <p className="text-wtf-content-3 text-base">
-                Settings related to your account.
+                {t.settings.Settings_related_to_your_account}
               </p>
             </div>
           </div>
 
           <div className="flex flex-col gap-y-10 max-w-[640px] w-full mx-auto mb-20">
             <div className="flex flex-col gap-y-3">
-              <h3 className="font-bold">Connections</h3>
+              <h3 className="font-bold">{t.settings.Connections}</h3>
               <div className="w-full border border-border-line p-5 flex items-center gap-x-4 rounded-lg">
                 <Icons.github className="w-10 h-10 text-wtf-content-1" />
                 <div className="flex flex-col">
@@ -104,16 +106,16 @@ const PersonalPage = () => {
                     ? (<div className="flex items-center gap-x-2">
                         <Popover>
                           <PopoverTrigger asChild>
-                            <Button variant="destructive" onClick={unbind}>Unbind</Button>
+                            <Button variant="destructive" onClick={unbind}>{t.settings.Unbind}</Button>
                           </PopoverTrigger>
                           <PopoverContent className="w-34">
-                            <Button variant="destructive">Confirm</Button>
+                            <Button variant="destructive">{t.settings.Confirm}</Button>
                           </PopoverContent>
                         </Popover>
                         <Button variant="secondary" size="icon" className="h-9 w-9">
                           <Icons.copy className="w-4 h-4" onClick={() => {
                             navigator.clipboard.writeText(authUser?.wallet_address || "")
-                            toast.success("Copied to clipboard")
+                            toast.success(t.settings.Copied_to_clipboard)
                           }} />
                         </Button>
                       </div>)
@@ -122,7 +124,7 @@ const PersonalPage = () => {
                         <Button onClick={() => {
                           setOpenLoginModal(true)
                           setIsRegistering(true)
-                        }}>Bind Wallet</Button>
+                        }}>{t.settings.Bind_Wallet}</Button>
                       </div>
                     )
                 }
@@ -136,8 +138,8 @@ const PersonalPage = () => {
                   name="nickname"
                   render={({ field }) => (
                     <div className="flex flex-col gap-y-3">
-                      <h3 className="font-bold">Nickname</h3>
-                      <Input placeholder="Enter your nickname" {...field} />
+                      <h3 className="font-bold">{t.settings.Nickname}</h3>
+                      <Input placeholder={t.settings.Enter_your_nickname} {...field} />
                     </div>
                   )}
                 />
@@ -146,15 +148,15 @@ const PersonalPage = () => {
                   name="bio"
                   render={({ field }) => (
                     <div className="flex flex-col gap-y-3">
-                      <h3 className="font-bold">Bio</h3>
-                      <Textarea placeholder="Enter your bio" rows={4} {...field} />
+                      <h3 className="font-bold">{t.settings.Bio}</h3>
+                      <Textarea placeholder={t.settings.Enter_your_bio} rows={4} {...field} />
                       <p className="text-wtf-content-3 text-sm">
-                        Write a few sentences about yourself.
+                        {t.settings.Write_a_few_sentences_about_yourself}
                       </p>
                     </div>
                   )}
                 />
-                <Button className="w-fit" type="submit">Save</Button>
+                <Button className="w-fit" type="submit">{t.settings.Save}</Button>
               </form>
             </Form>
 

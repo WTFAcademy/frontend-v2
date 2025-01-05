@@ -98,5 +98,32 @@
         "Choose_answers": "选择答案",
         "Choose_an_answer": "选择一个答案",
         "Submit": "提交"
+    },
+    "personal": {
+        "My_Certificates": "我的证书",
+        "You_have_not_started_any_course_yet": "你还没有开始任何课程。",
+        "You_have_not_obtained_any_certificates_yet": "你还没有获得任何证书。",
+        "My_Courses": "我的课程",
+        "Settings": "设置",
+        "Bind_Wallet": "绑定钱包"
+    },
+    "settings": {
+        "Nickname": "昵称",
+        "Bio": "简介",
+        "Save": "保存",
+        "Unbind": "解绑",
+        "Settings_updated_successfully": "设置更新成功",
+        "Failed_to_update_settings": "设置更新失败",
+        "Wallet_unbound_successfully": "钱包解绑成功",
+        "Failed_to_unbind_wallet": "钱包解绑失败",
+        "Write_a_few_sentences_about_yourself": "写几句关于自己的话。",
+        "Settings": "设置",
+        "Settings_related_to_your_account": "与你的账户相关的设置",
+        "Connections": "连接",
+        "Confirm": "确认",
+        "Copied_to_clipboard": "已复制到剪贴板",
+        "Bind_Wallet": "绑定钱包",
+        "Enter_your_nickname": "输入你的昵称",
+        "Enter_your_bio": "输入你的简介"
     }
 }

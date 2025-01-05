@@ -14,10 +14,12 @@ import { formatAddress } from "@/lib/utils";
 import { toast } from "sonner";
 import { useAtom } from "jotai";
 import { openAuthModal } from "@/features/auth/atoms/auth";
+import { useDictionary } from "@/features/lang";
 
 const PersonalPage = () => {
   const { authUser, setIsRegistering } = useAuth()
   const [openLoginModal, setOpenLoginModal] = useAtom(openAuthModal);
+  const t = useDictionary();
   const { data: userCourses } = useSuspenseQuery({
     queryKey: ["userCourses"],
     queryFn: () => getUserCourses(),
@@ -64,9 +66,9 @@ const PersonalPage = () => {
                 <Button className={`${authUser?.wallet_address ? "hidden" : ""}`} onClick={() => {
                           setOpenLoginModal(true)
                           setIsRegistering(true)
-                        }}>Bind Wallet</Button>
+                        }}>{t.personal.Bind_Wallet}</Button>
                 <Link href="/settings">
-                  <Button variant="secondary">Settings</Button>
+                  <Button variant="secondary">{t.personal.Settings}</Button>
                 </Link>
               </div>
             </div>
@@ -74,12 +76,12 @@ const PersonalPage = () => {
 
           <div className="flex flex-col">
             <div className="px-10 py-9 font-bold text-[24px] border-y-[0.5px] border-wtf-border-divider">
-              My Certificates
+              {t.personal.My_Certificates}
             </div>
             {
               userCourses.data.sbt.length === 0
                 ? (<div className="px-10 py-9 text-wtf-content-3 min-h-[160px]">
-                  You have not obtained any certificates yet.
+                  {t.personal.You_have_not_obtained_any_certificates_yet}
                 </div>)
                 : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-5 mt-[-0.5px]">
@@ -99,12 +101,12 @@ const PersonalPage = () => {
                 )
             }
             <div className="px-10 py-9 font-bold text-[24px] border-y-[0.5px] border-wtf-border-divider mt-[-0.5px]">
-              My Courses
+              {t.personal.My_Courses}
             </div>
             {
               userCourses.data.completed.length + userCourses.data.ongoing.length === 0
               ? (<div className="px-10 py-9 text-wtf-content-3 min-h-[160px]">
-                You have not started any course yet.
+                {t.personal.You_have_not_started_any_course_yet}
               </div>)
               : (<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-5 mt-[-0.5px]">
                 {userCourses.data.completed.map((course) => (
