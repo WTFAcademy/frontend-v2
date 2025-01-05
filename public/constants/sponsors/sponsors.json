@@ -2,21 +2,31 @@
     {
         "name": "optimism",
         "logo": "/constants/sponsors/assets/optimism.svg",
+        "logo_dark": "/constants/sponsors/assets/optimism.svg",
         "url": "https://www.optimism.io/"
     },
     {
         "name": "ethereum-foundation",
         "logo": "/constants/sponsors/assets/ethereum-foundation.svg",
+        "logo_dark": "/constants/sponsors/assets/ethereum-foundation-dark.svg",
         "url": "https://www.ethereum.org/foundation/"
     },
     {
         "name": "starkware",
         "logo": "/constants/sponsors/assets/starkware.svg",
+        "logo_dark": "/constants/sponsors/assets/starkware-dark.svg",
         "url": "https://www.starkware.co/"
     },
     {
         "name": "slowmist",
         "logo": "/constants/sponsors/assets/slowmist.svg",
+        "logo_dark": "/constants/sponsors/assets/slowmist-dark.svg",
         "url": "https://slowmist.io/"
+    },
+    {
+        "name": "ZAN",
+        "logo": "/constants/sponsors/assets/zan.svg",
+        "logo_dark": "/constants/sponsors/assets/zan-dark.svg",
+        "url": "https://zan.top/"
     }
 ]
