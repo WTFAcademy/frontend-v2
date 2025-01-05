@@ -1,17 +1,58 @@
+"use client";
+
 import Footer from "@/components/layout/footer";
 import Image from "next/image";
-import { getDictionary } from "../../dictionaries";
-import { headers } from "next/headers";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { formatAddress } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/features/auth/hooks/use-auth";
+import { useForm } from "react-hook-form";
+import { Form, FormField } from "@/components/ui/form";
+import { useEffect } from "react";
+import { toast } from "sonner";
+import { updateUser, unbindWallet } from "@/features/user/api/use-user-api";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-const PersonalPage = async () => {
-  const heads = headers();
-  const lang = heads.get("x-current-lang");
-  const t = await getDictionary(lang);
+const PersonalPage = () => {
+  const { authUser, refetchAuthUser } = useAuth()
+  const form = useForm({
+    defaultValues: {
+      nickname: authUser?.nickname || "",
+      bio: authUser?.bio || "",
+    },
+  })
+
+  const onSubmit = async (data: any) => {
+    console.log(data)
+    try {
+      const res = await updateUser(data)
+      refetchAuthUser()
+      toast.success("Settings updated successfully")
+    } catch (error) {
+      console.log(error)
+      toast.error("Failed to update settings")
+    }
+  }
+
+  const unbind = async () => {
+    try {
+      const res = await unbindWallet({ address: authUser?.wallet_address || "", provider: authUser?.wallet_provider || "" })
+      refetchAuthUser()
+      toast.success("Wallet unbound successfully")
+    } catch (error) {
+      console.log(error)
+      toast.error("Failed to unbind wallet")
+    }
+  }
+
+  useEffect(() => {
+    form.reset({
+      nickname: authUser?.nickname || "",
+      bio: authUser?.bio || "",
+    })
+  }, [authUser])
 
   return (
     <>
@@ -42,7 +83,7 @@ const PersonalPage = async () => {
                 <Icons.github className="w-10 h-10 text-wtf-content-1" />
                 <div className="flex flex-col">
                   <h4 className="text-bold text-base">Github</h4>
-                  <span className="text-wtf-content-3">Daxiongya</span>
+                  <span className="text-wtf-content-3">{authUser?.username}</span>
                 </div>
               </div>
               <div className="w-full border border-border-line p-5 flex justify-between rounded-lg">
@@ -51,33 +92,66 @@ const PersonalPage = async () => {
                   <div className="flex flex-col">
                     <h4 className="text-bold text-base">ETH</h4>
                     <span className="text-wtf-content-3">
-                      {formatAddress("0x123456789012345678901234567890")}
+                      {formatAddress(authUser?.wallet_address || "")}
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center gap-x-2">
-                  <Button variant="destructive">Unbind</Button>
-                  <Button variant="secondary" size="icon" className="h-9 w-9">
-                    <Icons.copy className="w-4 h-4" />
-                  </Button>
-                </div>
+                {
+                  authUser?.wallet_address
+                    ? (<div className="flex items-center gap-x-2">
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button variant="destructive" onClick={unbind}>Unbind</Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-34">
+                            <Button variant="destructive">Confirm</Button>
+                          </PopoverContent>
+                        </Popover>
+                        <Button variant="secondary" size="icon" className="h-9 w-9">
+                          <Icons.copy className="w-4 h-4" onClick={() => {
+                            navigator.clipboard.writeText(authUser?.wallet_address || "")
+                            toast.success("Copied to clipboard")
+                          }} />
+                        </Button>
+                      </div>)
+                    : (
+                      <div className="flex items-center gap-x-2">
+                        <Button>Bind Wallet</Button>
+                      </div>
+                    )
+                }
               </div>
             </div>
 
-            <div className="flex flex-col gap-y-3">
-              <h3 className="font-bold">Nickname</h3>
-              <Input placeholder="Enter your nickname" />
-            </div>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <FormField
+                  control={form.control}
+                  name="nickname"
+                  render={({ field }) => (
+                    <div className="flex flex-col gap-y-3">
+                      <h3 className="font-bold">Nickname</h3>
+                      <Input placeholder="Enter your nickname" {...field} />
+                    </div>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="bio"
+                  render={({ field }) => (
+                    <div className="flex flex-col gap-y-3">
+                      <h3 className="font-bold">Bio</h3>
+                      <Textarea placeholder="Enter your bio" rows={4} {...field} />
+                      <p className="text-wtf-content-3 text-sm">
+                        Write a few sentences about yourself.
+                      </p>
+                    </div>
+                  )}
+                />
+                <Button className="w-fit" type="submit">Save</Button>
+              </form>
+            </Form>
 
-            <div className="flex flex-col gap-y-3">
-              <h3 className="font-bold">Bio</h3>
-              <Textarea placeholder="Enter your bio" rows={4} />
-              <p className="text-wtf-content-3 text-sm">
-                Write a few sentences about yourself.
-              </p>
-            </div>
-
-            <Button className="w-fit">Save</Button>
           </div>
         </section>
       </div>
