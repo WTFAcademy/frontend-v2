@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { openAuthModal } from "@/features/auth/atoms/auth";
 import useAuth from "@/features/auth/hooks/use-auth";
@@ -13,7 +15,15 @@ import { ClaimStep } from "./claim-stepper";
 import { useEffect } from "react";
 import { useDictionary } from "@/features/lang";
 
-const StepWallet = ({ active, nextStep }: { active: boolean; nextStep: (target?: ClaimStep) => void }) => {
+const StepWallet = ({
+  active,
+  currentStep,
+  nextStep,
+}: {
+  active: boolean;
+  currentStep: ClaimStep;
+  nextStep: (target?: ClaimStep) => void;
+}) => {
   const { setIsRegistering, authUser } = useAuth();
   const setOpenAuthModal = useSetAtom(openAuthModal);
   const { open } = useAppKit();
@@ -22,6 +32,7 @@ const StepWallet = ({ active, nextStep }: { active: boolean; nextStep: (target?:
   const t = useDictionary();
 
   const isFinish =
+    isConnected &&
     authUser?.wallet_address &&
     authUser.wallet_address.toLowerCase() === address?.toLowerCase() &&
     chainId === base.id;
@@ -91,13 +102,18 @@ const StepWallet = ({ active, nextStep }: { active: boolean; nextStep: (target?:
     );
   };
 
+  console.log("isFinish: ", isFinish);
+  console.log("currentStep: ", currentStep);
+  
   useEffect(() => {
+    console.log("isFinish: ", isFinish);
+    console.log("currentStep: ", currentStep);
     if (isFinish) {
       nextStep(ClaimStep.MINT);
-    } else {
+    } else if (currentStep > ClaimStep.CONNECT_WALLET) {
       nextStep(ClaimStep.CONNECT_WALLET);
     }
-  }, [isFinish]);
+  }, [isFinish, currentStep]);
 
   return (
     <div className="h-20 w-full px-8 flex items-center justify-between border-y-[0.5px] border-wtf-border-divider -mt-[0.5px]">
@@ -105,7 +121,10 @@ const StepWallet = ({ active, nextStep }: { active: boolean; nextStep: (target?:
         <span
           className={cn(
             "w-8 h-8 rounded-full inline-flex items-center justify-center bg-wtf-brand-1 text-white",
-            isFinish && "bg-wtf-function-success"
+            isFinish && "bg-wtf-function-success",
+            !active &&
+              !isFinish &&
+              "bg-wtf-function-brandBg text-wtf-function-link"
           )}
         >
           2

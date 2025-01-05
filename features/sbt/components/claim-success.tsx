@@ -1,3 +1,5 @@
+"use client";
+
 import { useAtomValue } from "jotai";
 import { courseAtom, donationAmountAtom } from "../atoms";
 import { Button } from "@/components/ui/button";

@@ -142,7 +142,8 @@ const StepMint = ({
             className={cn(
               "w-8 h-8 rounded-full inline-flex items-center justify-center bg-wtf-brand-2 text-white",
               active && isFinish && "bg-wtf-function-success",
-              active && !isFinish && "bg-wtf-brand-1"
+              active && !isFinish && "bg-wtf-brand-1",
+              !active && !isFinish && "bg-wtf-function-brandBg text-wtf-function-link"
             )}
           >
             3

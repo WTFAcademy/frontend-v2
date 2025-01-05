@@ -20,6 +20,8 @@ const StepLogin = ({
 
   const isFinish = isLogin;
 
+  console.log("isLogin: ", isLogin);
+
   const ActionButton = () => {
     if (!isLogin) {
       return (

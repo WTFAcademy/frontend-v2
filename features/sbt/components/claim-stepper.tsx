@@ -34,6 +34,7 @@ const ClaimStepper = () => {
       <StepLogin nextStep={nextStep} />
       <StepWallet
         active={step === ClaimStep.CONNECT_WALLET}
+        currentStep={step}
         nextStep={nextStep}
       />
       <StepMint active={step === ClaimStep.MINT} nextStep={nextStep} />
