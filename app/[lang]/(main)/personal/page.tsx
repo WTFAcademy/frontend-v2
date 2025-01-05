@@ -12,9 +12,12 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { getUserCourses } from "@/features/user/api/use-user-api";
 import { formatAddress } from "@/lib/utils";
 import { toast } from "sonner";
+import { useAtom } from "jotai";
+import { openAuthModal } from "@/features/auth/atoms/auth";
 
 const PersonalPage = () => {
-  const { authUser } = useAuth()
+  const { authUser, setIsRegistering } = useAuth()
+  const [openLoginModal, setOpenLoginModal] = useAtom(openAuthModal);
   const { data: userCourses } = useSuspenseQuery({
     queryKey: ["userCourses"],
     queryFn: () => getUserCourses(),
@@ -58,7 +61,10 @@ const PersonalPage = () => {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <Button className={`${authUser?.wallet_address ? "hidden" : ""}`}>Bind Wallet</Button>
+                <Button className={`${authUser?.wallet_address ? "hidden" : ""}`} onClick={() => {
+                          setOpenLoginModal(true)
+                          setIsRegistering(true)
+                        }}>Bind Wallet</Button>
                 <Link href="/settings">
                   <Button variant="secondary">Settings</Button>
                 </Link>

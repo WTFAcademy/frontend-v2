@@ -14,9 +14,12 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import { updateUser, unbindWallet } from "@/features/user/api/use-user-api";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useAtom } from "jotai";
+import { openAuthModal } from "@/features/auth/atoms/auth";
 
 const PersonalPage = () => {
-  const { authUser, refetchAuthUser } = useAuth()
+  const { authUser, refetchAuthUser, setIsRegistering } = useAuth()
+  const [openLoginModal, setOpenLoginModal] = useAtom(openAuthModal);
   const form = useForm({
     defaultValues: {
       nickname: authUser?.nickname || "",
@@ -116,7 +119,10 @@ const PersonalPage = () => {
                       </div>)
                     : (
                       <div className="flex items-center gap-x-2">
-                        <Button>Bind Wallet</Button>
+                        <Button onClick={() => {
+                          setOpenLoginModal(true)
+                          setIsRegistering(true)
+                        }}>Bind Wallet</Button>
                       </div>
                     )
                 }
