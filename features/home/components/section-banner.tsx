@@ -36,18 +36,18 @@ const SectionBanner = () => {
 
           <BoxReveal duration={0.2}>
             <div className="mt-[24px] flex gap-x-4 items-center">
-              <Button size="xl">{t.index.Start_Learning}</Button>
+              <Button size="xl" className="rounded-full">{t.index.Start_Learning}</Button>
               <Button
                 variant="ghost"
                 size="icon"
-                className="w-12 h-12 text-white bg-black/[.16] border border-solid border-white hover:bg-white hover:text-black"
+                className="w-12 h-12 text-white bg-black/[.16] border border-solid border-white hover:bg-white hover:text-black rounded-full"
               >
                 <DiscordLogoIcon className="w-6 h-6" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
-                className="w-12 h-12 text-white bg-black/[.16] border border-solid border-white hover:bg-white hover:text-black"
+                className="w-12 h-12 text-white bg-black/[.16] border border-solid border-white hover:bg-white hover:text-black rounded-full"
               >
                 <TwitterLogoIcon className="w-6 h-6" />
               </Button>

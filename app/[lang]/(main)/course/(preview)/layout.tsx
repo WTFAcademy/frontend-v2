@@ -4,7 +4,7 @@ import { ReactNode, Suspense } from "react";
 
 const CourseDetailLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="w-full h-full pt-20 flex flex-col">
+    <div className="w-full h-full pt-20 flex flex-col bg-wtf-background-code">
       <Suspense fallback={<CourseDetailHeaderSkeleton />}>
         <CourseDetailHeader />
       </Suspense>

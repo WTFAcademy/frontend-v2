@@ -64,11 +64,7 @@ const QuizResultPage = ({
     );
 
   return (
-    <div className="flex flex-col mt-[76px] items-center">
-      <div className="w-full max-w-[760px] mt-7 mb-6 text-base">
-        Solidity 101 / 2. Value Types / Quiz
-      </div>
-
+    <div className="flex flex-col max-w-[840px] mx-auto mt-[76px] px-4 py-6 md:px-10 md:py-7">
       <div className="flex flex-col items-center">
         <div className="text-[64px] mb-4">{icon}</div>
         <div className="text-xl">{resultText}</div>

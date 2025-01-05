@@ -246,7 +246,7 @@ const Header = () => {
               </DropdownMenu>
             ) : (
               <Button
-                size="sm"
+                className="rounded-full"
                 onClick={(e) => {
                   e.stopPropagation();
                   setOpenLoginModal(true);
@@ -266,7 +266,7 @@ const Header = () => {
             ) : (
               <>
                 <Button
-                  size="sm"
+                  className="rounded-full"
                   onClick={(e) => {
                     e.stopPropagation();
                     setOpenLoginModal(true);

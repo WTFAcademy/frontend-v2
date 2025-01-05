@@ -104,7 +104,7 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
       <div className="flex flex-col items-center gap-4 w-full">
         <Button
           size="lg"
-          className="w-full h-12 gap-3"
+          className="w-full h-12 gap-3 rounded-full"
           onClick={() => loginWithGithub()}
         >
           {isPendingGithub ? (
@@ -122,7 +122,7 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
         <Button
           onClick={() => connectWallet()}
           variant="outline"
-          className="flex h-12 w-full text-base font-medium leading-6"
+          className="flex h-12 w-full text-base font-medium leading-6 rounded-full"
           size="lg"
         >
           {isPending ? (

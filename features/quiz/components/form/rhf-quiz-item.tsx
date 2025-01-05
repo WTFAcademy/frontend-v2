@@ -26,8 +26,8 @@ const RHFQuizItem = ({
 
   const handleChange = (value: string[]) => {
     onChange({
-      id: exercise.meta.id,
-      answers: value,
+      id: exercise.id,
+      selects: value,
     });
   };
 
@@ -36,7 +36,7 @@ const RHFQuizItem = ({
   if (exercise?.meta?.type === "select") {
     quizComp = (
       <QuizSelect
-        value={value?.answers}
+        value={value?.selects}
         quiz={exercise}
         onChange={handleChange}
         // index={exercise?.meta?.index || index}
@@ -46,7 +46,7 @@ const RHFQuizItem = ({
   if (exercise?.meta?.type === "multiple-select") {
     quizComp = (
       <QuizMultipleSelect
-        value={value?.answers}
+        value={value?.selects}
         quiz={exercise}
         onChange={handleChange}
         // index={exercise?.meta?.index || index}
@@ -56,7 +56,7 @@ const RHFQuizItem = ({
   if (exercise?.meta?.type === "inset") {
     quizComp = (
       <QuizInset
-        value={value?.answers}
+        value={value?.selects}
         quiz={exercise}
         onChange={handleChange}
         // index={exercise?.meta?.index || index}

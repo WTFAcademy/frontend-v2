@@ -4,7 +4,7 @@ type TExerciseMeta = {
   index?: number;
   type: EExerciseType;
   answer?: string[];
-  id?: string;
+  // id?: string;
 }
 
 type TExerciseOption = {
@@ -26,33 +26,13 @@ type TExerciseContent = {
 }
 
 export type TExercise = {
+  id: number;
   title: string;
   meta: TExerciseMeta;
   content: TExerciseContent;
 }
 
 export type TAnswer = {
-  id: string;
-  answers: string[];
-}
-
-export type TQuizSubmitPayload = {
-  lesson_id: string;
-  course_id: string;
-  quiz_id: string;
-  answers: TAnswer[];
-}
-
-export type TEditorQuizSubmitPayload = {
-  exercises: TExercise[];
-  lesson_id: string;
-  quiz_id?: string;
-}
-
-export type TResponseEditorQuiz = {
-  exercises: TExercise[];
-  user: {
-    uid: string;
-    user_name: string;
-  };
+  id: number;
+  selects: string[];
 }

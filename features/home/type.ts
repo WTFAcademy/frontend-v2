@@ -1,7 +1,8 @@
 export type TContributor = {
-  avatar_url: string;
-  contributions: number;
   id: number;
-  login: string;
   type: string;
+  avatar: string;
+  username: string;
+  nickname: string;
+  contributions: number;
 };

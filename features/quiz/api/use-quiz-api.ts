@@ -5,7 +5,7 @@ type TSimpleChapter = {
     id: number;
     title: string;
     course_path: string;
-    chapter_path: string;
+    path: string;
 }
 
 type TSimpleCourse = {
@@ -20,7 +20,6 @@ type TExercise = {
         type: string;
         score: number;
         answer: string | null;
-        id: number;
     };
     content: {
         extend: {
@@ -36,28 +35,28 @@ type TExercise = {
 };
 
 export type TQuizResponse = {
-    simple_chapter: TSimpleChapter;
-    simple_course: TSimpleCourse
-    exercise_list: TExercise[]
+    id: number;
+    chapter: TSimpleChapter;
+    course: TSimpleCourse
+    list: TExercise[]
 }
 
 export const getQuizzes = async (coursePath: string, chapterPath: string) => {
-    const res = await request.get<TResponse<TQuizResponse>>(`/course/${coursePath}/chapter/${chapterPath}/quizzes`)
+    const res = await request.get<TResponse<TQuizResponse>>(`/course/${coursePath}/chapter/${chapterPath}/quiz/choice`)
     return res.data
 }
 
 export type TSubmitQuizBody = {
-    course_id: number;
-    chapter_id: number;
-    answers: TAnswer[]
+    answer: TAnswer[]
 }
 
 export type TSubmitQuizResponse = {
-    score: number;
-    error_cnt: number;
+    errors: number
+    message: string
+    progress: number
 }
 
-export const submitQuiz = async (data: TSubmitQuizBody) => {
-    const res = await request.post<TResponse<TSubmitQuizResponse>>(`/grade`, data)
+export const submitQuiz = async (courseId: number, chapterId: number, quizId: number, data: TSubmitQuizBody) => {
+    const res = await request.post<TResponse<TSubmitQuizResponse>>(`/course/${courseId}/chapter/${chapterId}/quiz/choice/${quizId}`, data)
     return res.data
 }

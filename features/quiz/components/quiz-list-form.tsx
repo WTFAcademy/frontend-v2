@@ -9,6 +9,7 @@ import { submitQuiz, TQuizResponse, TSubmitQuizBody } from "../api/use-quiz-api"
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useDictionary } from "@/features/lang";
+import { toast } from "sonner";
 
 const QuizListForm = ({quiz}: {quiz: TQuizResponse}) => {
   const t = useDictionary();
@@ -19,26 +20,34 @@ const QuizListForm = ({quiz}: {quiz: TQuizResponse}) => {
   });
   const router = useRouter()
   const {mutateAsync: submitQuizRequest} = useMutation({
-    mutationFn: (data: TSubmitQuizBody) => submitQuiz(data)
+    mutationFn: async (data: TSubmitQuizBody) => {
+      const res = await submitQuiz(quiz.course.id, quiz.chapter.id, quiz.id, data)
+      console.log(res)
+      if (res.code !== 0) {
+        throw new Error(res.msg)
+      }
+      return res.data
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    }
   })
 
   const onSubmit = async (data: any) => {
     const body = {
-      course_id: quiz.simple_course.id,
-      chapter_id: quiz.simple_chapter.id,
-      answers: data.answers
+      answer: data.answers
     }
 
     const res = await submitQuizRequest(body)
-    router.push(`/course/${quiz.simple_course.path}/${quiz.simple_chapter.chapter_path}/quiz/result?score=${res.data.score}&error_cnt=${res.data.error_cnt}`)
+    router.push(`/course/${quiz.course.path}/${quiz.chapter.path}/quiz/result?score=${res.progress}&error_cnt=${res.errors}`)
   };
 
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <div className="flex flex-col gap-6 mb-6">
-        {quiz.exercise_list.map((item, index) => (
+        {quiz.list.map((item, index) => (
           <RHFQuizItem
-            key={item.meta.id}
+            key={item.id}
             exercise={item as any}
             control={methods.control}
             name={`answers.${index}`}

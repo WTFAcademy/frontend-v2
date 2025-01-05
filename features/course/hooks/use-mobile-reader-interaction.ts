@@ -28,7 +28,7 @@ export function useMobileReaderInteraction(): MobileReaderInteraction {
   
   const pathname = usePathname();
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const isChapterDetailPath = /^\/course\/[^/]+\/[^/]+$/.test(pathname);
+  const isChapterDetailPath = /\/course\/[^/]+\/[^/]+$/.test(pathname);
 
   const showControl = useCallback(() => {
     setIsControlVisible(true);

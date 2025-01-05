@@ -1,17 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { TContributor } from "../type";
+import request, { TResponse } from "@/lib/request";
 
-// TODO: 获取不全
-export const getContributors = async (
-  repo = "WTF-Solidity",
-): Promise<TContributor[]> => {
+export const getContributors = async (): Promise<TContributor[]> => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/contributors`, {
-      method: 'POST',
-      body: JSON.stringify({ repo })
-    })
-    const { data }: { data: { [key: string]: TContributor[]}} = await res.json()
-    return data[repo]
+    const res = await request.get<TResponse<TContributor[]>>(`/stats/contributors`)
+    return res.data.data
   } catch (error) {
     console.error(error)
     return []

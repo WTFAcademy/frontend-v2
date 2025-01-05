@@ -1,31 +1,29 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
 import { getQuizzes } from "@/features/quiz/api/use-quiz-api";
 import QuizHeader from "@/features/quiz/components/quiz-header";
 import QuizListForm from "@/features/quiz/components/quiz-list-form";
-import Link from "next/link";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import Image from "next/image";
 
-const QuizPage = async ({
+const QuizPage = ({
   params,
 }: {
   params: { coursename: string; chaptername: string };
 }) => {
-  const data = await getQuizzes(params.coursename, params.chaptername).catch(
-    (err) => {
-      console.log(err);
-      return null;
-    }
-  );
+  const { data } = useSuspenseQuery({
+    queryKey: ["quiz", params.coursename, params.chaptername],
+    queryFn: () => getQuizzes(params.coursename, params.chaptername),
+    staleTime: 0,
+    gcTime: 0,
+  });
 
-  if (!data) {
+  if (!data || !data.data) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">
-        <h2 className="text-2xl font-bold mb-4">Quiz Not Found</h2>
-        <p className="text-gray-600 mb-6">
-          This chapter may not exist or has no quiz content yet
-        </p>
-        <Button variant="destructive" asChild>
-          <Link href="/">Back to Home</Link>
-        </Button>
+      <div className="relative h-screen w-full flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center">
+          <Image src="/svgs/empty.svg" alt="empty" width={120} height={167} />
+        </div>
       </div>
     );
   }

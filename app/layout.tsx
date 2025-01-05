@@ -41,7 +41,7 @@ export default function RootLayout({
       >
         <Providers cookies={cookies}>
           {children}
-          <Toaster />
+          <Toaster richColors />
         </Providers>
       </body>
     </html>
