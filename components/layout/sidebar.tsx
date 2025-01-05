@@ -12,12 +12,10 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useDictionary } from "@/features/lang";
 import useAuth from "@/features/auth/hooks/use-auth";
+import { useLanguage } from "@/features/lang/hooks/use-language";
 
 const Sidebar = () => {
-  const pathname = usePathname();
-  const router = useRouter();
-  const currentLang = pathname?.split('/')[1] || 'zh';
-  const [language, setLanguage] = useState(currentLang);
+  const { changeLanguage, language } = useLanguage();
   const { setTheme, theme } = useTheme();
   const t = useDictionary();
   const { logout } = useAuth();
@@ -88,11 +86,7 @@ const Sidebar = () => {
         ]}
         groupName={t.mobile.Language}
         value={language}
-        onChange={(value) => {
-          setLanguage(value);
-          document.cookie = `NEXT_LOCALE=${value};path=/;max-age=${60 * 60 * 24 * 365}`;
-          router.push(pathname.replace(currentLang, value));
-        }}
+        onChange={(value) => changeLanguage(value as 'zh' | 'en')}
       />
       <NavSwitchItem
         groupName={t.mobile.Dark_Mode}

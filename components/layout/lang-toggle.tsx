@@ -12,15 +12,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useLanguage } from "@/features/lang/hooks/use-language";
 
 export function LangToggle() {
-  const pathname = usePathname();
-  const router = useRouter();
-  const currentLang = pathname?.split('/')[1] || 'zh';
-  
-  const setLanguageCookie = (lang: string) => {
-    document.cookie = `NEXT_LOCALE=${lang}; path=/; max-age=31536000`; // 保存一年
-  };
+  const { language, changeLanguage } = useLanguage();
 
   return (
     <DropdownMenu>
@@ -30,21 +25,15 @@ export function LangToggle() {
           size="default"
           className="group rounded-full bg-wtf-background-navbar2 flex items-center gap-1"
         >
-          <span>{currentLang === 'en' ? 'En' : '中文'}</span>
+          <span>{language === 'en' ? 'En' : '中文'}</span>
           <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => {
-          setLanguageCookie('en');
-          router.push(pathname.replace(currentLang, 'en'));
-        }}>
+        <DropdownMenuItem onClick={() => changeLanguage('en')}>
           English
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => {
-          setLanguageCookie('zh');
-          router.push(pathname.replace(currentLang, 'zh'));
-        }}>
+        <DropdownMenuItem onClick={() => changeLanguage('zh')}>
           中文
         </DropdownMenuItem>
       </DropdownMenuContent>
