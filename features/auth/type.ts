@@ -24,6 +24,7 @@ export type TAuthUser = {
     role_name: string;
     username: string;
     nickname: string;
+    bio: string;
     activated: boolean;
     created_at: string;
     updated_at: string;

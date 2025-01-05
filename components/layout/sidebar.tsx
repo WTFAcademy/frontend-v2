@@ -6,10 +6,7 @@ import {
   getCourseWithType,
 } from "@/features/course/api/use-courses-api";
 import { Separator } from "../ui/separator";
-import { useState } from "react";
 import { useTheme } from "next-themes";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
 import { useDictionary } from "@/features/lang";
 import useAuth from "@/features/auth/hooks/use-auth";
 import { useLanguage } from "@/features/lang/hooks/use-language";

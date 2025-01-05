@@ -21,6 +21,7 @@ import { useDictionary } from "@/features/lang";
 const PersonalPage = () => {
   const t = useDictionary();
   const { authUser, refetchAuthUser, setIsRegistering } = useAuth()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [openLoginModal, setOpenLoginModal] = useAtom(openAuthModal);
   const form = useForm({
     defaultValues: {
@@ -32,7 +33,7 @@ const PersonalPage = () => {
   const onSubmit = async (data: any) => {
     console.log(data)
     try {
-      const res = await updateUser(data)
+      await updateUser(data)
       refetchAuthUser()
       toast.success(t.settings.Settings_updated_successfully)
     } catch (error) {
@@ -43,7 +44,7 @@ const PersonalPage = () => {
 
   const unbind = async () => {
     try {
-      const res = await unbindWallet({ address: authUser?.wallet_address || "", provider: authUser?.wallet_provider || "" })
+      await unbindWallet({ address: authUser?.wallet_address || "", provider: authUser?.wallet_provider || "" })
       refetchAuthUser()
       toast.success(t.settings.Wallet_unbound_successfully)
     } catch (error) {
@@ -57,7 +58,7 @@ const PersonalPage = () => {
       nickname: authUser?.nickname || "",
       bio: authUser?.bio || "",
     })
-  }, [authUser])
+  }, [authUser, form])
 
   return (
     <>

@@ -1,8 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";

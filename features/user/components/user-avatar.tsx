@@ -37,6 +37,7 @@ const UserAvatar = ({ className, src, fallback, onClick, size = "md" }: TUserAva
   const avatarSrc = src || authUser?.avatar;
 
   return (
+    // @ts-ignore
     <Avatar className={cn(userAvatarVariants({ size }), className)} onClick={onClick}>
       <AvatarImage src={avatarSrc} alt={fallback} />
       <AvatarFallback>
