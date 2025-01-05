@@ -101,33 +101,36 @@ const PersonalPage = () => {
             <div className="px-10 py-9 font-bold text-[24px] border-y-[0.5px] border-wtf-border-divider mt-[-0.5px]">
               My Courses
             </div>
-            {/* <div className="px-10 py-9 text-wtf-content-3 min-h-[160px]">
-              You have not started any course yet.
-            </div> */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-5 mt-[-0.5px]">
-              {userCourses.data.completed.map((course) => (
-                <UserCourseDisplayCard
-                  title={course.title}
-                  description={course.description}
-                  path={`${course.path}`}
-                  image={course.cover}
-                  time={course.updated_at.split(" ")[0]}
-                  isCompleted={true}
-                />
-              ))}
-              {
-                userCourses.data.ongoing.map((course) => (
+            {
+              userCourses.data.completed.length + userCourses.data.ongoing.length === 0
+              ? (<div className="px-10 py-9 text-wtf-content-3 min-h-[160px]">
+                You have not started any course yet.
+              </div>)
+              : (<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-5 mt-[-0.5px]">
+                {userCourses.data.completed.map((course) => (
                   <UserCourseDisplayCard
                     title={course.title}
                     description={course.description}
                     path={`${course.path}`}
                     image={course.cover}
                     time={course.updated_at.split(" ")[0]}
-                    isCompleted={false}
+                    isCompleted={true}
                   />
-                ))
-              }
-            </div>
+                ))}
+                {
+                  userCourses.data.ongoing.map((course) => (
+                    <UserCourseDisplayCard
+                      title={course.title}
+                      description={course.description}
+                      path={`${course.path}`}
+                      image={course.cover}
+                      time={course.updated_at.split(" ")[0]}
+                      isCompleted={false}
+                    />
+                  ))
+                }
+              </div>)
+            }
           </div>
         </section>
       </div>
