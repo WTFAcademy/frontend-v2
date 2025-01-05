@@ -14,15 +14,14 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import { updateUser, unbindWallet } from "@/features/user/api/use-user-api";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { openAuthModal } from "@/features/auth/atoms/auth";
 import { useDictionary } from "@/features/lang";
-
+import Link from "next/link";
 const PersonalPage = () => {
   const t = useDictionary();
   const { authUser, refetchAuthUser, setIsRegistering } = useAuth()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [openLoginModal, setOpenLoginModal] = useAtom(openAuthModal);
+  const setOpenLoginModal = useSetAtom(openAuthModal);
   const form = useForm({
     defaultValues: {
       nickname: authUser?.nickname || "",
@@ -58,11 +57,11 @@ const PersonalPage = () => {
       nickname: authUser?.nickname || "",
       bio: authUser?.bio || "",
     })
-  }, [authUser, form])
+  }, [authUser])
 
   return (
     <>
-      <div id="personal" className="relative min-h-screen flex flex-col">
+      <div id="personal" className="relative min-h-screen flex flex-col px-4">
         <div className="absolute w-full h-[251px] inset-x-0 top-0 hidden md:block">
           <Image
             src="/images/personal-banner.png"
@@ -89,7 +88,14 @@ const PersonalPage = () => {
                 <Icons.github className="w-10 h-10 text-wtf-content-1" />
                 <div className="flex flex-col">
                   <h4 className="text-bold text-base">Github</h4>
-                  <span className="text-wtf-content-3">{authUser?.username}</span>
+                  <span className="text-wtf-content-3">
+                  <Link
+                        href={`https://github.com/${authUser?.username}`}
+                        target="_blank"
+                      >
+                        {authUser?.username || "Github"}
+                      </Link>
+                  </span>
                 </div>
               </div>
               <div className="w-full border border-border-line p-5 flex justify-between rounded-lg">
@@ -133,7 +139,7 @@ const PersonalPage = () => {
             </div>
 
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-y-10">
                 <FormField
                   control={form.control}
                   name="nickname"
