@@ -4,11 +4,13 @@ import { ReactNode, Suspense } from "react";
 
 const CourseDetailLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="w-full h-full pt-20 flex flex-col bg-wtf-background-code">
-      <Suspense fallback={<CourseDetailHeaderSkeleton />}>
-        <CourseDetailHeader />
-      </Suspense>
-      {children}
+    <div className="w-full pt-20 bg-wtf-background-code">
+      <div className="container min-h-screen flex flex-col">  
+        <Suspense fallback={<CourseDetailHeaderSkeleton />}>
+          <CourseDetailHeader />
+        </Suspense>
+        {children}
+      </div>
     </div>
   );
 };

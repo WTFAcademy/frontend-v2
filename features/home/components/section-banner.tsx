@@ -2,9 +2,12 @@
 
 import BoxReveal from "@/components/animata/box-reveal";
 import { Button } from "@/components/ui/button";
-import { DiscordLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons";
+import { DiscordLogoIcon } from "@radix-ui/react-icons";
 import React from "react";
 import { useDictionary } from "@/features/lang";
+import Link from "next/link";
+import { DISCORD_URL, TWITTER_URL } from "../constants";
+import { Icons } from "@/components/icons";
 
 const SectionBanner = () => {
   const t = useDictionary();
@@ -31,21 +34,29 @@ const SectionBanner = () => {
 
           <BoxReveal duration={0.2}>
             <div className="mt-[24px] flex gap-x-4 items-center">
-              <Button size="xl" className="rounded-full">{t.index.Start_Learning}</Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="w-12 h-12 text-white bg-black/[.16] border border-solid border-white hover:bg-white hover:text-black rounded-full"
-              >
-                <DiscordLogoIcon className="w-6 h-6" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="w-12 h-12 text-white bg-black/[.16] border border-solid border-white hover:bg-white hover:text-black rounded-full"
-              >
-                <TwitterLogoIcon className="w-6 h-6" />
-              </Button>
+              <Link href="/course">
+                <Button size="xl" className="rounded-full">
+                  {t.index.Start_Learning}
+                </Button>
+              </Link>
+              <Link href={DISCORD_URL} target="_blank">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="w-12 h-12 text-white bg-black/[.16] border border-solid border-white hover:bg-white hover:text-black rounded-full"
+                >
+                  <DiscordLogoIcon className="w-6 h-6" />
+                </Button>
+              </Link>
+              <Link href={TWITTER_URL} target="_blank">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="w-12 h-12 text-white bg-black/[.16] border border-solid border-white hover:bg-white hover:text-black rounded-full"
+                >
+                  <Icons.twitter className="w-6 h-6" />
+                </Button>
+              </Link>
             </div>
           </BoxReveal>
         </div>

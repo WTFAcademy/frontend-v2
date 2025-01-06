@@ -48,7 +48,7 @@ const CourseChapterPage = ({
   return (
     <div className="relative flex-auto overflow-y-auto pt-20" ref={scrollRef}>
       <ChapterMobileNav course={course} chapterPath={params.chaptername} />
-      <div className="px-4 py-6 md:p-10">
+      <div className="px-4 py-6 md:p-10 md:max-w-[1120px]">
         <ChapterDetailHeader
           title={chapter.title}
           studyTime={chapter.study_time}

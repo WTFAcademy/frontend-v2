@@ -85,7 +85,7 @@ const CourseDetailCard = ({ coursePath }: CourseDetailCardProps) => {
         </div>
         <div className="w-[336px] h-[222px] p-2 bg-white dark:bg-wtf-black rounded-lg relative">
           <Image
-            src={course.sbt_preview_url}
+            src={course.sbt_token?.url}
             alt="course certificate"
             fill
             className="w-full h-full object-cover"

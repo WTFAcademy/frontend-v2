@@ -40,7 +40,7 @@ const CourseDisplayCard = ({
   const keywordsArray = keywords.split(",");
 
   return (
-    <div className="course-display-card w-full p-8 md:p-10 4xl:p-20 border-wtf-border-divider border-[0.5px] border-solid flex flex-col items-center gap-y-8 cursor-pointer transition-all hover:bg-wtf-background-hover">
+    <div className="course-display-card w-full p-8 md:p-10 border-wtf-border-divider border-[0.5px] border-solid flex flex-col items-center gap-y-8 cursor-pointer transition-all hover:bg-wtf-background-hover">
       <div className="relative w-full h-[186px] md:h-[240px]">
         <Image
           src={image || "/images/course-placeholder.png"}
@@ -71,7 +71,7 @@ const CourseDisplayCard = ({
 
 const Skeleton = () => {
   return (
-    <div className="course-display-card w-full p-8 md:p-10 4xl:p-20 border-wtf-border-divider border-[0.5px] border-solid flex flex-col items-center gap-y-8 cursor-pointer transition-all hover:bg-wtf-background-hover">
+    <div className="course-display-card w-full p-8 md:p-10 border-wtf-border-divider border-[0.5px] border-solid flex flex-col items-center gap-y-8 cursor-pointer transition-all hover:bg-wtf-background-hover">
       <SkeletonUI className="relative w-full h-[186px] md:h-[240px]" />
       <div className="w-full flex flex-col gap-y-3">
         <SkeletonUI className="w-full h-[22px] mb-3" />

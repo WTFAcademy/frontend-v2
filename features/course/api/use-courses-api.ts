@@ -1,5 +1,5 @@
 import request, { TResponse } from "@/lib/request";
-import { get } from "lodash-es";
+import { get, set } from "lodash-es";
 
 export type TCourse = {
   id: number;
@@ -50,8 +50,13 @@ export type TCourse = {
       nickname: string;
       github_id: number;
   }[];
-  sbt_token: string;
-  sbt_preview_url: string;
+  sbt_token: {
+    id: number;
+    url: string;
+    chain: number;
+    price: number;
+    expiration: number;
+  };
 };
 
 export type TCategory = {
@@ -73,5 +78,9 @@ export const getCourseDetailByPath = async (path: string) => {
   const res = await request.get<TResponse<TCourse>>(
     `/course/${path}`
   );
-  return res.data;
+
+  const sbtToken = JSON.parse(get(res, "data.data.sbt_token", "{}") as unknown as string);
+  const resData = set(res, "data.data.sbt_token", sbtToken);
+
+  return resData.data;
 };

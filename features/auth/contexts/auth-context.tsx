@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: TProps) => {
   const signInWithGithub = useCallback(() => {
     return new Promise((resolve, reject) => {
       const uri = window.location.href.replace(window.location.origin, "");
-      const authUrl = `https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}&redirect_uri=${window.location.origin}/redirect?uri=${uri}`;
+      const authUrl = `https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}&redirect_uri=${window.location.origin}/redirect?uri=${uri}&scope=read:user user:email`;
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       
       // 打开新窗口

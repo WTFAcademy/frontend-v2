@@ -40,7 +40,7 @@ export async function generateMetadata({
 
 const CourseDetailPage = ({ params }: { params: { coursename: string } }) => {
   return (
-    <div className="flex md:flex-row flex-col border-b-[0.5px] border-wtf-border-divider bg-wtf-background-primary">
+    <div className="flex-1 flex md:flex-row flex-col border-b-[0.5px] border-wtf-border-divider bg-wtf-background-primary">
       <div className="md:w-[480px] w-full px-4 py-10 md:p-10 border-r-[0.5px] border-wtf-border-divider">
         <Suspense fallback={<CourseDetailCardSkeleton />}>
           <CourseDetailCard coursePath={params.coursename} />

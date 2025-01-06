@@ -1,12 +1,24 @@
 "use client";
 
-import { DiscordLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons";
+import { DiscordLogoIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import TextBorderAnimation from "../animata/text/text-border-animation";
 import Link, { LinkProps } from "next/link";
 import { useDictionary } from "@/features/lang";
+import { Icons } from "../icons";
+import {
+  DISCORD_URL,
+  FORUM_URL,
+  GITHUB_URL,
+  MIRROR_URL,
+  TWITTER_URL,
+  WECHAT_URL,
+} from "@/features/home/constants";
 
-const FooterLink = ({ text, ...props }: { text: string } & LinkProps) => {
+const FooterLink = ({
+  text,
+  ...props
+}: { text: string } & LinkProps & { target?: string }) => {
   return (
     <Link {...props}>
       <TextBorderAnimation
@@ -17,7 +29,7 @@ const FooterLink = ({ text, ...props }: { text: string } & LinkProps) => {
   );
 };
 
-const Footer = () => { 
+const Footer = () => {
   const t = useDictionary();
   return (
     <footer className="w-full bg-wtf-background-footer">
@@ -33,12 +45,12 @@ const Footer = () => {
               />
             </div>
             <div className="flex items-center gap-x-4">
-              <div className="flex items-center justify-center rounded-full bg-wtf-content-1 w-8 h-8">
+              <Link href={DISCORD_URL} target="_blank" className="flex items-center justify-center rounded-full bg-wtf-content-1 w-8 h-8 transition-colors hover:bg-wtf-content-2">
                 <DiscordLogoIcon className="text-wtf-content-inverted w-4 h-4" />
-              </div>
-              <div className="flex items-center justify-center rounded-full bg-wtf-content-1 w-8 h-8">
-                <TwitterLogoIcon className="text-wtf-content-inverted w-4 h-4" />
-              </div>
+              </Link>
+              <Link href={TWITTER_URL} target="_blank" className="flex items-center justify-center rounded-full bg-wtf-content-1 w-8 h-8 transition-colors hover:bg-wtf-content-2">
+                <Icons.twitter className="text-wtf-content-inverted w-4 h-4" />
+              </Link>
             </div>
           </div>
           <div className="flex-grow flex flex-col p-10 border-wtf-border-divider border-r-[0.5px] border-b-[0.5px] md:border-b-0 border-solid gap-y-4">
@@ -46,9 +58,12 @@ const Footer = () => {
               {t.index.Products}
             </div>
             <div className="flex flex-col gap-y-2 text-wtf-content-1 text-base font-semibold leading-6">
-              <FooterLink href="/learning-center" text={t.index.Learning_Center} />
-              <FooterLink href="/learning-center" text={t.index.Courses} />
-              <FooterLink href="/learning-center" text={t.index.Forum} />
+              <FooterLink href="/course" text={t.index.Courses} />
+              <FooterLink
+                href={FORUM_URL}
+                target="_blank"
+                text={t.index.Forum}
+              />
             </div>
           </div>
           <div className="flex-grow flex flex-col p-10 border-wtf-border-divider border-r-[0.5px] border-b-[0.5px] md:border-b-0 border-solid gap-y-4">
@@ -56,10 +71,10 @@ const Footer = () => {
               {t.index.Community}
             </div>
             <div className="flex flex-col gap-y-2 text-wtf-content-1 text-base font-semibold leading-6">
-              <FooterLink href="/learning-center" text="GitHub" />
-              <FooterLink href="/learning-center" text="Discord" />
-              <FooterLink href="/learning-center" text="Twitter" />
-              <FooterLink href="/learning-center" text="WeChat" />
+              <FooterLink href={GITHUB_URL} target="_blank" text="GitHub" />
+              <FooterLink href={DISCORD_URL} target="_blank" text="Discord" />
+              <FooterLink href={TWITTER_URL} target="_blank" text="Twitter" />
+              <FooterLink href={WECHAT_URL} target="_blank" text="WeChat" />
             </div>
           </div>
           <div className="flex-grow flex flex-col p-10 border-wtf-border-divider border-r-[0.5px] border-b-[0.5px] border-solid gap-y-4">
@@ -67,8 +82,7 @@ const Footer = () => {
               {t.index.Donation}
             </div>
             <div className="flex flex-col gap-y-2 text-wtf-content-1 text-base font-semibold leading-6">
-              <FooterLink href="/learning-center" text="GitHub" />
-              <FooterLink href="/learning-center" text="Mirror" />
+              <FooterLink href={MIRROR_URL} target="_blank" text="Mirror" />
             </div>
           </div>
         </div>
