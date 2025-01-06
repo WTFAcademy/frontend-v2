@@ -11,6 +11,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useMobileReaderInteraction } from "../hooks/use-mobile-reader-interaction";
+import { motion } from "framer-motion";
 
 const ChapterMobileNav = ({
   course,
@@ -40,11 +41,16 @@ const ChapterMobileNav = ({
 
   return (
     <>
-      <div
-        className={cn(
-          "md:hidden flex gap-3 px-4 mt-3 sticky z-10",
-          isControlVisible ? "-top-0" : "-top-10"
-        )}
+      <div className="w-full h-[56px]" />
+      <motion.div
+        className="md:hidden flex gap-3 px-4 top-[92px] fixed w-full z-10"
+        animate={{
+          y: isControlVisible ? 0 : -40,
+        }}
+        transition={{
+          duration: 0.3,
+          ease: "easeInOut",
+        }}
       >
         <div className="w-10 h-10 inline-flex items-center justify-center bg-gray-100/50 dark:bg-gray-900/50 rounded shadow-sm backdrop-blur-[20px]">
           <Icons.arrowLeft
@@ -65,7 +71,7 @@ const ChapterMobileNav = ({
             <Icons.arrowDown className="w-4 h-4 text-wtf-content-1" />
           </div>
         </div>
-      </div>
+      </motion.div>
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerContent>
           <DrawerHeader className="pt-6 px-5">
