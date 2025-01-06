@@ -30,7 +30,7 @@ const PersonalPage = () => {
   return (
     <>
       <div id="personal" className="relative min-h-screen flex flex-col">
-        <div className="absolute w-full h-[519px] inset-x-0 top-0 hidden md:block">
+        <div className="absolute w-full h-[519px] inset-x-0 top-0 md:block">
           <Image
             src="/images/personal-banner.png"
             alt="Personal Center Hero"
@@ -47,10 +47,10 @@ const PersonalPage = () => {
             <div className="mt-5 mb-6 text-[32px] font-bold">
               {authUser?.nickname || authUser?.username}
             </div>
-            <div className="flex flex-col md:flex-row bg-wtf-background-navbar border border-wtf-background-navbar2 rounded-2xl w-full min-h-[50px] p-8 items-center gap-4">
-              <div className="flex-1 flex flex-col gap-4 items-center">
+            <div className="flex flex-col md:flex-row bg-wtf-background-navbar border border-wtf-background-navbar2 rounded-2xl w-full min-h-[50px] p-8 gap-4">
+              <div className="flex-1 flex flex-col gap-4">
                 <p className="text-wtf-content-3">{authUser?.bio || t.personal.bio}</p>
-                <div className="flex items-center gap-4">
+                <div className="flex flex-col md:flex-row gap-4">
                   <div className="flex items-center gap-[10px]">
                     <Icons.github className="w-6 h-6 text-wtf-content-1" />
                     <span>
@@ -105,7 +105,7 @@ const PersonalPage = () => {
                 <UserCourseDisplayCard.Skeleton />
                 <UserCourseDisplayCard.Skeleton />
               </div>
-            ) : userCourses.data.sbt.length === 0 ? (
+            ) : !userCourses.data || userCourses.data.sbt.length === 0 ? (
               <div className="px-10 py-9 text-wtf-content-3 min-h-[160px]">
                 {t.personal.You_have_not_obtained_any_certificates_yet}
               </div>
@@ -133,7 +133,8 @@ const PersonalPage = () => {
                 <UserCourseDisplayCard.Skeleton />
                 <UserCourseDisplayCard.Skeleton />
               </div>
-            ) : userCourses.data.completed.length +
+            ) : !userCourses.data ||
+                userCourses.data.completed.length +
                 userCourses.data.ongoing.length ===
               0 ? (
               <div className="px-10 py-9 text-wtf-content-3 min-h-[160px]">

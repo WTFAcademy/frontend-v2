@@ -18,8 +18,11 @@ import { useSetAtom } from "jotai";
 import { openAuthModal } from "@/features/auth/atoms/auth";
 import { useDictionary } from "@/features/lang";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { ChevronLeft } from "lucide-react";
 
 const PersonalPage = () => {
+  const router = useRouter();
   const t = useDictionary();
   const { authUser, refetchAuthUser, setIsRegistering } = useAuth()
   const setOpenLoginModal = useSetAtom(openAuthModal);
@@ -63,7 +66,18 @@ const PersonalPage = () => {
   return (
     <>
       <div id="personal" className="relative min-h-screen flex flex-col px-4">
-        <div className="absolute w-full h-[251px] inset-x-0 top-0 hidden md:block">
+        <div className="container relative z-10 pt-24 pl-4 md:pl-10 4xl:pl-[24rem]">
+          <Button
+            variant="outline"
+            className="flex items-center gap-2 rounded"
+            size="sm"
+            onClick={() => router.back()}
+          >
+            <ChevronLeft className="h-4 w-4" />
+            <span>Back</span>
+          </Button>
+        </div>
+        <div className="absolute w-full h-[251px] inset-x-0 top-0 md:block">
           <Image
             src="/images/personal-banner.png"
             alt="Personal Center Hero"
@@ -90,12 +104,12 @@ const PersonalPage = () => {
                 <div className="flex flex-col">
                   <h4 className="text-bold text-base">Github</h4>
                   <span className="text-wtf-content-3">
-                  <Link
-                        href={`https://github.com/${authUser?.username}`}
-                        target="_blank"
-                      >
-                        {authUser?.username || "Github"}
-                      </Link>
+                    <Link
+                      href={`https://github.com/${authUser?.username}`}
+                      target="_blank"
+                    >
+                      {authUser?.username || "Github"}
+                    </Link>
                   </span>
                 </div>
               </div>
@@ -114,10 +128,10 @@ const PersonalPage = () => {
                     ? (<div className="flex items-center gap-x-2">
                         <Popover>
                           <PopoverTrigger asChild>
-                            <Button variant="destructive" onClick={unbind}>{t.settings.Unbind}</Button>
+                            <Button variant="destructive">{t.settings.Unbind}</Button>
                           </PopoverTrigger>
                           <PopoverContent className="w-34">
-                            <Button variant="destructive">{t.settings.Confirm}</Button>
+                            <Button variant="destructive" onClick={unbind}>{t.settings.Confirm}</Button>
                           </PopoverContent>
                         </Popover>
                         <Button variant="secondary" size="icon" className="h-9 w-9">
