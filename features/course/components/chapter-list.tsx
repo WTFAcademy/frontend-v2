@@ -127,22 +127,19 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
 
                 <div className="flex items-center gap-4 justify-between">
                   <div className="flex items-center gap-4 w-full ml-[46px]">
-                    <div
-                      className={cn(
-                        "flex items-center gap-3 flex-1",
-                        !isLogin && "hidden"
-                      )}
-                    >
-                      <ChapterProgressButton
-                        href={`/course/${coursePath}/${chapter.path}/quiz`}
-                        progress={chapter.progress}
-                      >
-                        <Icons.document className="w-4 h-4 text-wtf-content-3" />
-                        <span className="text-wtf-content-2 text-sm font-medium ml-1">
-                          {t.course.Quiz}
-                        </span>
-                      </ChapterProgressButton>
-                      {/* <ChapterProgressButton
+                    <div className={cn("flex items-center gap-3 flex-1")}>
+                      {isLogin && (
+                        <>
+                          <ChapterProgressButton
+                            href={`/course/${coursePath}/${chapter.path}/quiz`}
+                            progress={chapter.progress}
+                          >
+                            <Icons.document className="w-4 h-4 text-wtf-content-3" />
+                            <span className="text-wtf-content-2 text-sm font-medium ml-1">
+                              {t.course.Quiz}
+                            </span>
+                          </ChapterProgressButton>
+                          {/* <ChapterProgressButton
                         href={`/course/${coursePath}/${chapter.path}/code`}
                         progress={chapter.code_progress}
                       >
@@ -151,6 +148,8 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
                           {t.course.Code}
                         </span>
                       </ChapterProgressButton> */}
+                        </>
+                      )}
                     </div>
                     <div className="w-[128px] flex justify-end">
                       <ChapterProgressStatus
