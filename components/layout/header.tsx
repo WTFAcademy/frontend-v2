@@ -284,7 +284,7 @@ const Header = () => {
               </>
             )}
             <Sheet open={openSheet} onOpenChange={setOpenSheet}>
-              <SheetContent className="w-[340px] p-0" withoutClose>
+              <SheetContent className="w-[340px] p-0 flex flex-col" withoutClose>
                 <div className="flex justify-between items-center px-5 py-8">
                   <Icons.logo className="w-[66px] h-6" />
                   <SheetClose>
@@ -292,7 +292,7 @@ const Header = () => {
                     <span className="sr-only">Close</span>
                   </SheetClose>
                 </div>
-                <div className="flex flex-col w-full">
+                <div className="flex-auto flex flex-col w-full">
                   <Sidebar />
                 </div>
               </SheetContent>
