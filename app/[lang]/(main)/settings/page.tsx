@@ -74,7 +74,7 @@ const PersonalPage = () => {
             onClick={() => router.back()}
           >
             <ChevronLeft className="h-4 w-4" />
-            <span>Back</span>
+            <span>{t.settings.Back}</span>
           </Button>
         </div>
         <div className="absolute w-full h-[251px] inset-x-0 top-0 md:block">

@@ -128,7 +128,8 @@
         "Copied_to_clipboard": "Copied to clipboard",
         "Bind_Wallet": "Bind Wallet",
         "Enter_your_nickname": "Enter your nickname",
-        "Enter_your_bio": "Enter your bio"
+        "Enter_your_bio": "Enter your bio",
+        "Back": "Back"
     },
     "sbt": {
         "congratulations": "🎉 Congratulations on graduating from the course",

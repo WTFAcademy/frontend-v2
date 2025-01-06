@@ -128,7 +128,8 @@
         "Copied_to_clipboard": "已复制到剪贴板",
         "Bind_Wallet": "绑定钱包",
         "Enter_your_nickname": "输入你的昵称",
-        "Enter_your_bio": "输入你的简介"
+        "Enter_your_bio": "输入你的简介",
+        "Back": "返回"
     },
     "sbt": {
         "congratulations": "🎉 恭喜你在课程中毕业",
