@@ -10,13 +10,52 @@ import Markdown from "@/features/mdx/components/markdown";
 import { TResponse } from "@/lib/request";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import { useEffect } from "react";
 
 const CourseChapterPage = ({
   params,
 }: {
   params: { coursename: string; chaptername: string };
 }) => {
-  const { scrollRef } = useMobileReaderInteraction();
+  const { scrollRef, isControlVisible } = useMobileReaderInteraction();
+
+  useEffect(() => {
+    const element = document.documentElement;
+    
+    const enterFullscreen = async () => {
+      try {
+        if (element.requestFullscreen) {
+          await element.requestFullscreen();
+        } else if ((element as any).webkitRequestFullscreen) {
+          await (element as any).webkitRequestFullscreen();
+        } else if ((element as any).msRequestFullscreen) {
+          await (element as any).msRequestFullscreen();
+        }
+      } catch (error) {
+        console.log('全屏模式可能不被支持', error);
+      }
+    };
+
+    const exitFullscreen = async () => {
+      try {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if ((document as any).webkitExitFullscreen) {
+          await (document as any).webkitExitFullscreen();
+        } else if ((document as any).msExitFullscreen) {
+          await (document as any).msExitFullscreen();
+        }
+      } catch (error) {
+        console.log('退出全屏模式失败', error);
+      }
+    };
+
+    if (isControlVisible) {
+      exitFullscreen();
+    } else {
+      enterFullscreen();
+    }
+  }, [isControlVisible]);
 
   const { data: courseData } = useSuspenseQuery({
     queryKey: ["course", params.coursename],
