@@ -248,8 +248,7 @@ body {
   #home-content {
     background-image: url('/svgs/light-background.svg');
     background-position: center;
-    background-size: contain;
-    background-repeat: repeat;
+    background-size: cover;
     min-height: 100vh;
   }
   

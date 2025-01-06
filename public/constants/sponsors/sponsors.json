@@ -28,5 +28,35 @@
         "logo": "/constants/sponsors/assets/zan.svg",
         "logo_dark": "/constants/sponsors/assets/zan-dark.svg",
         "url": "https://zan.top/"
+    },
+    {
+        "name": "starknet",
+        "logo": "/constants/sponsors/assets/starknet.svg",
+        "logo_dark": "/constants/sponsors/assets/starknet-dark.svg",
+        "url": "https://www.starknet.io/"
+    },
+    {
+        "name": "scroll",
+        "logo": "/constants/sponsors/assets/scroll.svg",
+        "logo_dark": "/constants/sponsors/assets/scroll-dark.svg",
+        "url": "https://scroll.io/"
+    },
+    {
+        "name": "zksync",
+        "logo": "/constants/sponsors/assets/zksync.svg",
+        "logo_dark": "/constants/sponsors/assets/zksync-dark.svg",
+        "url": "https://zksync.io/"
+    },
+    {
+        "name": "christian2022",
+        "logo": "/constants/sponsors/assets/christian2022.svg",
+        "logo_dark": "/constants/sponsors/assets/christian2022-dark.svg",
+        "url": "https://x.com/Christianeth"
+    },
+    {
+        "name": "jayden",
+        "logo": "/constants/sponsors/assets/jayden.svg",
+        "logo_dark": "/constants/sponsors/assets/jayden-dark.svg",
+        "url": "https://x.com/jaydenw3i"
     }
 ]
