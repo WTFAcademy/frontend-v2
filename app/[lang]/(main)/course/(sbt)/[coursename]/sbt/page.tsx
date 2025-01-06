@@ -53,7 +53,7 @@ const CourseSbtPage = ({ params }: { params: { coursename: string } }) => {
         <div className="flex-1 bg-wtf-background-block rounded-2xl overflow-hidden flex flex-col justify-center items-center">
           <div className="relative h-[180px] w-[calc(100%-80px)]">
             <Image
-              src={course.data.sbt_preview_url}
+              src={course.data.sbt_token.url}
               alt={course.data.title}
               fill
               className="object-cover"

@@ -18,6 +18,7 @@ import { useSetAtom } from "jotai";
 import { openAuthModal } from "@/features/auth/atoms/auth";
 import { useDictionary } from "@/features/lang";
 import Link from "next/link";
+
 const PersonalPage = () => {
   const t = useDictionary();
   const { authUser, refetchAuthUser, setIsRegistering } = useAuth()
