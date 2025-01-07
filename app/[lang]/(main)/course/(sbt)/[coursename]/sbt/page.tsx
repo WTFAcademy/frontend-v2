@@ -32,7 +32,7 @@ const CourseSbtPage = ({ params }: { params: { coursename: string } }) => {
     setIsClaimed(!!get(course, "data.claim_address", null));
     setCourseId(get(course, "data.id", null));
     setDonationAmount(
-      Number(formatEther(BigInt(get(course, "data.claim_price", 0))))
+      Number(formatEther(BigInt(get(course, "data.claim_price", 0.1))))
     );
     setCourse(get(course, "data", {} as TCourse));
   }, [course]);

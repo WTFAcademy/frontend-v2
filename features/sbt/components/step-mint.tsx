@@ -181,11 +181,15 @@ const StepMint = ({
           <div className="flex items-center gap-x-3">
             <Input
               placeholder="0.00"
+              step={0.01}
               type="number"
               className="w-[100px]"
               value={donationAmount}
               onChange={(e) => {
                 const value = Number(e.target.value);
+                if (value < 0.01) {
+                  return;
+                }
                 setDonationAmount(value);
               }}
             />

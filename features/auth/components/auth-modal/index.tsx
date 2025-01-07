@@ -54,6 +54,7 @@ export const AuthModal = ({
         <DialogContent
           closeOnOverlayClick={isCloseOnOverlayClick}
           className="flex flex-col p-0 w-[488px]"
+          withoutClose
         >
           <VisuallyHidden asChild>
             <DialogHeader>

@@ -97,7 +97,7 @@ const StepSignInWithGitHub = ({
         <Button
           size="lg"
           variant="success"
-          className="gap-2 hover:bg-wtf-function-successBg"
+          className="gap-2 hover:bg-wtf-function-successBg rounded-full"
         >
           <Icons.check className="w-4 h-4" />
           <span>{t.login.Done}</span>
