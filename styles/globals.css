@@ -267,6 +267,29 @@ body {
     background-image: url('/svgs/course-certificate-background-dark.svg');
   }
 
+
+  #personal-banner {
+    background-image: url('/images/personal-banner.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+  }
+
+  #personal-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(104.24% 100.02% at 50% -12.34%, rgba(255, 255, 255, 0) 0%, #FFFFFF 100%);
+  }
+
+  .dark #personal-banner::before {
+    background: radial-gradient(119.07% 114.25% at 50% -26.57%, rgba(18, 18, 18, 0) 0%, #121212 100%);
+  }
+
   /* 自定义滚动条样式 */
   * {
     /* Firefox */
