@@ -59,12 +59,12 @@ const Sidebar = () => {
         groupName={t.mobile.Forum}
         url="/forum"
       />
-      {/* <NavItem
-        items={[]}
-        groupName={t.mobile.Shop}
-        url="/shop"
-      />
       <NavItem
+        items={[]}
+        groupName={t.mobile.Personal_Center}
+        url="/personal"
+      />
+      {/* <NavItem
         items={[]}
         groupName={t.mobile.About_us}
         url="/about"
