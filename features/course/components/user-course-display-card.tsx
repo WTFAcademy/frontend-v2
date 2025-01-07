@@ -40,43 +40,45 @@ const UserCourseDisplayCard = ({
   isCompleted,
 }: TCourseDisplayCardProps) => {
   return (
-    <div className="course-display-card w-full p-8 md:p-10 border-wtf-border-divider border-[0.5px] border-solid flex flex-col items-center gap-y-8 cursor-pointer transition-all hover:bg-wtf-background-hover">
-      <div className="relative w-full h-[186px] md:h-[240px]">
-        <Image
-          src={image || "/images/course-placeholder.png"}
-          alt={title}
-          fill
-          className="w-full h-full object-contain"
-        />
-      </div>
-      <div className="w-full flex flex-col gap-y-3">
-        <div className="text-[22px] font-bold leading-none">{title}</div>
-        <div className="text-base font-normal leading-7 overflow-hidden line-clamp-2">
-          {description}
+    <Link href={`/course/${path}`}>
+      <div className="course-display-card w-full p-8 md:p-10 border-wtf-border-divider border-[0.5px] border-solid flex flex-col items-center gap-y-8 cursor-pointer transition-all hover:bg-wtf-background-hover">
+        <div className="relative w-full h-[186px] md:h-[240px]">
+          <Image
+            src={image || "/images/course-placeholder.png"}
+            alt={title}
+            fill
+            className="w-full h-full object-contain"
+          />
+        </div>
+        <div className="w-full flex flex-col gap-y-3">
+          <div className="text-[22px] font-bold leading-none">{title}</div>
+          <div className="text-base font-normal leading-7 overflow-hidden line-clamp-2">
+            {description}
+          </div>
+        </div>
+        <div className="w-full flex items-center justify-between">
+          <div className="w-full flex items-center gap-x-2">
+            {isCompleted && (
+              <div className="px-2 py-[9px] rounded bg-wtf-function-successBg flex items-center gap-x-2 h-[32px] w-[129px]">
+                <Icons.completed className="w-4 h-4 text-wtf-function-success" />
+                <span className="text-wtf-function-success font-medium text-sm leading-[14px]">
+                  {time}
+                </span>
+              </div>
+            )}
+            {!isCompleted && (
+              <div className="px-2 py-[9px] rounded bg-wtf-background-tag flex items-center gap-x-2 text-wtf-content-3 h-[32px] w-[129px]">
+                <Icons.fillDate className="w-4 h-4" />
+                <span className="font-medium text-sm leading-[14px]">{time}</span>
+              </div>
+            )}
+          </div>
+          <div className="w-6 h-6 flex-shrink-0">
+            <LinkSvg />
+          </div>
         </div>
       </div>
-      <div className="w-full flex items-center justify-between">
-        <div className="w-full flex items-center gap-x-2">
-          {isCompleted && (
-            <div className="px-2 py-[9px] rounded bg-wtf-function-successBg flex items-center gap-x-2">
-              <Icons.completed className="w-5 h-5 text-wtf-function-success" />
-              <span className="text-wtf-function-success font-semibold">
-                {time}
-              </span>
-            </div>
-          )}
-          {!isCompleted && (
-            <div className="px-2 py-[9px] rounded bg-wtf-background-tag flex items-center gap-x-2 text-wtf-content-3">
-              <Icons.fillDate className="w-5 h-5" />
-              <span className="font-semibold">{time}</span>
-            </div>
-          )}
-        </div>
-        <Link href={`/course/${path}`} className="w-6 h-6 flex-shrink-0">
-          <LinkSvg />
-        </Link>
-      </div>
-    </div>
+    </Link>
   );
 };
 
