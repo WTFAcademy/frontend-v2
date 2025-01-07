@@ -137,7 +137,7 @@ const PersonalPage = () => {
                 userCourses.data.completed.length +
                 userCourses.data.ongoing.length ===
               0 ? (
-              <div className="px-10 py-9 text-wtf-content-3 min-h-[160px]">
+              <div className="px-10 py-9 text-wtf-content-3 min-h-[160px] border-b-[0.5px] border-wtf-border-divider">
                 {t.personal.You_have_not_started_any_course_yet}
               </div>
             ) : (

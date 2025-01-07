@@ -69,8 +69,7 @@ const PersonalPage = () => {
         <div className="container relative z-10 pt-24 pl-4 md:pl-10 4xl:pl-[24rem]">
           <Button
             variant="outline"
-            className="flex items-center gap-2 rounded"
-            size="sm"
+            className="flex items-center gap-1 rounded p-2"
             onClick={() => router.back()}
           >
             <ChevronLeft className="h-4 w-4" />
