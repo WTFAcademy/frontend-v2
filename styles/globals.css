@@ -259,7 +259,12 @@ body {
   #course-certificate-background {
     background-image: url('/svgs/course-certificate-background.svg');
     background-position: center;
-    background-size: contain;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  .dark #course-certificate-background {
+    background-image: url('/svgs/course-certificate-background-dark.svg');
   }
 
   /* 自定义滚动条样式 */
