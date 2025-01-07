@@ -161,20 +161,22 @@ const StepMint = ({
       </div>
       {active && (
         <div className="rounded-lg bg-wtf-background-block h-[72px] w-full flex items-center justify-between p-4 gap-4 mt-3">
-          <div className="flex gap-x-3">
-            <Checkbox
-              className="mt-1"
-              checked={isChecked}
-              onCheckedChange={(checked) => {
-                setIsChecked(checked as boolean);
-              }}
-            />
-            <div className="flex flex-col">
-              <span className="text-base font-medium">{t.sbt.donation.title}</span>
-              <span className="text-xs text-wtf-content-3 whitespace-nowrap">
-                {t.sbt.donation.description}
-              </span>
+          <div className="flex flex-col gap-y-2">
+            <div className="flex gap-x-3">
+              <Checkbox
+                className="mt-1"
+                checked={isChecked}
+                onCheckedChange={(checked) => {
+                  setIsChecked(checked as boolean);
+                }}
+              />
+              <div className="flex flex-col">
+                <span className="text-base font-medium">{t.sbt.donation.title}</span>
+              </div>
             </div>
+            <span className="text-xs text-wtf-content-3 whitespace-nowrap">
+              {t.sbt.donation.description}
+            </span>
           </div>
           <div className="flex items-center gap-x-3">
             <Input

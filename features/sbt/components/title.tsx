@@ -43,7 +43,7 @@ const Title = ({ course }: { course: TCourse }) => {
         </div>
         <span className="text-[28px] font-bold">{t.sbt.title.test_passed}</span>
       </div>
-      <p className="text-[18px] font-medium">
+      <p className="text-[18px] font-medium text-center">
         {t.sbt.title.congratulations.replace("{course}", course.title)}
       </p>
     </div>

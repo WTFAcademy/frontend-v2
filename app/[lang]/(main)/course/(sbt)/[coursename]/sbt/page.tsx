@@ -50,7 +50,7 @@ const CourseSbtPage = ({ params }: { params: { coursename: string } }) => {
         <Title course={course.data} />
       </div>
       <div className="flex flex-col md:flex-row gap-10 md:min-h-[376px]">
-        <div className="flex-1 bg-wtf-background-block rounded-2xl overflow-hidden flex flex-col justify-center items-center">
+        <div className="flex-1 bg-wtf-background-block rounded-2xl overflow-hidden flex flex-col justify-center items-center py-16">
           <div className="relative h-[180px] w-[calc(100%-80px)]">
             <Image
               src={course.data.sbt_token?.url}

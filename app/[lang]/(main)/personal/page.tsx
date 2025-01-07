@@ -102,7 +102,7 @@ const PersonalPage = () => {
                 {t.personal.You_have_not_obtained_any_certificates_yet}
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-5 mt-[-0.5px]">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-5 mt-[-0.5px] border-y-[0.5px] border-wtf-border-divider">
                 {userCourses.data.sbt.map((sbt) => (
                   <UserCourseDisplayCard
                     key={sbt.id}
@@ -133,7 +133,7 @@ const PersonalPage = () => {
                 {t.personal.You_have_not_started_any_course_yet}
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-5 mt-[-0.5px]">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-5 mt-[-0.5px] border-y-[0.5px] border-wtf-border-divider">
                 {userCourses.data.completed.map((course) => (
                   <UserCourseDisplayCard
                     key={course.id}
