@@ -27,12 +27,12 @@ const SectionSponsors = () => {
             {t.index.Sponsor_the_future_of_Web3_ecology}
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-0 w-full mt-0 md:w-[66.7%] lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-2 gap-0 w-full mt-0 md:w-[66.7%] lg:grid-cols-3 xl:grid-cols-4 !mb-[-0.5px]">
           {sponsors.map((sponsor) => (
             <Link 
               href={sponsor.url} 
               key={sponsor.name} 
-              className="relative h-[120px] flex items-center justify-center p-4 border-wtf-border-divider border-[0.5px] border-solid hover:opacity-80"
+              className="relative h-[120px] flex items-center justify-center p-4 border-wtf-border-divider border-[0.5px] border-solid ml-[-0.5px] mt-[-0.5px] hover:opacity-80"
             >
               <Image 
                 src={theme === "dark" ? sponsor.logo_dark : sponsor.logo} 
