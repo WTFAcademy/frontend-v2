@@ -39,7 +39,7 @@ const SectionSponsors = () => {
                 alt={sponsor.name} 
                 width={120} 
                 height={40} 
-                className="object-contain" 
+                className="object-contain h-[24px] w-auto" 
               />
             </Link>
           ))}
