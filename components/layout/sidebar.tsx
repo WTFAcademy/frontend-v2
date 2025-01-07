@@ -91,8 +91,8 @@ const Sidebar = () => {
         onChange={() => setTheme(theme === "dark" ? "light" : "dark")}
       />
       <Separator className="my-4" />
-      <div className="relative z-20 flex flex-col mt-2">
-        <div className="flex items-center py-[18.5px] px-5 cursor-pointer" onClick={handleLogout}>
+      <div className="relative z-20 flex flex-col mb-6">
+        <div className="flex items-center h-[56px] px-5 cursor-pointer" onClick={handleLogout}>
           <div className="flex items-center gap-2 text-base font-medium text-wtf-function-error">
             <span>{t.index.Logout}</span>
           </div>

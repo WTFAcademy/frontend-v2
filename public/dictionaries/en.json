@@ -82,7 +82,8 @@
         "Upcomming_Courses": "Upcomming Courses",
         "Popular_Courses": "Popular Courses",
         "Courses_specially_designed_by_developers_for_developers": "Courses specially designed by developers for developers",
-        "Courses": "Courses"
+        "Courses": "Courses",
+        "No_courses_found": "No courses found"
     },
     "mobile": {
         "Course": "Course",

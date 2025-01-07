@@ -28,10 +28,10 @@ const CourseDetailCard = ({ coursePath }: CourseDetailCardProps) => {
 
   return (
     <div className="w-full">
-      <div className="px-4 py-2 rounded-full border border-wtf-content-3 text-wtf-content-2 w-fit leading-none">
+      <div className="px-3 py-2 rounded-full border text-sm uppercase border-wtf-content-3 text-wtf-content-2 w-fit leading-none">
         {course.category}
       </div>
-      <h1 className="text-wtf-content-1 text-4xl font-bold mt-3">
+      <h1 className="text-wtf-content-1 text-4xl font-bold mt-3 leading-[48px]">
         {course.title}
       </h1>
       <p className="text-wtf-content-2 mt-3">{course.description}</p>

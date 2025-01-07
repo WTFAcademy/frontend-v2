@@ -79,7 +79,7 @@ export const getCourseDetailByPath = async (path: string) => {
     `/course/${path}`
   );
 
-  const sbtToken = JSON.parse(get(res, "data.data.sbt_token", "{}") as unknown as string);
+  const sbtToken = get(res, "data.data.sbt_token", {});
   const resData = set(res, "data.data.sbt_token", sbtToken);
 
   return resData.data;

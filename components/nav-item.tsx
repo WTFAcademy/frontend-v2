@@ -37,8 +37,8 @@ const NavItem = ({
 
   if (!items?.length) {
     return (
-      <Link href={url || ""} className="relative z-20 flex flex-col mt-2">
-        <div className="flex items-center py-[18.5px] px-5">
+      <Link href={url || ""} className="relative z-20 flex flex-col">
+        <div className="flex items-center h-[56px] px-5">
           <div className="flex items-center gap-2 text-base font-medium">
             {groupIcon && groupIcon}
             <span>{groupName}</span>
@@ -108,9 +108,9 @@ const NavItem = ({
   };
 
   return (
-    <div className="relative z-20 flex flex-col mt-2">
+    <div className="relative z-20 flex flex-col">
       <div
-        className="flex items-center justify-between py-[18.5px] px-5 cursor-pointer"
+        className="flex items-center justify-between h-[56px] px-5 cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex items-center gap-2 text-base font-medium">
@@ -183,7 +183,7 @@ export const NavSelectionItem = ({
   return (
     <div className="relative z-20 flex flex-col mt-2">
       <div
-        className="flex items-center justify-between py-[18.5px] px-5 cursor-pointer"
+        className="flex items-center justify-between h-[56px] px-5 cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex items-center gap-2 text-base font-medium">
@@ -226,7 +226,7 @@ export const NavSwitchItem = ({
   onChange: (value: boolean) => void;
 }) => {
   return (
-    <div className="flex items-center justify-between py-[18.5px] px-5 cursor-pointer">
+    <div className="flex items-center justify-between h-[56px] px-5 cursor-pointer">
       <div className="flex items-center gap-2 text-base font-medium">
         {groupIcon && groupIcon}
         <span>{groupName}</span>

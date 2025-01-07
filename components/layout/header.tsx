@@ -38,6 +38,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useDictionary } from "@/features/lang";
 import { useAtom } from "jotai";
 import { openAuthModal } from "@/features/auth/atoms/auth";
+import { ScrollArea } from "../ui/scroll-area";
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -284,7 +285,7 @@ const Header = () => {
               </>
             )}
             <Sheet open={openSheet} onOpenChange={setOpenSheet}>
-              <SheetContent className="w-[340px] p-0 flex flex-col" withoutClose>
+              <SheetContent className="w-[340px] p-0 flex flex-col gap-0" withoutClose>
                 <div className="flex justify-between items-center px-5 py-8">
                   <Icons.logo className="w-[66px] h-6" />
                   <SheetClose>
@@ -292,9 +293,9 @@ const Header = () => {
                     <span className="sr-only">Close</span>
                   </SheetClose>
                 </div>
-                <div className="flex-auto flex flex-col w-full">
+                <ScrollArea className="flex-auto flex flex-col w-full">
                   <Sidebar />
-                </div>
+                </ScrollArea>
               </SheetContent>
             </Sheet>
           </div>

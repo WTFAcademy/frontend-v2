@@ -56,6 +56,7 @@
         "Cancel": "取消"
     },
     "course": {
+        "No_courses_found": "没有找到课程",
         "Quiz": "测验",
         "Code": "代码",
         "Previous": "上一章",

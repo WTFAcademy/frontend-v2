@@ -9,7 +9,8 @@ import Link from "next/link";
 import { useDictionary } from "@/features/lang";
 import { cn } from "@/lib/utils";
 import useAuth from "@/features/auth/hooks/use-auth";
-
+import Image from "next/image";
+import { isEmpty } from "lodash-es";
 const ChapterProgressButton = ({
   progress,
   children,
@@ -87,6 +88,16 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
   });
 
   const chapters = chapterData?.list || [];
+
+  if (isEmpty(chapters)) {
+    return (
+      <div className="relative h-full w-full flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center">
+          <Image src="/svgs/empty.svg" alt="empty" width={120} height={167} />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="w-full">

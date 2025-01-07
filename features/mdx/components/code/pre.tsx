@@ -10,7 +10,7 @@ const Pre = ({
   children: string;
 }) => {
   return (
-    <div className="relative group overflow-hidden rounded-sm bg-wtf-background-block border-[1px] border-wtf-border-line px-4 py-3 text-sm my-4">
+    <div className="relative group overflow-hidden rounded-sm bg-wtf-background-code border-[1px] border-wtf-border-outline px-4 py-3 text-sm my-4 font-mono">
       <ScrollArea className="w-full">
         <SyntaxHighlighter language={language}>{children}</SyntaxHighlighter>
         <ScrollBar orientation="horizontal" />

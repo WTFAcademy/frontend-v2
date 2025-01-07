@@ -25,7 +25,7 @@ const SectionHeader = ({ title, description, moreUrl, className }: TSectionHeade
           {moreUrl && (
             <Link
               href={moreUrl}
-              className="group flex items-center text-wtf-content-link text-base"
+              className="group flex items-center text-wtf-function-link text-base"
             >
               <span className="text-base leading-none mr-1">{t.index.View_All}</span>
               <motion.div
