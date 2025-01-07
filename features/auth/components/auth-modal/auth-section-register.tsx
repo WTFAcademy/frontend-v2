@@ -213,7 +213,7 @@ const StepSignMessageAndBindWallet = ({
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {errorSignMessageAndBindWallet?.message}
+                  {errorSignMessageAndBindWallet?.message.split('\n')[0]}
                 </motion.span>
               </AnimatePresence>
             )}
@@ -273,7 +273,7 @@ const StepSignMessageAndBindWallet = ({
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
           >
-            {error}
+            {error.split('\n')[0]}
           </motion.div>
         </AnimatePresence>
       )}
