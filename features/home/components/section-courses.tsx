@@ -7,6 +7,7 @@ import { get } from "lodash-es";
 import { headers } from "next/headers";
 import { getDictionary } from "@/app/[lang]/dictionaries";
 
+// TODO: header
 const SectionCourses = async () => {
   const heads = headers()
   const lang = heads.get('x-current-lang')
