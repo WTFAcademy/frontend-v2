@@ -2,10 +2,12 @@ import request from "@/lib/request";
 import { TResponse } from "@/lib/request";
 
 type TGetWtfStatsResponse = TResponse<{
-  learner_count: number;
-  contributor_count: number;
-  star_count: number;
-  bonus_amount: number;
+  stars: number;
+  bonus: number;
+  passers: number;
+  learners: number;
+  contributors: number;
+  contributions: number;
 }>;
 
 export const getWtfStats = async (): Promise<TGetWtfStatsResponse> => {

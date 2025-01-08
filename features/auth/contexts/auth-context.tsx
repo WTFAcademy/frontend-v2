@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useState, useCallback } from "react";
-import { useLocalStorageState } from "ahooks";
+import { useCookieState, useLocalStorageState } from "ahooks";
 import { loginWithGithubApi } from "../api/use-auth-api";
 import { LOCAL_STORAGE_TOKEN_KEY } from "../constants";
 import type { SetState } from "ahooks/lib/createUseStorageState";
@@ -32,8 +32,9 @@ export const AuthContext = React.createContext<TAuthContext>(
 
 export const AuthProvider = ({ children }: TProps) => {
   const [isRegistering, setIsRegistering] = useState(false);
-  const [token, setToken] = useLocalStorageState<string | undefined>(LOCAL_STORAGE_TOKEN_KEY, {
+  const [token, setToken] = useCookieState(LOCAL_STORAGE_TOKEN_KEY, {
     defaultValue: undefined,
+    sameSite: "strict",
   });
   const { disconnect } = useDisconnect();
 

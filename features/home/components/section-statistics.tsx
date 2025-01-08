@@ -7,7 +7,6 @@ import { getDictionary } from "@/app/[lang]/dictionaries";
 
 const SectionStatistics = async () => {
   const data = await getWtfStats();
-  console.log(data);
 
   // DEV: switch language in server component
   const heads = headers()
@@ -15,7 +14,7 @@ const SectionStatistics = async () => {
   const t = await getDictionary(lang)
 
   const learnerCount = get(data, "data.learners", 0);
-  const contributorCount = get(data, "data.contributions", 0);
+  const contributorCount = get(data, "data.contributors", 0);
   const starCount = get(data, "data.stars", 0);
   const bonusAmount = get(data, "data.bonus", 0);
 

@@ -83,12 +83,12 @@ const CourseDetailCard = ({ coursePath }: CourseDetailCardProps) => {
             }
           </p>
         </div>
-        <div className="w-[336px] h-[222px] p-2 bg-white dark:bg-wtf-black rounded-lg relative">
+        <div className="max-w-[336px] h-[170px] p-2 bg-white dark:bg-wtf-black overflow-hidden rounded-lg relative">
           <Image
             src={course.sbt_token?.url}
             alt="course certificate"
             fill
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover bg-white dark:bg-black"
           />
         </div>
         {course.progress === 100 && !isClaimed && (
@@ -100,7 +100,7 @@ const CourseDetailCard = ({ coursePath }: CourseDetailCardProps) => {
           </Link>
         )}
         {isClaimed && (
-          <Button variant="success" className="w-fit">
+          <Button variant="success" className="w-fit cursor-not-allowed">
             <Icons.star className="w-4 h-4 mr-2" />
             {t.course.Claimed}
           </Button>

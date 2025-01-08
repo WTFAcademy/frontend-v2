@@ -18,18 +18,42 @@ export const request = axios.create({
 });
 
 request.interceptors.request.use((config) => {
+  // if (typeof window !== "undefined") {
+  //   const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
+  //   console.log("token", token);
+  //   if (token) {
+  //     config.headers.Authorization = `Bearer ${JSON.parse(token)}`;
+  //   }
+  // }
+
+  let locale;
+  let token;
+
   if (typeof window !== "undefined") {
-    const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
-    console.log("token", token);
-    if (token) {
-      config.headers.Authorization = `Bearer ${JSON.parse(token)}`;
+    // 客户端获取 cookie
+    locale = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("NEXT_LOCALE="))
+      ?.split("=")[1];
+    token = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith(LOCAL_STORAGE_TOKEN_KEY))
+      ?.split("=")[1];
+  } else {
+    // 服务端获取 cookie
+    const { cookies } = require('next/headers');
+    try {
+      locale = cookies().get('NEXT_LOCALE')?.value;
+      token = cookies().get(LOCAL_STORAGE_TOKEN_KEY)?.value;
+      console.log("locale", locale);
+      console.log("token", token);
+    } catch (error) {
+      console.warn('Unable to access cookies on server side:', error);
     }
   }
-  const locale =
-    typeof document !== "undefined"
-      ? document.cookie.split("; ").find((row) => row.startsWith("NEXT_LOCALE="))?.split("=")[1]
-      : undefined;
+
   config.headers.language = locale;
+  config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
