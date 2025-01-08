@@ -131,7 +131,9 @@
         "Bind_Wallet": "绑定钱包",
         "Enter_your_nickname": "输入你的昵称",
         "Enter_your_bio": "输入你的简介",
-        "Back": "返回"
+        "Back": "返回",
+        "Cancel": "取消",
+        "Are_you_sure_you_want_to_unbind_this_wallet": "确定要解绑这个钱包吗？"
     },
     "sbt": {
         "congratulations": "🎉 恭喜你在课程中毕业",

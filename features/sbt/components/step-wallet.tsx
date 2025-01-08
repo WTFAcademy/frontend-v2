@@ -101,13 +101,8 @@ const StepWallet = ({
       </Button>
     );
   };
-
-  console.log("isFinish: ", isFinish);
-  console.log("currentStep: ", currentStep);
   
   useEffect(() => {
-    console.log("isFinish: ", isFinish);
-    console.log("currentStep: ", currentStep);
     if (isFinish) {
       nextStep(ClaimStep.MINT);
     } else if (currentStep > ClaimStep.CONNECT_WALLET) {

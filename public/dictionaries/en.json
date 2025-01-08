@@ -117,6 +117,7 @@
         "Bio": "Bio",
         "Save": "Save",
         "Unbind": "Unbind",
+        "Cancel": "Cancel",
         "Settings_updated_successfully": "Settings updated successfully",
         "Failed_to_update_settings": "Failed to update settings",
         "Wallet_unbound_successfully": "Wallet unbound successfully",
@@ -130,7 +131,8 @@
         "Bind_Wallet": "Bind Wallet",
         "Enter_your_nickname": "Enter your nickname",
         "Enter_your_bio": "Enter your bio",
-        "Back": "Back"
+        "Back": "Back",
+        "Are_you_sure_you_want_to_unbind_this_wallet": "Are you sure you want to unbind this wallet?"
     },
     "sbt": {
         "congratulations": "🎉 Congratulations on graduating from the course",

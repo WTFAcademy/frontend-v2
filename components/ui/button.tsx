@@ -21,6 +21,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline disabled:no-underline",
         success:
           "bg-wtf-function-successBg text-wtf-function-success hover:bg-green-300 hover:text-green-700 disabled:bg-wtf-function-successBg/50",
+        normal: "bg-wtf-background-block hover:bg-wtf-background-block/80 disabled:bg-wtf-background-block/50"
       },
       size: {
         default: "h-9 px-4 py-2",

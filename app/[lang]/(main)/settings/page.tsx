@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 import { useForm } from "react-hook-form";
 import { Form, FormField } from "@/components/ui/form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { updateUser, unbindWallet } from "@/features/user/api/use-user-api";
 import {
@@ -36,6 +36,7 @@ const PersonalPage = () => {
       bio: authUser?.bio || "",
     },
   });
+  const [openPopover, setOpenPopover] = useState(false);
 
   const onSubmit = async (data: any) => {
     console.log(data);
@@ -102,8 +103,8 @@ const PersonalPage = () => {
               <div className="w-full border border-border-line p-5 flex items-center gap-x-4 rounded-lg">
                 <Icons.github className="w-10 h-10 text-wtf-content-1" />
                 <div className="flex flex-col">
-                  <h4 className="text-bold text-base">Github</h4>
-                  <span className="text-wtf-content-3">
+                  <h4 className="text-bold text-base font-semibold">Github</h4>
+                  <span className="text-wtf-content-3 text-sm">
                     <Link
                       href={`https://github.com/${authUser?.username}`}
                       target="_blank"
@@ -117,24 +118,36 @@ const PersonalPage = () => {
                 <div className="flex items-center gap-x-4">
                   <Icons.eth className="w-10 h-10 text-wtf-content-1" />
                   <div className="flex flex-col">
-                    <h4 className="text-bold text-base">ETH</h4>
-                    <span className="text-wtf-content-3">
+                    <h4 className="text-bold text-base font-semibold">ETH</h4>
+                    <span className="text-wtf-content-3 text-sm">
                       {formatAddress(authUser?.wallet_address || "")}
                     </span>
                   </div>
                 </div>
                 {authUser?.wallet_address ? (
                   <div className="flex items-center gap-x-2">
-                    <Popover>
+                    <Popover open={openPopover} onOpenChange={setOpenPopover}>
                       <PopoverTrigger asChild>
                         <Button variant="destructive">
                           {t.settings.Unbind}
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className="w-34">
-                        <Button variant="destructive" onClick={unbind}>
-                          {t.settings.Confirm}
-                        </Button>
+                      <PopoverContent className="max-w-[232px] rounded-xl">
+                        <h3 className="font-medium mb-3 text-sm">
+                          {t.settings.Are_you_sure_you_want_to_unbind_this_wallet}
+                        </h3>
+                        <div className="flex gap-x-2 w-full">
+                          <Button 
+                            variant="normal" 
+                            className="flex-1" 
+                            onClick={() => setOpenPopover(false)}
+                          >
+                            {t.settings.Cancel}
+                          </Button>
+                          <Button variant="destructive" className="flex-1" onClick={unbind}>
+                            {t.settings.Confirm}
+                          </Button>
+                        </div>
                       </PopoverContent>
                     </Popover>
                     <Button variant="secondary" size="icon" className="h-9 w-9">

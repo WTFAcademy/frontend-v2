@@ -2,35 +2,35 @@
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import NavItem, { NavSelectionItem, NavSwitchItem } from "../nav-item";
-import {
-  getCourseWithType,
-} from "@/features/course/api/use-courses-api";
+import { getCourseWithType } from "@/features/course/api/use-courses-api";
 import { Separator } from "../ui/separator";
 import { useTheme } from "next-themes";
 import { useDictionary } from "@/features/lang";
 import useAuth from "@/features/auth/hooks/use-auth";
 import { useLanguage } from "@/features/lang/hooks/use-language";
+import { capitalizeFirstLetter } from "@/features/course/components/course-keyword-tag";
 
 const Sidebar = () => {
   const { changeLanguage, language } = useLanguage();
   const { setTheme, theme } = useTheme();
   const t = useDictionary();
-  const { logout } = useAuth();
+  const { logout, isLogin } = useAuth();
 
   const { data } = useSuspenseQuery({
     queryKey: ["coursesWithType"],
     queryFn: () => getCourseWithType(),
   });
 
-  const courseItems = data?.map(({name, list}) => {
-    return {
-      name,
-      children: list.map((c) => ({
-        name: c.title,
-        url: `/course/${c.path}`,
-      })),
-    };
-  }) || [];
+  const courseItems =
+    data?.map(({ name, list }) => {
+      return {
+        name: capitalizeFirstLetter(name),
+        children: list.map((c) => ({
+          name: c.title,
+          url: `/course/${c.path}`,
+        })),
+      };
+    }) || [];
 
   const handleLogout = () => {
     logout();
@@ -54,11 +54,7 @@ const Sidebar = () => {
         ]}
         groupName={t.mobile.Project}
       />
-      <NavItem
-        items={[]}
-        groupName={t.mobile.Forum}
-        url="/forum"
-      />
+      <NavItem items={[]} groupName={t.mobile.Forum} url="/forum" />
       <NavItem
         items={[]}
         groupName={t.mobile.Personal_Center}
@@ -83,7 +79,7 @@ const Sidebar = () => {
         ]}
         groupName={t.mobile.Language}
         value={language}
-        onChange={(value) => changeLanguage(value as 'zh' | 'en')}
+        onChange={(value) => changeLanguage(value as "zh" | "en")}
       />
       <NavSwitchItem
         groupName={t.mobile.Dark_Mode}
@@ -91,13 +87,18 @@ const Sidebar = () => {
         onChange={() => setTheme(theme === "dark" ? "light" : "dark")}
       />
       <Separator className="my-4" />
-      <div className="relative z-20 flex flex-col mb-6">
-        <div className="flex items-center h-[56px] px-5 cursor-pointer" onClick={handleLogout}>
-          <div className="flex items-center gap-2 text-base font-medium text-wtf-function-error">
-            <span>{t.index.Logout}</span>
+      {isLogin && (
+        <div className="relative z-20 flex flex-col mb-6">
+          <div
+            className="flex items-center h-[56px] px-5 cursor-pointer"
+            onClick={handleLogout}
+          >
+            <div className="flex items-center gap-2 text-base font-medium text-wtf-function-error">
+              <span>{t.index.Logout}</span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
