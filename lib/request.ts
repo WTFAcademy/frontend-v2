@@ -41,12 +41,11 @@ request.interceptors.request.use((config) => {
       ?.split("=")[1];
   } else {
     // 服务端获取 cookie
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const { cookies } = require('next/headers');
     try {
       locale = cookies().get('NEXT_LOCALE')?.value;
       token = cookies().get(LOCAL_STORAGE_TOKEN_KEY)?.value;
-      console.log("locale", locale);
-      console.log("token", token);
     } catch (error) {
       console.warn('Unable to access cookies on server side:', error);
     }

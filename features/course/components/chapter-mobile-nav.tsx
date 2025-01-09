@@ -109,6 +109,7 @@ const ChapterMobileNav = ({
                 )}
               </Link>
             ))}
+            <div className="h-[28px] w-full" />
           </ScrollArea>
         </DrawerContent>
       </Drawer>

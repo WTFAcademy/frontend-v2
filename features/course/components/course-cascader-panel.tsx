@@ -2,6 +2,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { getCourseWithType } from "../api/use-courses-api";
 import { CascaderPanel } from "@/components/cascader-panel";
 import { useRouter } from "next/navigation";
+import { capitalizeFirstLetter } from "./course-keyword-tag";
 
 const CourseCascaderPanel = () => {
   const router = useRouter();
@@ -12,7 +13,7 @@ const CourseCascaderPanel = () => {
 
   const courseOptions = data?.map(({name, list}) => {
     return {
-      label: name,
+      label: capitalizeFirstLetter(name),
       value: name,
       children: list.map(c => ({
         label: c.title,

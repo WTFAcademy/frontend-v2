@@ -9,6 +9,7 @@ import { getCourseWithType } from "../api/use-courses-api";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "@/components/image";
 import React from "react";
+import { capitalizeFirstLetter } from "./course-keyword-tag";
 
 const CourseDetailHeader = () => {
   const router = useRouter();
@@ -27,7 +28,7 @@ const CourseDetailHeader = () => {
 
   const courseGroups = data?.map(({name, list}) => {
     return {
-      name,
+      name: capitalizeFirstLetter(name),
       list,
     };
   }) || [];
