@@ -41,7 +41,7 @@ const ChapterMobileNav = ({
 
   return (
     <>
-      <div className="w-full h-[56px]" />
+      <div className="w-full h-[56px] md:hidden" />
       <motion.div
         className="md:hidden flex gap-3 px-4 top-[92px] fixed w-full z-10"
         animate={{
