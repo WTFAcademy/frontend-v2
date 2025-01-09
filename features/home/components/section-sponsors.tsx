@@ -5,6 +5,7 @@ import sponsorsData from "@/public/constants/sponsors/sponsors.json";
 import Link from "next/link";
 import { useDictionary } from "@/features/lang";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 type TSponsor = {
   name: string;
@@ -17,7 +18,11 @@ const sponsors: TSponsor[] = sponsorsData;
 
 const SectionSponsors = () => {
   const t = useDictionary();
-  const { theme } = useTheme();
+  const { theme, systemTheme } = useTheme();
+  const [isDark, setIsDark] = useState(false);
+  useEffect(() => {
+    setIsDark((theme === 'system' ? systemTheme : theme) === "dark");
+  }, [theme, systemTheme]);
   return (
     <section className="container flex">
       <div className="w-full flex flex-col space-y-8 md:space-y-0 md:flex-row mt-[-0.5px] border-wtf-border-divider border-[0.5px] border-solid">
@@ -35,7 +40,7 @@ const SectionSponsors = () => {
               className="relative h-[120px] flex items-center justify-center p-4 border-wtf-border-divider border-[0.5px] border-solid ml-[-0.5px] mt-[-0.5px] hover:opacity-80"
             >
               <Image 
-                src={theme === "dark" ? sponsor.logo_dark : sponsor.logo} 
+                src={isDark ? sponsor.logo_dark : sponsor.logo}
                 alt={sponsor.name} 
                 width={120} 
                 height={40} 
