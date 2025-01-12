@@ -1,7 +1,6 @@
 "use client";
 
 import Footer from "@/components/layout/footer";
-import Image from "next/image";
 import UserAvatar from "@/features/user/components/user-avatar";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";

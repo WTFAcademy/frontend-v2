@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useState, useCallback } from "react";
-import { useCookieState, useLocalStorageState } from "ahooks";
+import { useCookieState } from "ahooks";
 import { loginWithGithubApi } from "../api/use-auth-api";
 import { LOCAL_STORAGE_TOKEN_KEY } from "../constants";
 import type { SetState } from "ahooks/lib/createUseStorageState";
