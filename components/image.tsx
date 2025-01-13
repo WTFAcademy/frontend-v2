@@ -33,7 +33,7 @@ const Image: React.FC<ImageProps> = ({ src, alt, fallbackSrc, ...props }) => {
       src={imgSrc}
       alt={alt}
       onError={handleError}
-      onLoadingComplete={handleLoadingComplete}
+      onLoad={handleLoadingComplete}
       placeholder="blur"
       blurDataURL={placeholderImage}
       {...props}

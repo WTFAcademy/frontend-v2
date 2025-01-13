@@ -107,7 +107,7 @@ const CourseDetailHeader = () => {
                     layoutId={`course-${course.path}`}
                     data-path={course.path}
                     onClick={() => handleSelectCourse(course.path)}
-                    className={`w-[108px] h-[72px] bg-wtf-background-block rounded-sm cursor-pointer relative`}
+                    className={`w-[120px] h-[72px] bg-wtf-background-block rounded-sm cursor-pointer relative`}
                   >
                     <Image
                       src={course.cover}

@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import useAuth from "@/features/auth/hooks/use-auth";
 import Image from "next/image";
 import { isEmpty } from "lodash-es";
+import { TCourse } from "../api/use-courses-api";
 const ChapterProgressButton = ({
   progress,
   children,
@@ -74,7 +75,7 @@ const ChapterProgressStatus = ({
   }
 };
 
-const ChapterList = ({ coursePath }: { coursePath: string }) => {
+const ChapterList = ({ coursePath, course }: { coursePath: string, course: TCourse }) => {
   const t = useDictionary();
   const [activeChapter, setActiveChapter] = useState<number | null>(null);
   const { isLogin } = useAuth();
@@ -88,6 +89,7 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
   });
 
   const chapters = chapterData?.list || [];
+  const isPublished = course.status === "published";
 
   if (isEmpty(chapters)) {
     return (
@@ -139,7 +141,7 @@ const ChapterList = ({ coursePath }: { coursePath: string }) => {
                 <div className="flex items-center gap-4 justify-between">
                   <div className="flex items-center gap-4 w-full ml-[46px]">
                     <div className={cn("flex items-center gap-3 flex-1")}>
-                      {isLogin && (
+                      {isLogin && isPublished && (
                         <>
                           <ChapterProgressButton
                             href={`/course/${coursePath}/${chapter.path}/quiz`}

@@ -2,9 +2,8 @@
 
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import Image from "@/components/image";
-import { getCourseDetailByPath } from "../api/use-courses-api";
+import { TCourse } from "../api/use-courses-api";
 import { useDictionary } from "@/features/lang";
 import dayjs from "dayjs";
 import { isNil } from "lodash-es";
@@ -12,19 +11,16 @@ import { useLanguage } from "@/features/lang/hooks/use-language";
 import Link from "next/link";
 
 type CourseDetailCardProps = {
-  coursePath: string;
+  course: TCourse;
 };
 
-const CourseDetailCard = ({ coursePath }: CourseDetailCardProps) => {
+const CourseDetailCard = ({ course }: CourseDetailCardProps) => {
   const t = useDictionary();
-  const { data } = useSuspenseQuery({
-    queryKey: ["course", coursePath],
-    queryFn: () => getCourseDetailByPath(coursePath),
-  });
   const { language } = useLanguage();
 
-  const course = data?.data || {};
-  const isClaimed = course.claim_address
+  const isClaimed = course.claim_address;
+  const isPublished = course.status === "published";
+  console.log(isPublished);
 
   return (
     <div className="w-full">
@@ -35,6 +31,13 @@ const CourseDetailCard = ({ coursePath }: CourseDetailCardProps) => {
         {course.title}
       </h1>
       <p className="text-wtf-content-2 mt-3">{course.description}</p>
+      {!isPublished && (
+        <div className="mt-3">
+          <Button variant="secondary">
+            {t.course.Upcoming_Courses}
+          </Button>
+        </div>
+      )}
       <div className="mt-10 grid grid-cols-3 gap-6">
         <div className="flex flex-col">
           <Icons.code className="w-6 h-6 text-wtf-brand-1" />

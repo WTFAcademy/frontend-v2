@@ -170,7 +170,7 @@ const CoursePage = () => {
           <div className="w-full flex flex-col">
             <div className="flex items-center gap-x-3 px-8 my-[-0.5px] md:px-10 py-9 border-wtf-border-divider border-[0.5px] border-solid mt-[-0.5px]">
               <span className="text-2xl font-bold leading-8">
-                {t.course.Upcomming_Courses}
+                {t.course.Upcoming_Courses}
               </span>
               {isLoading ? (
                 <SkeletonUI className="w-6 h-6" />

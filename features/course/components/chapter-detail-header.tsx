@@ -15,7 +15,6 @@ const ChapterDetailHeader = ({
   bestScore: number;
 }) => {
   const t = useDictionary();
-  console.log(bestScore);
   
   return (
     <>

@@ -57,6 +57,7 @@ export type TCourse = {
     price: number;
     expiration: number;
   };
+  status: 'prepublish' | 'published';
 };
 
 export type TCategory = {

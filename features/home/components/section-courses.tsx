@@ -46,7 +46,7 @@ const SectionCourses = async () => {
       <div className="w-full flex flex-col">
         <div className="flex items-center gap-x-3 px-8 my-[-0.5px] md:px-10 py-9 border-wtf-border-divider border-[0.5px] border-solid">
           <span className="text-2xl font-bold leading-8">
-            {t.index.Upcomming_Courses}
+            {t.index.Upcoming_Courses}
           </span>
           <NumberTag number={upcomingCourses.length} />
         </div>

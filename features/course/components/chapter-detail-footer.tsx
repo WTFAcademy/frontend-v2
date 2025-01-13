@@ -14,9 +14,11 @@ import { cn } from "@/lib/utils";
 const ChapterDetailFooter = ({
   currentChapterPath,
   coursePath,
+  isPublished,
 }: {
   currentChapterPath: string;
   coursePath: string;
+  isPublished: boolean;
 }) => {
   const t = useDictionary();
   const { isControlVisible } = useMobileReaderInteraction();
@@ -38,7 +40,7 @@ const ChapterDetailFooter = ({
         transition={{ duration: 0.3 }}
       >
         <div className={cn("flex items-center gap-4")}>
-          {isLogin && (
+          {isLogin && isPublished && (
             <>
               <Button asChild>
                 <Link href={`/course/${coursePath}/${currentChapterPath}/quiz`}>
