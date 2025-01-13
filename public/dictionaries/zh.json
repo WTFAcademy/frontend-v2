@@ -102,7 +102,8 @@
     "quiz": {
         "Choose_answers": "选择答案",
         "Choose_an_answer": "选择一个答案",
-        "Submit": "提交"
+        "Submit": "提交",
+        "PleaseAnswerAllQuestions": "请回答所有问题"
     },
     "personal": {
         "bio": "这个人很懒，什么都没留下。",

@@ -45,7 +45,7 @@ const ChapterMobileNav = ({
       <motion.div
         className="md:hidden flex gap-3 px-4 top-[92px] fixed w-full z-10"
         animate={{
-          y: isControlVisible ? 0 : -40,
+          y: isControlVisible ? 0 : -80,
         }}
         transition={{
           duration: 0.3,
@@ -109,7 +109,7 @@ const ChapterMobileNav = ({
                 )}
               </Link>
             ))}
-            <div className="h-[28px] w-full" />
+            <div className="py-3 w-full" />
           </ScrollArea>
         </DrawerContent>
       </Drawer>

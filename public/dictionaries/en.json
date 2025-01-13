@@ -101,7 +101,8 @@
     "quiz": {
         "Choose_answers": "Choose answers",
         "Choose_an_answer": "Choose an answer",
-        "Submit": "Submit"
+        "Submit": "Submit",
+        "PleaseAnswerAllQuestions": "Please answer all questions"
     },
     "personal": {
         "My_Certificates": "My Certificates",
