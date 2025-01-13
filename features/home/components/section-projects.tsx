@@ -7,6 +7,7 @@ import { getDictionary } from "@/app/[lang]/dictionaries";
 type TProject = {
   name: string;
   description: string;
+  description_zh: string;
   banner_image: string;
   logo_image: string;
 };
@@ -52,7 +53,7 @@ const SectionProjects = async () => {
                   {project.name}
                 </div>
                 <div className="text-wtf-content-3 text-base font-normal leading-6">
-                  {project.description}
+                  {lang === 'zh' ? project.description_zh : project.description}
                 </div>
               </div>
             </div>

@@ -6,10 +6,13 @@ import { getDictionary } from "@/app/[lang]/dictionaries";
 
 type TEvent = {
   name: string;
+  name_zh: string;
   start_date: string;
   end_date: string;
   location: string;
+  location_zh: string;
   description: string;
+  description_zh: string;
   banner_image: string;
 };
 
@@ -36,14 +39,14 @@ const SectionEvents = async () => {
             <div className="relative w-full h-[180px] md:h-[220px]">
               <Image
                 src={event.banner_image}
-                alt={event.name}
+                alt={lang === 'zh' ? event.name_zh : event.name}
                 fill
                 className="object-cover"
               />
             </div>
             <div className="flex flex-col gap-y-2">
               <div className="text-wtf-content-1 text-[22px] font-bold leading-none">
-                {event.name}
+                {lang === 'zh' ? event.name_zh : event.name}
               </div>
               <div className="text-wtf-content-3 text-sm font-normal leading-6">
                 {event.start_date} ~ {event.end_date}
