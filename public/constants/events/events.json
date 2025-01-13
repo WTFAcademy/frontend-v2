@@ -1,26 +1,35 @@
 [
     {
         "name": "ETH Beijing Hackathon 2024",
+        "name_zh": "ETH北京黑客松 2024",
         "start_date": "2024-05-17",
         "end_date": "2024-05-19",
         "location": "Beijing, China",
+        "location_zh": "北京, 中国",
         "description": "",
+        "description_zh": "",
         "banner_image": "/constants/events/assets/eth-beijing-hackathon-2024.png"
     },
     {
         "name": "ETH Global Hackathon 2023",
+        "name_zh": "ETH全球黑客松 2023",
         "start_date": "2023-04-05",
         "end_date": "2023-04-08",
         "location": "Hangzhou, China",
+        "location_zh": "杭州, 中国",
         "description": "",
+        "description_zh": "",
         "banner_image": "/constants/events/assets/eth-global-hackathon-2023.png"
     },
     {
         "name": "Scaling Ethereum Hackathon",
+        "name_zh": "以太坊扩容黑客松",
         "start_date": "2023-03-10",
         "end_date": "2023-03-31",
         "location": "",
+        "location_zh": "",
         "description": "",
+        "description_zh": "",
         "banner_image": "/constants/events/assets/scaling-ethereum-hackathon.png"
     }
 ]

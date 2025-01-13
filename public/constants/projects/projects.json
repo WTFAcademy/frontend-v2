@@ -2,6 +2,7 @@
     {
         "name": "RESCUETH",
         "description": "Rescue the valuable crypto assets in the stolen wallet",
+        "description_zh": "救援被盗的钱包中有价值的加密资产",
         "url": "https://rescu-eth-app.vercel.app/",
         "banner_image": "/constants/projects/assets/rescueth/banner.png",
         "logo_image": "/constants/projects/assets/rescueth/logo.svg"
@@ -9,6 +10,7 @@
     {
         "name": "WTF Town",
         "description": "Blockchain-powered open world",
+        "description_zh": "区块链驱动的开放世界",
         "url": "https://wtf.town/",
         "banner_image": "/constants/projects/assets/wtf-town/banner.png",
         "logo_image": "/constants/projects/assets/wtf-town/logo.svg"
