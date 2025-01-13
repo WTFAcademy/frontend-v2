@@ -52,7 +52,7 @@ request.interceptors.request.use((config) => {
   }
 
   config.headers.language = locale;
-  config.headers.Authorization = `Bearer ${token}`;
+  config.headers.Authorization = token ? `Bearer ${token}` : undefined;
   return config;
 });
 
