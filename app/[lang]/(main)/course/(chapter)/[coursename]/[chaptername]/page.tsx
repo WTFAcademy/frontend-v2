@@ -59,6 +59,7 @@ const CourseChapterPage = ({
       <ChapterDetailFooter
         currentChapterPath={params.chaptername}
         coursePath={params.coursename}
+        isPublished={course.status === "published"}
       />
     </div>
   );
