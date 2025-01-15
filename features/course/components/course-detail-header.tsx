@@ -75,6 +75,13 @@ const CourseDetailHeader = () => {
     }
   }, [selectedCourse, data]);
 
+  useEffect(() => {
+    const courseName = path.split("/").pop() || null;
+    if (courseName !== selectedCourse) {
+      setSelectedCourse(courseName);
+    }
+  }, [path]);
+
   return (
     <div className="w-full relative px-4 py-4 md:px-8 md:py-4 border-b-[0.5px] border-wtf-border-divider">
       {showLeftGradient && (
