@@ -12,7 +12,7 @@ import { useWriteContract, useReadContract } from "wagmi";
 import { formatEther, parseEther } from "viem";
 import MinterABI from "../constants/abi/WTFSBT1155Minter";
 import { getSbtMintSign } from "../api/sbt";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDictionary } from "@/features/lang";
 import { SBT_CHAIN } from "../constants/nft";
 
@@ -49,6 +49,12 @@ const StepMint = ({
     args: [address],
     chainId: SBT_CHAIN.id,
   });
+
+  useEffect(() => {
+    if(donationAmount > 0) {
+      setIsChecked(true);
+    }
+  }, [donationAmount]);
 
   const mint = async () => {
     if (!courseId) {
