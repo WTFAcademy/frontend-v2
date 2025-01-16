@@ -12,7 +12,7 @@ import { useWriteContract, useReadContract } from "wagmi";
 import { formatEther, parseEther } from "viem";
 import MinterABI from "../constants/abi/WTFSBT1155Minter";
 import { getSbtMintSign } from "../api/sbt";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDictionary } from "@/features/lang";
 
 const StepMint = ({
@@ -47,6 +47,12 @@ const StepMint = ({
     functionName: "nonces",
     args: [address],
   });
+
+  useEffect(() => {
+    if(donationAmount > 0) {
+      setIsChecked(true);
+    }
+  }, [donationAmount]);
 
   const mint = async () => {
     if (!courseId) {
@@ -181,15 +187,12 @@ const StepMint = ({
           <div className="flex items-center gap-x-3">
             <Input
               placeholder="0.00"
-              step={0.01}
+              step={0.001}
               type="number"
               className="w-[100px]"
               value={donationAmount}
               onChange={(e) => {
                 const value = Number(e.target.value);
-                if (value < 0.01) {
-                  return;
-                }
                 setDonationAmount(value);
               }}
             />
