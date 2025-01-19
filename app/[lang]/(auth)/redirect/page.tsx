@@ -21,7 +21,7 @@ const RedirectContent = () => {
 
 const RedirectPage = () => {
     return (
-        <Suspense fallback={<div>加载中...</div>}>
+        <Suspense fallback={<div>Loading...</div>}>
             <RedirectContent />
         </Suspense>
     );
