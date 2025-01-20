@@ -1,12 +1,20 @@
 import { Icons } from "@/components/icons";
 import { STEP } from ".";
 import { Button } from "@/components/ui/button";
-import { useAppKit, useAppKitAccount, useDisconnect } from "@reown/appkit/react";
+import {
+  useAppKit,
+  useAppKitAccount,
+  useDisconnect,
+} from "@reown/appkit/react";
 import { useState } from "react";
 import useAuth from "../../hooks/use-auth";
 import { cn } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
-import { bindWalletApi, getNonceApi, TLoginWithGithubResponse } from "../../api/use-auth-api";
+import {
+  bindWalletApi,
+  getNonceApi,
+  TLoginWithGithubResponse,
+} from "../../api/use-auth-api";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "sonner";
@@ -76,7 +84,9 @@ const StepSignInWithGitHub = ({
           1
         </span>
         <div className="flex flex-col gap-1">
-          <span className="text-base font-semibold">{t.login.Sign_in_with_Github}</span>
+          <span className="text-base font-semibold">
+            {t.login.Sign_in_with_Github}
+          </span>
           {isDesktop && isErrorSignInWithGitHub && (
             <AnimatePresence mode="wait">
               <motion.span
@@ -139,6 +149,7 @@ const StepSignMessageAndBindWallet = ({
   const t = useDictionary();
   const [isFinished, setIsFinished] = useState(false);
   const { isConnected, address } = useAppKitAccount();
+  const { disconnect } = useDisconnect();
   const { setIsRegistering, refetchAuthUser } = useAuth();
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const { signMessage } = useSiwe();
@@ -154,7 +165,10 @@ const StepSignMessageAndBindWallet = ({
       setError(undefined);
       const nonceResponse = await getNonceApi(address!);
       if (nonceResponse.code === 0) {
-        const signature = await signMessage(nonceResponse.data.nonce, "Bind wallet to your github ID in WTF Academy.");
+        const signature = await signMessage(
+          nonceResponse.data.nonce,
+          "Bind wallet to your github ID in WTF Academy."
+        );
         const bindRes = await bindWalletApi({
           message: signature.data,
           signature: signature.signature,
@@ -181,6 +195,7 @@ const StepSignMessageAndBindWallet = ({
   });
 
   const connectWallet = async () => {
+    await disconnect();
     await open();
   };
 
@@ -213,7 +228,7 @@ const StepSignMessageAndBindWallet = ({
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {errorSignMessageAndBindWallet?.message.split('\n')[0]}
+                  {errorSignMessageAndBindWallet?.message.split("\n")[0]}
                 </motion.span>
               </AnimatePresence>
             )}
@@ -273,7 +288,7 @@ const StepSignMessageAndBindWallet = ({
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
           >
-            {error.split('\n')[0]}
+            {error.split("\n")[0]}
           </motion.div>
         </AnimatePresence>
       )}
@@ -312,7 +327,9 @@ const AuthSectionRegister = (props: AuthSectionRegisterProps) => {
     <div className="flex flex-col gap-6 pt-8 pb-6">
       <div className="flex flex-col items-center gap-4 w-full">
         <Icons.logo className="h-10" />
-        <p className="text-2xl font-bold leading-8">{t.login.Connect_to_your_GitHub}</p>
+        <p className="text-2xl font-bold leading-8">
+          {t.login.Connect_to_your_GitHub}
+        </p>
       </div>
       <div className="flex flex-col w-full">
         <StepSignInWithGitHub

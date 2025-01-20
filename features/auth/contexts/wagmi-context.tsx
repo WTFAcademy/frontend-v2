@@ -2,7 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createAppKit } from '@reown/appkit/react'
-import { mainnet, arbitrum, base } from '@reown/appkit/networks'
+import { mainnet, base, sepolia } from '@reown/appkit/networks'
 import React, { type ReactNode } from 'react'
 import { cookieToInitialState, WagmiProvider as WagmiProviderBase, type Config } from 'wagmi'
 import { projectId, wagmiAdapter } from '../constants/wagmi'
@@ -31,8 +31,8 @@ const metadata = {
 createAppKit({
   adapters: [wagmiAdapter],
   projectId,
-  networks: [mainnet, arbitrum, base],
-  defaultNetwork: mainnet,
+  networks: [mainnet, base, sepolia],
+  defaultNetwork: base,
   metadata: metadata,
   allWallets: 'ONLY_MOBILE',
   features: {
