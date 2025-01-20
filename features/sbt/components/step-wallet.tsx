@@ -4,16 +4,17 @@ import { Button } from "@/components/ui/button";
 import { openAuthModal } from "@/features/auth/atoms/auth";
 import useAuth from "@/features/auth/hooks/use-auth";
 import { cn, formatAddress } from "@/lib/utils";
-import { base } from "@reown/appkit/networks";
 import {
   useAppKit,
   useAppKitAccount,
   useAppKitNetwork,
+  useDisconnect,
 } from "@reown/appkit/react";
 import { useSetAtom } from "jotai";
 import { ClaimStep } from "./claim-stepper";
 import { useEffect } from "react";
 import { useDictionary } from "@/features/lang";
+import { SBT_CHAIN } from "../constants/nft";
 
 const StepWallet = ({
   active,
@@ -28,6 +29,7 @@ const StepWallet = ({
   const setOpenAuthModal = useSetAtom(openAuthModal);
   const { open } = useAppKit();
   const { isConnected, address } = useAppKitAccount();
+  const { disconnect } = useDisconnect();
   const { chainId, switchNetwork } = useAppKitNetwork();
   const t = useDictionary();
 
@@ -35,7 +37,7 @@ const StepWallet = ({
     isConnected &&
     authUser?.wallet_address &&
     authUser.wallet_address.toLowerCase() === address?.toLowerCase() &&
-    chainId === base.id;
+    chainId === SBT_CHAIN.id;
 
   const ActionButton = () => {
     if (!active && !isFinish) {
@@ -48,7 +50,10 @@ const StepWallet = ({
 
     if (!isConnected) {
       return (
-        <Button className="rounded-full" onClick={() => open()}>
+        <Button className="rounded-full" onClick={async () => {
+          await disconnect();
+          open();
+        }}>
           {t.sbt.connect_bind}
         </Button>
       );
@@ -83,12 +88,12 @@ const StepWallet = ({
       );
     }
 
-    if (isConnected && chainId !== base.id) {
+    if (isConnected && chainId !== SBT_CHAIN.id) {
       return (
         <Button
           className="rounded-full"
           variant="destructive"
-          onClick={() => switchNetwork(base)}
+          onClick={() => switchNetwork(SBT_CHAIN)}
         >
           {t.sbt.switch_network}
         </Button>

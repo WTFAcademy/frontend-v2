@@ -14,6 +14,7 @@ import MinterABI from "../constants/abi/WTFSBT1155Minter";
 import { getSbtMintSign } from "../api/sbt";
 import { useState, useEffect } from "react";
 import { useDictionary } from "@/features/lang";
+import { SBT_CHAIN } from "../constants/nft";
 
 const StepMint = ({
   active,
@@ -46,6 +47,7 @@ const StepMint = ({
     abi: MinterABI,
     functionName: "nonces",
     args: [address],
+    chainId: SBT_CHAIN.id,
   });
 
   useEffect(() => {
@@ -82,6 +84,7 @@ const StepMint = ({
         mintInfo.sign,
       ],
       value: parseEther(donationAmount.toString()),
+      chainId: SBT_CHAIN.id,
     });
   };
 

@@ -7,10 +7,15 @@ import useAuth from "@/features/auth/hooks/use-auth";
 import {
   useAppKit,
   useAppKitAccount,
+  useDisconnect,
 } from "@reown/appkit/react";
 import { useEffect } from "react";
 import { STEP } from ".";
-import { getNonceApi, loginWithEthereumApi, TLoginWithGithubResponse } from "../../api/use-auth-api";
+import {
+  getNonceApi,
+  loginWithEthereumApi,
+  TLoginWithGithubResponse,
+} from "../../api/use-auth-api";
 import useSiwe from "../../hooks/use-siwe";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -27,6 +32,7 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
   const { updateStep, close } = props;
   const { signInWithGithub, setToken, isRegistering } = useAuth();
   const { isConnected, address } = useAppKitAccount();
+  const { disconnect } = useDisconnect();
   const { open } = useAppKit();
   const { signMessage } = useSiwe();
 
@@ -34,7 +40,10 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
     mutationFn: async () => {
       const nonceResponse = await getNonceApi(address!);
       if (nonceResponse.code === 0) {
-        const signature = await signMessage(nonceResponse.data.nonce, "Sign in with Ethereum to the app.");
+        const signature = await signMessage(
+          nonceResponse.data.nonce,
+          "Sign in with Ethereum to the app."
+        );
         const res = await loginWithEthereumApi({
           message: signature.data,
           signature: signature.signature,
@@ -79,6 +88,7 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
     if (isConnected) {
       loginWithEthereum();
     } else {
+      await disconnect();
       open();
     }
   };
@@ -99,7 +109,9 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
     <div className="flex flex-col items-center gap-6 p-8">
       <div className="flex flex-col items-center gap-4 w-full">
         <Icons.logo className="h-10" />
-        <p className="text-2xl font-bold leading-8">{t.login.Log_in_to_WTF_Academy}</p>
+        <p className="text-2xl font-bold leading-8">
+          {t.login.Log_in_to_WTF_Academy}
+        </p>
       </div>
       <div className="flex flex-col items-center gap-4 w-full">
         <Button
@@ -118,7 +130,9 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
             </>
           )}
         </Button>
-        <Divider>{t.login.Or_if_your_account_is_already_connected_to_a_wallet}</Divider>
+        <Divider>
+          {t.login.Or_if_your_account_is_already_connected_to_a_wallet}
+        </Divider>
         <Button
           onClick={() => connectWallet()}
           variant="outline"
