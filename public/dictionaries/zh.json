@@ -83,7 +83,8 @@
         "Upcoming_Courses": "即将上线的课程",
         "Popular_Courses": "热门课程",
         "Courses_specially_designed_by_developers_for_developers": "由开发者为开发者设计的课程",
-        "Courses": "课程"
+        "Courses": "课程",
+        "Login_to_quiz": "登录并测试"
     },
     "mobile": {
         "Course": "课程",

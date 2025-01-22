@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Icons } from "./icons";
 import { motion, AnimatePresence } from "framer-motion";
 import { Switch } from "./ui/switch";
+import { useLanguage } from "@/features/lang/hooks/use-language";
 
 type NavItem = {
   url?: string;
@@ -27,6 +27,7 @@ const NavItem = ({
   url,
 }: TNavItemProps & { url?: string }) => {
   const pathname = usePathname();
+  const { language } = useLanguage();
 
   const [isExpanded, setIsExpanded] = useState(
     items.some((item) => item.url === pathname)
@@ -49,7 +50,7 @@ const NavItem = ({
   }
 
   const isActive = (path: string) => {
-    return pathname === path ? "bg-white rounded-md text-black" : "";
+    return pathname === `/${language}${path}`;
   };
 
   const renderNavItems = (items: NavItem[], level = 0) => {
@@ -62,33 +63,38 @@ const NavItem = ({
         transition={{ duration: 0.2, delay: level * 0.1 + index * 0.05 }}
       >
         {!item.children ? (
-          <Link
-            href={item.url!}
-            className={cn(
-              "py-4 px-7 transition-all duration-200 block",
-              isActive(item.url!)
+          <motion.div className="relative">
+            <Link href={item.url!} className="py-4 px-7 block relative z-10">
+              {item.name}
+            </Link>
+            {isActive(item.url!) && (
+              <motion.div
+                layoutId="activeNavBackground"
+                className="absolute inset-0 bg-white rounded-md"
+                transition={{ type: "spring", duration: 0.3 }}
+              />
             )}
-          >
-            {item.name}
-          </Link>
+          </motion.div>
         ) : (
           <>
-            <div
-              className="py-4 px-5 flex items-center justify-between cursor-pointer"
-              onClick={() => {
-                const newExpanded = { ...expandedItems };
-                newExpanded[item.name] = !newExpanded[item.name];
-                setExpandedItems(newExpanded);
-              }}
-            >
-              {item.name}
-              <motion.div
-                animate={{ rotate: expandedItems[item.name] ? 90 : 0 }}
-                transition={{ duration: 0.2 }}
+            <motion.div className="relative">
+              <div
+                className="py-4 px-5 flex items-center justify-between cursor-pointer relative z-10"
+                onClick={() => {
+                  const newExpanded = { ...expandedItems };
+                  newExpanded[item.name] = !newExpanded[item.name];
+                  setExpandedItems(newExpanded);
+                }}
               >
-                <Icons.arrowRight className="w-4 h-4" />
-              </motion.div>
-            </div>
+                {item.name}
+                <motion.div
+                  animate={{ rotate: expandedItems[item.name] ? 90 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Icons.arrowRight className="w-4 h-4" />
+                </motion.div>
+              </div>
+            </motion.div>
             <AnimatePresence>
               {expandedItems[item.name] && (
                 <motion.div
@@ -155,9 +161,14 @@ export const NavSelectionItem = ({
   onChange: (value: string) => void;
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [localValue, setLocalValue] = useState(value);
+
+  useEffect(() => {
+    setLocalValue(value);
+  }, [value]);
 
   const isActive = (currentValue: string) => {
-    return currentValue === value ? "bg-white rounded-md text-black" : "";
+    return currentValue === localValue;
   };
 
   const renderNavItems = () => {
@@ -169,13 +180,25 @@ export const NavSelectionItem = ({
         exit={{ opacity: 0, y: -10 }}
         transition={{ duration: 0.2, delay: index * 0.05 }}
       >
-        <div
-          onClick={() => onChange(item.value)}
-          className="py-4 px-7 transition-all duration-200 block flex items-center justify-between"
+        <motion.div
+          onClick={() => {
+            setLocalValue(item.value);
+            onChange(item.value);
+          }}
+          className="py-4 px-7 block flex items-center justify-between relative"
         >
-          {item.label}
-          {isActive(item.value) && <Icons.check className="w-4 h-4" />}
-        </div>
+          <span className="relative z-10">{item.label}</span>
+          {isActive(item.value) && (
+            <motion.div
+              layoutId="activeSelectionBackground"
+              className="absolute inset-0 bg-white rounded-md"
+              transition={{ type: "spring", duration: 0.3 }}
+            />
+          )}
+          {isActive(item.value) && (
+            <Icons.check className="w-4 h-4 relative z-10" />
+          )}
+        </motion.div>
       </motion.div>
     ));
   };
