@@ -68,9 +68,16 @@ const StepMint = ({
     const mintPrice = Number(formatEther(mintInfo.mint_price.toString()));
 
     if (mintPrice > 0 && (donationAmount < mintPrice || !isChecked)) {
-      setErrorMessage(t.sbt.claim_error.donation_too_low.replace("{amount}", String(mintPrice)));
+      setErrorMessage(
+        t.sbt.claim_error.donation_too_low.replace(
+          "{amount}",
+          String(mintPrice)
+        )
+      );
       return;
     }
+    
+    console.log("chainId", SBT_CHAIN.id);
 
     writeContract({
       address: "0x2BBE57dA6DFE615B9cE86B2BD149A953af7385d2",
@@ -152,7 +159,9 @@ const StepMint = ({
               "w-8 h-8 rounded-full inline-flex items-center justify-center bg-wtf-brand-2 text-white",
               active && isFinish && "bg-wtf-function-success",
               active && !isFinish && "bg-wtf-brand-1",
-              !active && !isFinish && "bg-wtf-function-brandBg text-wtf-function-link"
+              !active &&
+                !isFinish &&
+                "bg-wtf-function-brandBg text-wtf-function-link"
             )}
           >
             3
@@ -180,7 +189,9 @@ const StepMint = ({
                 }}
               />
               <div className="flex flex-col">
-                <span className="text-base font-medium">{t.sbt.donation.title}</span>
+                <span className="text-base font-medium">
+                  {t.sbt.donation.title}
+                </span>
               </div>
             </div>
             <span className="text-xs text-wtf-content-3 whitespace-nowrap">
