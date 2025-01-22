@@ -82,25 +82,25 @@ const CoursePage = () => {
     <>
       <div id="course" className="w-full h-full flex flex-col">
         <div className="relative flex flex-col items-center px-4 pt-[120px] pb-9 md:px-10 md:pt-[140px] md:pb-10">
-          <div className="absolute w-full h-full inset-0 hidden md:block">
+          <div className="absolute w-full h-full inset-0 block">
             <Image
               src="/images/course-center-banner.jpg"
               alt="Coures Center Hero"
               fill
               className="absolute w-full h-full object-cover"
             />
-            <div className="absolute w-full h-full inset-0 bg-gradient-to-b from-[rgba(255,255,255,0)] from-[-26.57%] via-[rgba(255,255,255,0)] via-0% to-white to-100% dark:from-[rgba(18,18,18,0)] dark:via-[rgba(18,18,18,0)]  dark:to-[rgba(18,18,18,1)]"></div>
+            <div className="absolute w-full h-full inset-0 bg-gradient-to-b from-[rgba(255,255,255,0)] from-[-26.57%] via-[rgba(255,255,255,0)] via-0% to-white to-100% dark:from-[rgba(18,18,18,0)] dark:via-[rgba(18,18,18,0)]  dark:to-[rgba(18,18,18,1)] z-5"></div>
           </div>
           <div className="relative mb-10 flex flex-col max-w-[760px]">
             <span className="relative inline-flex px-4 py-2.5 h-8 mb-3 text-white font-bold bg-[#135BFB] rounded-full uppercase items-center justify-center text-center w-auto mx-auto">
               {t.course.Courses}
             </span>
-            <p className="relative text-[28px] leading-[36px] text-center font-bold md:text-4xl md:leading-[48px]">
+            <p className="relative text-[28px] leading-[36px] text-center font-bold md:text-4xl md:leading-[48px] text-balance">
               {t.course.Courses_specially_designed_by_developers_for_developers}
             </p>
           </div>
           <div className="relative w-full p-[5px] bg-wtf-border-line rounded-[6px] md:w-auto">
-            <div className="flex w-full overflow-x-auto relative">
+            <div className="flex w-full overflow-x-auto relative justify-between">
               {typeList.map((type, index) => (
                 <motion.div key={index} className="relative">
                   {currentType === type && (
