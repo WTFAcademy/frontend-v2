@@ -61,7 +61,7 @@ export default function Markdown({
   return (
     <article className={cn(mode === "normal" ? "wtf-mdx" : "wtf-quiz-mdx")}>
       <ReactMarkdown
-        rehypePlugins={[rehypeRaw, rehypeKatex]}
+        rehypePlugins={[rehypeRaw, [rehypeKatex, { output: "mathml" }]]}
         remarkPlugins={[remarkMath, remarkGfm]}
         components={components}
       >
