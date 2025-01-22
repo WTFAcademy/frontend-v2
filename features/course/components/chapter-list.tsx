@@ -12,6 +12,7 @@ import useAuth from "@/features/auth/hooks/use-auth";
 import Image from "next/image";
 import { isEmpty } from "lodash-es";
 import { TCourse } from "../api/use-courses-api";
+import { Button } from "@/components/ui/button";
 const ChapterProgressButton = ({
   progress,
   children,
@@ -162,6 +163,13 @@ const ChapterList = ({ coursePath, course }: { coursePath: string, course: TCour
                         </span>
                       </ChapterProgressButton> */}
                         </>
+                      )}
+                      {!isLogin && isPublished && (
+                        <Button variant="outline" className="w-full">
+                          <span className="text-wtf-content-2 text-sm font-medium ml-1">
+                            {t.course.Login_to_quiz}
+                          </span>
+                        </Button>
                       )}
                     </div>
                     <div className="w-[128px] flex justify-end">
