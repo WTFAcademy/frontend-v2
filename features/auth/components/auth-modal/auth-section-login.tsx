@@ -60,6 +60,7 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
     onSuccess: (res: any) => {
       setToken(res.data.token);
       close();
+      window.location.reload();
     },
     onError: (error: any) => {
       if (error.message === "This wallet is not linked to any user") {
@@ -78,6 +79,7 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
       console.log("loginWithGithub", res);
       setToken(res.data.token);
       close();
+      window.location.reload();
     },
     onError: () => {
       toast.error(t.login.Login_failed);
