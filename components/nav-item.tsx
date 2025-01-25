@@ -64,9 +64,15 @@ const NavItem = ({
       >
         {!item.children ? (
           <motion.div className="relative">
-            <Link href={item.url!} className="py-4 px-7 block relative z-10">
+            {isActive(item.url!) ? (
+              <Link href={item.url!} className="py-4 px-7 block relative z-10 dark:text-[hsl(var(--wtf-content-black))]">
               {item.name}
             </Link>
+            ) : (
+              <Link href={item.url!} className="py-4 px-7 block relative z-10">
+              {item.name}
+            </Link>
+            )}
             {isActive(item.url!) && (
               <motion.div
                 layoutId="activeNavBackground"
@@ -187,7 +193,13 @@ export const NavSelectionItem = ({
           }}
           className="py-4 px-7 block flex items-center justify-between relative"
         >
-          <span className="relative z-10">{item.label}</span>
+          {isActive(item.value) ? (
+            <span className="relative z-10 dark:text-[hsl(var(--wtf-content-black))]">
+              {item.label}
+            </span>
+          ) : (
+            <span className="relative z-10">{item.label}</span>
+          )}
           {isActive(item.value) && (
             <motion.div
               layoutId="activeSelectionBackground"
@@ -196,7 +208,7 @@ export const NavSelectionItem = ({
             />
           )}
           {isActive(item.value) && (
-            <Icons.check className="w-4 h-4 relative z-10" />
+            <Icons.check className="w-4 h-4 relative z-10 dark:text-[hsl(var(--wtf-content-black))]" />
           )}
         </motion.div>
       </motion.div>
