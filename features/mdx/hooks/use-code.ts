@@ -1,4 +1,4 @@
-import { FALLBACK_LANG } from "./use-highlight";
+import { FALLBACK_LANG } from "../constants/shiki";
 
 const countLines = (str: string): number => {
     const regex = /\n/g;

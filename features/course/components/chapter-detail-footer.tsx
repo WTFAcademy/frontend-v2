@@ -60,31 +60,32 @@ const ChapterDetailFooter = ({
           )}
         </div>
         <div className={cn("flex items-center")}>
-          <Button
-            variant="link"
-            className="gap-2"
-            asChild
-            disabled={!previousChapterPath}
-          >
-            <Link
-              aria-disabled={!previousChapterPath}
-              href={`/course/${coursePath}/${previousChapterPath}`}
-            >
+          {previousChapterPath ? (
+            <Button variant="link" className="gap-2" asChild>
+              <Link href={`/course/${coursePath}/${previousChapterPath}`}>
+                <Icons.arrowLeft className="w-4 h-4" />
+                <span className="hidden md:block">{t.course.Previous}</span>
+              </Link>
+            </Button>
+          ) : (
+            <Button variant="link" className="gap-2" disabled>
               <Icons.arrowLeft className="w-4 h-4" />
               <span className="hidden md:block">{t.course.Previous}</span>
-            </Link>
-          </Button>
-          <Button
-            variant="link"
-            className="gap-2"
-            asChild
-            disabled={!nextChapterPath}
-          >
-            <Link href={`/course/${coursePath}/${nextChapterPath}`}>
+            </Button>
+          )}
+          {nextChapterPath ? (
+            <Button variant="link" className="gap-2" asChild>
+              <Link href={`/course/${coursePath}/${nextChapterPath}`}>
+                <span className="hidden md:block">{t.course.Next}</span>
+                <Icons.arrowRight className="w-4 h-4" />
+              </Link>
+            </Button>
+          ) : (
+            <Button variant="link" className="gap-2" disabled>
               <span className="hidden md:block">{t.course.Next}</span>
               <Icons.arrowRight className="w-4 h-4" />
-            </Link>
-          </Button>
+            </Button>
+          )}
         </div>
       </motion.div>
     </AnimatePresence>

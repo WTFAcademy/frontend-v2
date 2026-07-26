@@ -54,8 +54,9 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Skip all internal paths (_next)
-    "/((?!_next|svgs|images|constants|favicon).*)",
+    // Skip all internal paths (_next) and SEO files (sitemap.xml, robots.txt)
+    // — those must be served at the root without a locale prefix.
+    "/((?!_next|svgs|images|constants|favicon|sitemap.xml|robots.txt).*)",
     // Optional: only run on root (/) URL
     // '/'
   ],

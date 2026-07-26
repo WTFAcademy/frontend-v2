@@ -4,19 +4,29 @@ import ChapterList from "@/features/course/components/chapter-list";
 import CourseDetailCardSkeleton from "@/features/course/components/skeletons/course-detail-card-skeleton";
 import ChapterListSkeleton from "@/features/course/components/skeletons/chapter-list-skeleton";
 import { Metadata } from "next";
-import { getCourseDetailByPath, TCourse } from "@/features/course/api/use-courses-api";
+import { TCourse } from "@/features/course/api/use-courses-api";
+import { getCachedCourseDetail } from "@/features/course/api/server";
+import { localeAlternates } from "@/lib/site";
+
+// Rendered on demand (request-fresh data; no live API needed at build time).
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
 }: {
-  params: { coursename: string; chaptername: string };
+  params: { lang: string; coursename: string; chaptername: string };
 }): Promise<Metadata> {
-  const courseData = await getCourseDetailByPath(params.coursename);
+  // cache()-wrapped: generateMetadata + the page body share one API call.
+  const courseData = await getCachedCourseDetail(params.coursename);
   const course = courseData.data || {} as TCourse;
 
   return {
     title: course.title,
     description: course.description,
+    alternates: {
+      canonical: `/${params.lang}/course/${params.coursename}`,
+      ...localeAlternates(`/course/${params.coursename}`),
+    },
     openGraph: {
       title: course.title,
       description: course.description,
@@ -39,7 +49,7 @@ export async function generateMetadata({
 }
 
 const CourseDetailPage = async ({ params }: { params: { coursename: string } }) => {
-  const courseData = await getCourseDetailByPath(params.coursename);
+  const courseData = await getCachedCourseDetail(params.coursename);
   const course = courseData.data || {} as TCourse;
 
   return (

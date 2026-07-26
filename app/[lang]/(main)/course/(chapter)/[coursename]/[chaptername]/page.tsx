@@ -1,40 +1,88 @@
-"use client";
-
-import { getChapterByPath, TChapterDetail } from "@/features/course/api/use-chapters-api";
-import { getCourseDetailByPath } from "@/features/course/api/use-courses-api";
-import ChapterDetailFooter from "@/features/course/components/chapter-detail-footer";
-import ChapterDetailHeader from "@/features/course/components/chapter-detail-header";
-import ChapterMobileNav from "@/features/course/components/chapter-mobile-nav";
-import { useMobileReaderInteraction } from "@/features/course/hooks/use-mobile-reader-interaction";
-import Markdown from "@/features/mdx/components/markdown";
+import {
+  getCachedChapter,
+  getCachedCourseDetail,
+} from "@/features/course/api/server";
+import { TChapterDetail } from "@/features/course/api/use-chapters-api";
+import { TCourse } from "@/features/course/api/use-courses-api";
+import ChapterReader from "@/features/course/components/chapter-reader";
+import MarkdownServer from "@/features/mdx/components/markdown-server";
+import { markdownExcerpt } from "@/features/mdx/utils";
+import { localeAlternates } from "@/lib/site";
 import { TResponse } from "@/lib/request";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { Metadata } from "next";
 import Image from "next/image";
 
-const CourseChapterPage = ({
+// Chapter content/progress must stay request-fresh (and builds must not need
+// a live API), so this route is always rendered on demand.
+export const dynamic = "force-dynamic";
+
+type TParams = { lang: string; coursename: string; chaptername: string };
+
+// Mirrors the old client behavior: a failed chapter fetch renders the empty
+// state instead of the error boundary.
+const getChapterSafe = (coursename: string, chaptername: string) =>
+  getCachedChapter(coursename, chaptername).catch((err) => {
+    console.log(err);
+    return {} as TResponse<TChapterDetail>;
+  });
+
+export async function generateMetadata({
   params,
 }: {
-  params: { coursename: string; chaptername: string };
-}) => {
-  const { scrollRef } = useMobileReaderInteraction();
+  params: TParams;
+}): Promise<Metadata> {
+  const [courseData, chapterData] = await Promise.all([
+    getCachedCourseDetail(params.coursename).catch(
+      () => ({}) as TResponse<TCourse>
+    ),
+    getChapterSafe(params.coursename, params.chaptername),
+  ]);
 
-  const { data: courseData } = useSuspenseQuery({
-    queryKey: ["course", params.coursename],
-    queryFn: () => getCourseDetailByPath(params.coursename),
-  });
-
-  const { data } = useSuspenseQuery({
-    queryKey: ["chapter", params.coursename, params.chaptername],
-    queryFn: () =>
-      getChapterByPath(params.coursename, params.chaptername).catch((err) => {
-        console.log(err);
-        return {} as TResponse<TChapterDetail>;
-      }),
-  });
-
-  const chapter = data.data;
   const course = courseData.data;
-  
+  const chapter = chapterData.data;
+
+  if (!chapter) return {};
+
+  const title = course?.title
+    ? `${chapter.title} - ${course.title}`
+    : chapter.title;
+  const description =
+    markdownExcerpt(chapter.content) || course?.description || "";
+  const path = `/course/${params.coursename}/${params.chaptername}`;
+  const image = course?.cover || "/images/course-placeholder.jpg";
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `/${params.lang}${path}`,
+      ...localeAlternates(path),
+    },
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      images: [{ url: image, width: 1200, height: 630, alt: title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+  };
+}
+
+const CourseChapterPage = async ({ params }: { params: TParams }) => {
+  // Course + chapter fetched in parallel; cache() dedupes with generateMetadata.
+  const [courseData, chapterData] = await Promise.all([
+    getCachedCourseDetail(params.coursename),
+    getChapterSafe(params.coursename, params.chaptername),
+  ]);
+
+  const chapter = chapterData.data;
+  const course = courseData.data;
+
   if (!chapter) {
     return (
       <div className="relative h-full w-full flex flex-col items-center justify-center">
@@ -46,22 +94,16 @@ const CourseChapterPage = ({
   }
 
   return (
-    <div className="relative flex-auto overflow-y-auto pt-20" ref={scrollRef}>
-      <ChapterMobileNav course={course} chapterPath={params.chaptername} />
-      <div className="px-4 py-6 md:p-10">
-        <ChapterDetailHeader
-          title={chapter.title}
-          studyTime={chapter.study_time}
-          bestScore={chapter.progress}
-        />
-        <Markdown>{chapter.content}</Markdown>
-      </div>
-      <ChapterDetailFooter
-        currentChapterPath={params.chaptername}
-        coursePath={params.coursename}
-        isPublished={course.status === "published"}
-      />
-    </div>
+    <ChapterReader
+      course={course}
+      coursePath={params.coursename}
+      chapterPath={params.chaptername}
+      chapterTitle={chapter.title}
+      studyTime={chapter.study_time}
+      bestScore={chapter.progress}
+    >
+      <MarkdownServer>{chapter.content}</MarkdownServer>
+    </ChapterReader>
   );
 };
 

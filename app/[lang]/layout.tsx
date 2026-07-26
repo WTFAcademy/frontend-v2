@@ -6,6 +6,7 @@ import { headers } from "next/headers";
 import { Toaster } from "@/components/ui/sonner";
 import { getDictionary } from "./dictionaries";
 import DictionaryProvider from "@/features/lang";
+import { SITE_URL, localeAlternates } from "@/lib/site";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,10 +25,46 @@ const roboto_mono = Roboto_Mono({
   variable: "--font-roboto-mono",
 });
 
-export const metadata: Metadata = {
-  title: "WTF Academy",
-  description: "WTF Academy",
+const SITE_DESCRIPTIONS: Record<string, string> = {
+  en: "WTF Academy is an open-source Web3 developer education platform: learn Solidity, Ethers.js, zero-knowledge proofs and more, then earn on-chain certificates.",
+  zh: "WTF Academy 是开源的 Web3 开发者教育平台：学习 Solidity、Ethers.js、零知识证明等课程，并获得链上证书。",
 };
+
+export async function generateMetadata({
+  params: { lang },
+}: {
+  params: { lang: string };
+}): Promise<Metadata> {
+  const description = SITE_DESCRIPTIONS[lang] ?? SITE_DESCRIPTIONS.en;
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: "WTF Academy",
+      template: "%s | WTF Academy",
+    },
+    description,
+    alternates: {
+      canonical: `/${lang}`,
+      ...localeAlternates(""),
+    },
+    openGraph: {
+      type: "website",
+      siteName: "WTF Academy",
+      locale: lang === "zh" ? "zh_CN" : "en_US",
+      url: `/${lang}`,
+      title: "WTF Academy",
+      description,
+      images: ["/images/banner.jpeg"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "WTF Academy",
+      description,
+      images: ["/images/banner.jpeg"],
+    },
+  };
+}
 
 export default async function RootLayout({
   children,

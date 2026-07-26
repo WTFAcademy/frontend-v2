@@ -8,13 +8,17 @@ import { useAtom, useAtomValue } from "jotai";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { useAccount } from "wagmi";
-import { useWriteContract, useReadContract } from "wagmi";
+import {
+  useWriteContract,
+  useReadContract,
+  useWaitForTransactionReceipt,
+} from "wagmi";
 import { formatEther, parseEther } from "viem";
 import MinterABI from "../constants/abi/WTFSBT1155Minter";
 import { getSbtMintSign } from "../api/sbt";
 import { useState, useEffect } from "react";
 import { useDictionary } from "@/features/lang";
-import { SBT_CHAIN } from "../constants/nft";
+import { SBT_CHAIN, SBT_MINTER_ADDRESS } from "../constants/nft";
 
 const StepMint = ({
   active,
@@ -29,21 +33,46 @@ const StepMint = ({
   const [errorMessage, setErrorMessage] = useState<string>();
   const { address } = useAccount();
   const [isChecked, setIsChecked] = useState(false);
+  const [txHash, setTxHash] = useState<`0x${string}`>();
   const { writeContract, isPending } = useWriteContract({
     mutation: {
-      onSuccess: (data) => {
-        console.log(data);
-        setIsFinish(true);
+      onSuccess: (hash) => {
+        setTxHash(hash);
       },
       onError: (error) => {
-        console.log(error);
         setErrorMessage(ErrorMap(String(error.message)));
       },
     },
   });
 
+  const {
+    data: receipt,
+    isLoading: isConfirming,
+    isError: isReceiptError,
+  } = useWaitForTransactionReceipt({
+    hash: txHash,
+    chainId: SBT_CHAIN.id,
+  });
+
+  useEffect(() => {
+    if (!receipt) {
+      if (isReceiptError) {
+        setErrorMessage(t.sbt.claim_error.default);
+        setTxHash(undefined);
+      }
+      return;
+    }
+    if (receipt.status === "success") {
+      setIsFinish(true);
+    } else {
+      setErrorMessage(t.sbt.claim_error.default);
+      setTxHash(undefined);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [receipt, isReceiptError]);
+
   const { data: nonce } = useReadContract({
-    address: "0x2BBE57dA6DFE615B9cE86B2BD149A953af7385d2",
+    address: SBT_MINTER_ADDRESS,
     abi: MinterABI,
     functionName: "nonces",
     args: [address],
@@ -57,12 +86,26 @@ const StepMint = ({
   }, [donationAmount]);
 
   const mint = async () => {
+    setErrorMessage(undefined);
+
     if (!courseId) {
       setErrorMessage(t.sbt.claim_error.course_id_error);
       return;
     }
 
-    const mintInfoRes = await getSbtMintSign(courseId, Number(nonce));
+    const nonceValue = Number(nonce);
+    if (Number.isNaN(nonceValue)) {
+      setErrorMessage(t.sbt.claim_error.default);
+      return;
+    }
+
+    let mintInfoRes;
+    try {
+      mintInfoRes = await getSbtMintSign(courseId, nonceValue);
+    } catch {
+      setErrorMessage(t.sbt.claim_error.default);
+      return;
+    }
 
     const mintInfo = mintInfoRes.data;
     const mintPrice = Number(formatEther(mintInfo.mint_price.toString()));
@@ -76,11 +119,9 @@ const StepMint = ({
       );
       return;
     }
-    
-    console.log("chainId", SBT_CHAIN.id);
 
     writeContract({
-      address: "0x2BBE57dA6DFE615B9cE86B2BD149A953af7385d2",
+      address: SBT_MINTER_ADDRESS,
       abi: MinterABI,
       functionName: "mint",
       args: [
@@ -143,9 +184,9 @@ const StepMint = ({
       <Button
         className="rounded-full"
         onClick={() => mint()}
-        disabled={isPending}
+        disabled={isPending || isConfirming}
       >
-        {isPending ? t.sbt.minting : t.sbt.mint}
+        {isPending || isConfirming ? t.sbt.minting : t.sbt.mint}
       </Button>
     );
   };
