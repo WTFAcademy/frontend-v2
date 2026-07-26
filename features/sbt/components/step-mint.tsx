@@ -3,7 +3,12 @@
 import { Button } from "@/components/ui/button";
 import { ClaimStep } from "./claim-stepper";
 import { cn } from "@/lib/utils";
-import { claimAtom, courseIdAtom, donationAmountAtom } from "../atoms";
+import {
+  claimAtom,
+  courseIdAtom,
+  donationAmountAtom,
+  donationOptInAtom,
+} from "../atoms";
 import { useAtom, useAtomValue } from "jotai";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -18,7 +23,11 @@ import MinterABI from "../constants/abi/WTFSBT1155Minter";
 import { getSbtMintSign } from "../api/sbt";
 import { useState, useEffect } from "react";
 import { useDictionary } from "@/features/lang";
-import { SBT_CHAIN, SBT_MINTER_ADDRESS } from "../constants/nft";
+import {
+  SBT_CHAIN,
+  SBT_CURRENCY_SYMBOL,
+  SBT_MINTER_ADDRESS,
+} from "../constants/nft";
 
 const StepMint = ({
   active,
@@ -32,7 +41,7 @@ const StepMint = ({
   const [donationAmount, setDonationAmount] = useAtom(donationAmountAtom);
   const [errorMessage, setErrorMessage] = useState<string>();
   const { address } = useAccount();
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useAtom(donationOptInAtom);
   const [txHash, setTxHash] = useState<`0x${string}`>();
   const { writeContract, isPending } = useWriteContract({
     mutation: {
@@ -79,11 +88,13 @@ const StepMint = ({
     chainId: SBT_CHAIN.id,
   });
 
-  useEffect(() => {
-    if(donationAmount > 0) {
-      setIsChecked(true);
-    }
-  }, [donationAmount]);
+  // Amount actually sent with the transaction: the typed donation only when the
+  // user opted in, otherwise 0 (free mint). Unchecking never wipes the typed
+  // amount, so re-checking restores it.
+  const donationValue =
+    isChecked && Number.isFinite(donationAmount) && donationAmount > 0
+      ? donationAmount
+      : 0;
 
   const mint = async () => {
     setErrorMessage(undefined);
@@ -110,12 +121,13 @@ const StepMint = ({
     const mintInfo = mintInfoRes.data;
     const mintPrice = Number(formatEther(mintInfo.mint_price.toString()));
 
-    if (mintPrice > 0 && (donationAmount < mintPrice || !isChecked)) {
+    // The contract enforces `msg.value >= mintPrice`. When the signed mintPrice
+    // is 0 (free mint) any value, including 0, is accepted.
+    if (mintPrice > 0 && donationValue < mintPrice) {
       setErrorMessage(
-        t.sbt.claim_error.donation_too_low.replace(
-          "{amount}",
-          String(mintPrice)
-        )
+        t.sbt.claim_error.donation_too_low
+          .replace("{amount}", String(mintPrice))
+          .replace("{symbol}", SBT_CURRENCY_SYMBOL)
       );
       return;
     }
@@ -131,7 +143,7 @@ const StepMint = ({
         mintInfo.deadline,
         mintInfo.sign,
       ],
-      value: parseEther(donationAmount.toString()),
+      value: parseEther(donationValue.toString()),
       chainId: SBT_CHAIN.id,
     });
   };
@@ -243,15 +255,20 @@ const StepMint = ({
             <Input
               placeholder="0.00"
               step={0.001}
+              min={0}
               type="number"
               className="w-[100px]"
               value={donationAmount}
               onChange={(e) => {
                 const value = Number(e.target.value);
-                setDonationAmount(value);
+                setDonationAmount(
+                  Number.isFinite(value) && value > 0 ? value : 0
+                );
               }}
             />
-            <span>{t.sbt.donation.unit}</span>
+            <span>
+              {t.sbt.donation.unit.replace("{symbol}", SBT_CURRENCY_SYMBOL)}
+            </span>
           </div>
         </div>
       )}
