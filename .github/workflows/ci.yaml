@@ -39,16 +39,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # pnpm 9: package.json has no `packageManager` field and pnpm-lock.yaml is
-      # lockfileVersion 9.0. Must be installed before setup-node so the
-      # pnpm store can be cached.
+      # Version comes from package.json `packageManager`; specifying it here as
+      # well makes the action error out on the duplicate. Must run before
+      # setup-node so the pnpm store can be cached.
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
 
       - name: Install dependencies
