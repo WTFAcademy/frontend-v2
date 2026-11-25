@@ -9,7 +9,7 @@ const SectionStatistics = async () => {
   const data = await getWtfStats();
 
   // DEV: switch language in server component
-  const heads = headers()
+  const heads = await headers()
   const lang = heads.get('x-current-lang')
   const t = await getDictionary(lang)
 

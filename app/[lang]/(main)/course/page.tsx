@@ -11,10 +11,11 @@ import { Metadata } from "next";
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
-  params,
+  params: routeParams,
 }: {
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
+  const params = await routeParams;
   const t = await getDictionary(params.lang);
   const title = t.course.Courses;
   const description =

@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useAtomValue } from "jotai";
 import { chapterListAtom } from "../atoms/chapter";
 import { Icons } from "@/components/icons";
-import Link from "next/link";
+import CourseLink from "@/components/course-link";
 import { useDictionary } from "@/features/lang";
 import useAuth from "@/features/auth/hooks/use-auth";
 import { cn } from "@/lib/utils";
@@ -43,18 +43,18 @@ const ChapterDetailFooter = ({
           {isLogin && isPublished && (
             <>
               <Button asChild>
-                <Link href={`/course/${coursePath}/${currentChapterPath}/quiz`}>
+                <CourseLink href={`/course/${coursePath}/${currentChapterPath}/quiz`}>
                   <Icons.document className="w-4 h-4" />
                   <span className="hidden md:block ml-1">{t.course.Quiz}</span>
                   <Icons.arrowRight className="hidden md:block w-3 h-3 ml-2" />
-                </Link>
+                </CourseLink>
               </Button>
               {/* <Button asChild>
-                <Link href={`/course/${coursePath}/${currentChapterPath}/code`}>
+                <CourseLink href={`/course/${coursePath}/${currentChapterPath}/code`}>
                   <Icons.code2 className="w-4 h-4" />
                   <span className="hidden md:block ml-1">{t.course.Code}</span>
                   <Icons.arrowRight className="hidden md:block w-3 h-3 ml-2" />
-                </Link>
+                </CourseLink>
               </Button> */}
             </>
           )}
@@ -62,10 +62,10 @@ const ChapterDetailFooter = ({
         <div className={cn("flex items-center")}>
           {previousChapterPath ? (
             <Button variant="link" className="gap-2" asChild>
-              <Link href={`/course/${coursePath}/${previousChapterPath}`}>
+              <CourseLink href={`/course/${coursePath}/${previousChapterPath}`}>
                 <Icons.arrowLeft className="w-4 h-4" />
                 <span className="hidden md:block">{t.course.Previous}</span>
-              </Link>
+              </CourseLink>
             </Button>
           ) : (
             <Button variant="link" className="gap-2" disabled>
@@ -75,10 +75,10 @@ const ChapterDetailFooter = ({
           )}
           {nextChapterPath ? (
             <Button variant="link" className="gap-2" asChild>
-              <Link href={`/course/${coursePath}/${nextChapterPath}`}>
+              <CourseLink href={`/course/${coursePath}/${nextChapterPath}`}>
                 <span className="hidden md:block">{t.course.Next}</span>
                 <Icons.arrowRight className="w-4 h-4" />
-              </Link>
+              </CourseLink>
             </Button>
           ) : (
             <Button variant="link" className="gap-2" disabled>

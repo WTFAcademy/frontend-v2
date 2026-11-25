@@ -7,7 +7,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check:bundles": "node tools/check-bundles.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -41,7 +45,7 @@
     "jotai": "^2.10.1",
     "lodash-es": "^4.17.21",
     "lucide-react": "^0.446.0",
-    "next": "14.2.13",
+    "next": "15.5.29",
     "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18",
@@ -55,12 +59,16 @@
     "rehype-sanitize": "^6.0.0",
     "remark-gfm": "^4.0.0",
     "remark-math": "^6.0.0",
+    "remark-parse": "11.0.0",
+    "remark-stringify": "11.0.0",
     "shiki": "^1.24.0",
     "siwe": "^2.3.2",
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.5.2",
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss-animate": "^1.0.7",
+    "unified": "11.0.5",
+    "unist-util-visit": "5.0.0",
     "vaul": "^1.1.0",
     "viem": "^2.21.35",
     "wagmi": "^2.12.25",
@@ -74,10 +82,12 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "14.2.13",
+    "eslint-config-next": "15.5.29",
+    "fast-check": "4.9.0",
     "postcss": "^8",
     "postcss-nested": "^7.0.2",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "4.1.10"
   }
 }

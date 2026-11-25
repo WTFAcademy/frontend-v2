@@ -51,7 +51,7 @@ const INFOS = {
 };
 
 const SectionCommunity = async () => {
-  const heads = headers()
+  const heads = await headers()
   const lang = heads.get('x-current-lang')
   const t = await getDictionary(lang)
   return (

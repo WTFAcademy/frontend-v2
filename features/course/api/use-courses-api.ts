@@ -1,5 +1,5 @@
 import request, { TResponse } from "@/lib/request";
-import { get, set } from "lodash-es";
+import { get } from "lodash-es";
 
 export type TCourse = {
   id: number;
@@ -75,13 +75,10 @@ export const getCourseWithType = async () => {
   return get(res, "data.data.category", []);
 };
 
-export const getCourseDetailByPath = async (path: string) => {
+export const getCourseDetailByPath = async (path: string, language?: string) => {
   const res = await request.get<TResponse<TCourse>>(
-    `/course/${path}`
+    `/course/${encodeURIComponent(path)}`, { headers: { language } }
   );
 
-  const sbtToken = get(res, "data.data.sbt_token", {});
-  const resData = set(res, "data.data.sbt_token", sbtToken);
-
-  return resData.data;
+  return res.data;
 };

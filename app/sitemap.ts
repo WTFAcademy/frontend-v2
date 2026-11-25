@@ -1,76 +1,28 @@
-import type { MetadataRoute } from "next";
-import { getChaptersByPath } from "@/features/course/api/use-chapters-api";
-import { getCourses } from "@/features/course/api/use-courses-api";
-import { LOCALES, SITE_URL } from "@/lib/site";
+import axios from "axios";
+import { unstable_cache } from "next/cache";
+import { catalogSitemap } from "@/lib/catalog-sitemap";
 
-// Generated at request time from the live course catalog (never at build).
 export const dynamic = "force-dynamic";
 
-const entry = (
-  path: string,
-  options: Pick<MetadataRoute.Sitemap[number], "changeFrequency" | "priority">
-): MetadataRoute.Sitemap =>
-  LOCALES.map((locale) => ({
-    url: `${SITE_URL}/${locale}${path}`,
-    lastModified: new Date(),
-    ...options,
-    alternates: {
-      languages: Object.fromEntries(
-        LOCALES.map((l) => [l, `${SITE_URL}/${l}${path}`])
-      ),
-    },
-  }));
+type Item = { path: string; lang: string; updated_at: string };
 
-const staticEntries = (): MetadataRoute.Sitemap => [
-  ...entry("", { changeFrequency: "daily", priority: 1 }),
-  ...entry("/course", { changeFrequency: "daily", priority: 0.9 }),
-];
+async function readPublic<T>(path: string, lang: string): Promise<T> {
+  const { data } = await axios.get(path, {
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    params: { lang },
+    timeout: 10000,
+  });
+  if (data.code !== 0 || !data.data) throw new Error("Public catalog unavailable");
+  return data.data;
+}
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const entries = staticEntries();
+const getSitemap = unstable_cache(() => catalogSitemap(
+  lang => readPublic<{ published: Item[]; unpublished: Item[] }>("/public/courses", lang),
+  async (course, lang) => (await readPublic<{ list: Item[] }>(
+    "/public/course/" + encodeURIComponent(course) + "/chapters", lang,
+  )).list,
+), ["public-course-sitemap-v2"], { revalidate: 300 });
 
-  try {
-    const coursesRes = await getCourses();
-    const courses = [
-      ...(coursesRes.data?.published ?? []),
-      ...(coursesRes.data?.unpublished ?? []),
-    ];
-
-    for (const course of courses) {
-      entries.push(
-        ...entry(`/course/${course.path}`, {
-          changeFrequency: "weekly",
-          priority: 0.8,
-        })
-      );
-    }
-
-    // Chapter URLs, per course; a course whose chapter fetch fails is skipped.
-    const chapterLists = await Promise.allSettled(
-      courses.map(async (course) => ({
-        course,
-        chapters: (await getChaptersByPath(course.path)).data?.list ?? [],
-      }))
-    );
-
-    for (const result of chapterLists) {
-      if (result.status !== "fulfilled") continue;
-      const { course, chapters } = result.value;
-
-      for (const chapter of chapters) {
-        entries.push(
-          ...entry(`/course/${course.path}/${chapter.path}`, {
-            changeFrequency: "monthly",
-            priority: 0.7,
-          })
-        );
-      }
-    }
-  } catch (error) {
-    // API down: still serve the static routes instead of a 500.
-    console.warn("sitemap: falling back to static routes:", error);
-    return staticEntries();
-  }
-
-  return entries;
+export default async function sitemap() {
+  return getSitemap();
 }

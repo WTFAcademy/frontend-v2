@@ -1,16 +1,15 @@
 "use client";
 
+import { useParams } from "next/navigation";
+
 import { getQuizzes } from "@/features/quiz/api/use-quiz-api";
 import QuizHeader from "@/features/quiz/components/quiz-header";
 import QuizListForm from "@/features/quiz/components/quiz-list-form";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import Image from "next/image";
 
-const QuizPage = ({
-  params,
-}: {
-  params: { coursename: string; chaptername: string };
-}) => {
+const QuizPage = () => {
+  const params = useParams<{ coursename: string; chaptername: string }>();
   const { data } = useSuspenseQuery({
     queryKey: ["quiz", params.coursename, params.chaptername],
     queryFn: () => getQuizzes(params.coursename, params.chaptername),

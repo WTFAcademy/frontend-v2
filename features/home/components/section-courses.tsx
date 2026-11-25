@@ -9,7 +9,7 @@ import { getDictionary } from "@/app/[lang]/dictionaries";
 
 // TODO: header
 const SectionCourses = async () => {
-  const heads = headers()
+  const heads = await headers()
   const lang = heads.get('x-current-lang')
   const t = await getDictionary(lang)
 
@@ -23,7 +23,7 @@ const SectionCourses = async () => {
       <SectionHeader
         title={t.index.Courses}
         description={t.index.Courses_specially_designed_by_developers_for_developers}
-        moreUrl="/course"
+        moreUrl={`/${lang ?? "en"}/course`}
       />
       <div className="w-full flex flex-col">
         <div className="flex items-center gap-x-3 px-8 mb-[-0.5px] md:px-10 py-9 border-wtf-border-divider border-[0.5px] border-solid">

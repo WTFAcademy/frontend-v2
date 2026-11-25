@@ -1,5 +1,6 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import FormProvider from "./form/provider";
 import { TAnswer } from "../types";
@@ -24,6 +25,7 @@ import {
 import { useState, useEffect } from "react";
 
 const QuizListForm = ({ quiz }: { quiz: TQuizResponse }) => {
+  const { lang } = useParams<{ lang: string }>();
   const t = useDictionary();
   const methods = useForm<{ answers: TAnswer[] }>({
     defaultValues: {
@@ -61,7 +63,7 @@ const QuizListForm = ({ quiz }: { quiz: TQuizResponse }) => {
 
     const res = await submitQuizRequest(body);
     router.push(
-      `/course/${quiz.course.path}/${quiz.chapter.path}/quiz/result?score=${res.progress}&error_cnt=${res.errors}`
+      `/${lang}/course/${quiz.course.path}/${quiz.chapter.path}/quiz/result?score=${res.progress}&error_cnt=${res.errors}`
     );
   };
 

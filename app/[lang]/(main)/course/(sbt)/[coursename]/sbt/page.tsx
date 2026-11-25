@@ -1,5 +1,7 @@
 "use client";
 
+import { useParams } from "next/navigation";
+
 import Image from "@/components/image";
 import { getCourseDetailByPath, TCourse } from "@/features/course/api/use-courses-api";
 import {
@@ -18,7 +20,8 @@ import { get } from "lodash-es";
 import { useEffect } from "react";
 import { formatEther } from "viem";
 
-const CourseSbtPage = ({ params }: { params: { coursename: string } }) => {
+const CourseSbtPage = () => {
+  const params = useParams<{ coursename: string }>();
   const [isClaimed, setIsClaimed] = useAtom(claimAtom);
   const setCourseId = useSetAtom(courseIdAtom);
   const setDonationAmount = useSetAtom(donationAmountAtom);

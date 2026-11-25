@@ -1,4 +1,6 @@
-import ReactMarkdown from "react-markdown";
+import { sourceLink } from "../lib/source-links";
+import { sectionNavigation } from "../lib/section-navigation";
+import ReactMarkdown, { defaultUrlTransform } from "react-markdown";
 import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
@@ -43,9 +45,13 @@ const components = {
 
 export default function MarkdownServer({
   children,
+  locale = "en",
+  sourceUrl,
   mode = "normal",
 }: {
   children: string;
+  locale?: string;
+  sourceUrl?: string;
   mode?: "normal" | "quiz";
 }) {
   const escapedContent = fixMarkdownBold(
@@ -62,7 +68,9 @@ export default function MarkdownServer({
           // contributor HTML while keeping KaTeX's MathML output.
           [rehypeSanitize, markdownSanitizeSchema],
           rehypeFilterIframes,
+          [sectionNavigation, locale],
         ]}
+        urlTransform={url => sourceLink(defaultUrlTransform(url), sourceUrl)}
         remarkPlugins={[remarkMath, remarkGfm]}
         components={components}
       >

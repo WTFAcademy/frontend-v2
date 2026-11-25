@@ -5,13 +5,14 @@ import { ReactNode, Suspense } from "react";
 // NOTE: no hardcoded metadata here anymore — the chapter page's
 // generateMetadata provides the real per-chapter title/description/OG tags.
 
-const CourseChapterLayout = ({
+const CourseChapterLayout = async ({
   children,
-  params,
+  params: routeParams,
 }: {
   children: ReactNode;
-  params: { coursename: string };
+  params: Promise<{ coursename: string }>;
 }) => {
+  const params = await routeParams;
   return (
     <div className="flex w-full h-screen md:mx-auto md:max-w-[1920px] overflow-hidden">
       <Suspense fallback={<CourseSidebarSkeleton />}>

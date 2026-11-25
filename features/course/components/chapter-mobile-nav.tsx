@@ -7,8 +7,8 @@ import { useState } from "react";
 import { useAtomValue } from "jotai";
 import { chapterListAtom } from "../atoms/chapter";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import CourseLink from "@/components/course-link";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useMobileReaderInteraction } from "../hooks/use-mobile-reader-interaction";
 import { motion } from "framer-motion";
@@ -17,13 +17,14 @@ const ChapterMobileNav = ({
   course,
   chapterPath,
 }: {
-  course?: TCourse;
+  course?: Pick<TCourse, "title" | "path">;
   chapterPath: string;
 }) => {
   const [open, setOpen] = useState(false);
   const chapters = useAtomValue(chapterListAtom);
   const pathname = usePathname();
   const router = useRouter();
+  const { lang } = useParams<{ lang: string }>();
   const { isControlVisible } = useMobileReaderInteraction();
 
   const currentChapter = chapters.find(
@@ -55,7 +56,7 @@ const ChapterMobileNav = ({
         <div className="w-10 h-10 inline-flex items-center justify-center bg-gray-100/50 dark:bg-gray-900/50 rounded shadow-sm backdrop-blur-[20px]">
           <Icons.arrowLeft
             className="w-4 h-4 cursor-pointer"
-            onClick={() => router.push(`/course/${coursePath}`)}
+            onClick={() => router.push(`/${lang}/course/${coursePath}`)}
           />
         </div>
         <div
@@ -85,7 +86,7 @@ const ChapterMobileNav = ({
           </DrawerHeader>
           <ScrollArea className="flex-auto flex flex-col overflow-y-auto max-h-[500px]">
             {chapters.map((chapter, index) => (
-              <Link
+              <CourseLink
                 key={chapter.path}
                 href={`/course/${coursePath}/${chapter.path}`}
                 className={cn(
@@ -107,7 +108,7 @@ const ChapterMobileNav = ({
                 ) : (
                   <Icons.documentPending className="w-6 h-6 text-wtf-brand-1" />
                 )}
-              </Link>
+              </CourseLink>
             ))}
             <div className="py-3 w-full" />
           </ScrollArea>

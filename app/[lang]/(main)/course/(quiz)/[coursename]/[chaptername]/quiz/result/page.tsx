@@ -1,5 +1,7 @@
 "use client";
 
+import { useParams } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import confetti from "canvas-confetti";
@@ -7,11 +9,8 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
-const QuizResultPage = ({
-  params,
-}: {
-  params: { coursename: string; chaptername: string };
-}) => {
+const QuizResultPage = () => {
+  const params = useParams<{ lang: string; coursename: string; chaptername: string }>();
   const searchParams = useSearchParams()
   const score = Number(searchParams.get("score"))
   const errorCnt = Number(searchParams.get("error_cnt"))
@@ -85,14 +84,14 @@ const QuizResultPage = ({
           {score !== 100 && (
             <Button variant="outline" asChild>
               <Link
-                href={`/course/${params.coursename}/${params.chaptername}/quiz`}
+                href={`/${params.lang}/course/${params.coursename}/${params.chaptername}/quiz`}
               >
                 Try again
               </Link>
             </Button>
           )}
           <Button asChild>
-            <Link href={`/course/${params.coursename}/${params.chaptername}`}>
+            <Link href={`/${params.lang}/course/${params.coursename}/${params.chaptername}`}>
               Back to Tutorials
             </Link>
           </Button>

@@ -1,5 +1,8 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "@/features/auth/hooks/use-auth";
+import { getChapterByPath } from "../api/use-chapters-api";
 import { ReactNode } from "react";
 import { TCourse } from "../api/use-courses-api";
 import ChapterDetailFooter from "./chapter-detail-footer";
@@ -18,17 +21,23 @@ const ChapterReader = ({
   chapterPath,
   chapterTitle,
   studyTime,
-  bestScore,
+  language,
   children,
 }: {
-  course: TCourse;
+  course: Pick<TCourse, "path" | "title" | "status">;
   coursePath: string;
   chapterPath: string;
   chapterTitle: string;
   studyTime: number;
-  bestScore: number;
+  language: string;
   children: ReactNode;
 }) => {
+  const { authUser } = useAuth();
+  const progress = useQuery({
+    queryKey: ["reader-progress", authUser?.id, coursePath, chapterPath, language],
+    enabled: !!authUser,
+    queryFn: async () => (await getChapterByPath(coursePath, chapterPath, language)).data.progress,
+  });
   const { scrollRef } = useMobileReaderInteraction();
 
   return (
@@ -38,7 +47,7 @@ const ChapterReader = ({
         <ChapterDetailHeader
           title={chapterTitle}
           studyTime={studyTime}
-          bestScore={bestScore}
+          bestScore={authUser ? progress.data ?? 0 : 0}
         />
         {children}
       </div>

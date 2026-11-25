@@ -1,5 +1,6 @@
 "use client";
 
+import WalletProvider from "../../contexts/wagmi-context";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -92,4 +93,6 @@ export const AuthModal = ({
   );
 };
 
-export default AuthModal;
+export default function WalletLoginDialog(props: TAuthModalProps) {
+  return <WalletProvider><AuthModal {...props} /></WalletProvider>;
+}

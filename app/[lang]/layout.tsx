@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Roboto, Roboto_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import Providers from "../providers";
-import { headers } from "next/headers";
 import { Toaster } from "@/components/ui/sonner";
 import { getDictionary } from "./dictionaries";
 import DictionaryProvider from "@/features/lang";
@@ -31,10 +30,11 @@ const SITE_DESCRIPTIONS: Record<string, string> = {
 };
 
 export async function generateMetadata({
-  params: { lang },
+  params: routeParams,
 }: {
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }): Promise<Metadata> {
+  const { lang } = await routeParams;
   const description = SITE_DESCRIPTIONS[lang] ?? SITE_DESCRIPTIONS.en;
 
   return {
@@ -68,12 +68,12 @@ export async function generateMetadata({
 
 export default async function RootLayout({
   children,
-  params: { lang },
+  params: routeParams,
 }: Readonly<{
   children: React.ReactNode;
-  params: { lang: string };
+  params: Promise<{ lang: string }>;
 }>) {
-  const cookies = headers().get("cookie");
+  const { lang } = await routeParams;
   const dictionary = await getDictionary(lang);
 
   return (
@@ -82,7 +82,7 @@ export default async function RootLayout({
         className={`${inter.variable} ${roboto.variable} ${roboto_mono.variable} antialiased min-h-screen w-full`}
       >
         <DictionaryProvider dictionary={dictionary}>
-          <Providers cookies={cookies}>
+          <Providers>
             {children}
             <Toaster richColors />
           </Providers>

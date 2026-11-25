@@ -436,3 +436,7 @@ html.dark .shiki.shiki-themes span {
     color: var(--wtf-function-success);
   }
 }
+
+.wtf-mdx :is(h2, h3)[id] {
+  scroll-margin-top: 6rem;
+}

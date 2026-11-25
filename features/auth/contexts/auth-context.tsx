@@ -8,7 +8,6 @@ import type { SetState } from "ahooks/lib/createUseStorageState";
 import { useQuery } from "@tanstack/react-query";
 import { getUserApi } from "../api/use-user-api";
 import { TAuthUser } from "../type";
-import { useDisconnect } from "@reown/appkit/react";
 
 type TProps = {
   children: React.ReactNode;
@@ -37,7 +36,6 @@ export const AuthProvider = ({ children }: TProps) => {
     secure: true,
     sameSite: "lax",
   });
-  const { disconnect } = useDisconnect();
 
   const {
     data: authUser,
@@ -127,7 +125,7 @@ export const AuthProvider = ({ children }: TProps) => {
 
   const logout = useCallback(() => {
     setToken(undefined);
-    disconnect();
+    void import("./wagmi-context").then(({ wallet }) => wallet.disconnect()).catch(() => undefined);
     refetchAuthUser();
   }, [refetchAuthUser]);
 
