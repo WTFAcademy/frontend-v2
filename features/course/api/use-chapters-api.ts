@@ -70,16 +70,16 @@ export type TChapterDetail = {
   content_url: string;
 };
 
-export const getChaptersByPath = async (coursePath: string) => {
+export const getChaptersByPath = async (coursePath: string, language?: string) => {
   const res = await request.get<TListResponse<TChapter[]>>(
-    `course/${coursePath}/chapters`
+    `course/${encodeURIComponent(coursePath)}/chapters`, { headers: { language } }
   );
   return res.data;
 };
 
-export const getChapterByPath = async (coursePath: string, chapterPath: string) => {
+export const getChapterByPath = async (coursePath: string, chapterPath: string, language?: string) => {
   const res = await request.get<TResponse<TChapterDetail>>(
-    `course/${coursePath}/chapter/${chapterPath}`
+    `course/${encodeURIComponent(coursePath)}/chapter/${encodeURIComponent(chapterPath)}`, { headers: { language } }
   );
   return res.data;
 };

@@ -7,7 +7,16 @@ const nextConfig = {
     images: {
         remotePatterns: [
             {
-                hostname: "**"
+                hostname: "avatars.githubusercontent.com"
+            },
+            {
+                hostname: "raw.githubusercontent.com"
+            },
+            {
+                hostname: "**.wtf.academy"
+            },
+            {
+                hostname: "vjcxgodediuyprqxqpzo.supabase.co"
             }
         ]
     }

@@ -3,10 +3,12 @@
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useEffect } from "react";
+import useAuth from "@/features/auth/hooks/use-auth";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { getChaptersByPath } from "../api/use-chapters-api";
-import Link from "next/link";
+import CourseLink from "@/components/course-link";
 import { cn } from "@/lib/utils";
 import { useSetAtom } from "jotai";
 import { chapterListAtom } from "../atoms/chapter";
@@ -18,24 +20,27 @@ const CourseSidebar = ({
 }: {
   coursePath: string;
 }) => {
+  const { authUser } = useAuth();
   const router = useRouter();
+  const { lang } = useParams<{ lang: string }>();
   const pathname = usePathname();
   const setChapterList = useSetAtom(chapterListAtom);
   const t = useDictionary();
 
   const { data: courseData } = useSuspenseQuery({
-    queryKey: ["course", coursePath],
+    queryKey: ["course", coursePath, lang, authUser?.id],
     queryFn: () => getCourseDetailByPath(coursePath),
   });
 
   const { data: chapterData } = useSuspenseQuery({
-    queryKey: ["chapters", coursePath],
+    queryKey: ["chapters", coursePath, lang, authUser?.id],
     queryFn: async () => {
-      const res = await getChaptersByPath(coursePath);
-      setChapterList(res?.data.list);
+      const res = await getChaptersByPath(coursePath, lang);
       return res?.data;
     },
   });
+
+  useEffect(() => { setChapterList(chapterData?.list ?? []); }, [chapterData, setChapterList]);
 
   const course = courseData?.data || {};
   const chapters = chapterData?.list || [];
@@ -45,7 +50,7 @@ const CourseSidebar = ({
   };
 
   const handleBack = () => {
-    router.push(`/course/${coursePath}`);
+    router.push(`/${lang}/course/${coursePath}`);
   };
 
   return (
@@ -57,13 +62,13 @@ const CourseSidebar = ({
             <span>{t.course.Back}</span>
           </Button>
         </div>
-        <h1 className="px-6 pt-6 pb-4 text-wtf-content-1 text-2xl font-bold">
+        <div className="px-6 pt-6 pb-4 text-wtf-content-1 text-2xl font-bold">
           {course.title}
-        </h1>
+        </div>
 
         <ScrollArea className="flex-auto flex flex-col overflow-y-auto">
           {chapters.map((chapter, index) => (
-            <Link
+            <CourseLink
               key={chapter.path}
               href={`/course/${coursePath}/${chapter.path}`}
               className={cn(
@@ -83,7 +88,7 @@ const CourseSidebar = ({
               ) : (
                 <Icons.documentPending className="w-6 h-6 text-wtf-brand-1" />
               )}
-            </Link>
+            </CourseLink>
           ))}
         </ScrollArea>
       </div>

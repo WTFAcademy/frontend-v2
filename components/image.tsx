@@ -12,8 +12,6 @@ const Image: React.FC<ImageProps> = ({ src, alt, fallbackSrc, ...props }) => {
   const [imgSrc, setImgSrc] = useState(src);
   const [isLoading, setIsLoading] = useState(true);
   const { theme } = useTheme();
-  const placeholderImage =
-    theme === "dark" ? "/images/fallback-dark.png" : "/images/fallback.png";
 
   useEffect(() => {
     setImgSrc(src);
@@ -21,9 +19,8 @@ const Image: React.FC<ImageProps> = ({ src, alt, fallbackSrc, ...props }) => {
 
   const handleError = () => {
     setImgSrc(
-      fallbackSrc || theme === "dark"
-        ? "/images/fallback-dark.png"
-        : "/images/fallback.png"
+      fallbackSrc ||
+        (theme === "dark" ? "/images/fallback-dark.png" : "/images/fallback.png")
     );
     setIsLoading(false);
   };
@@ -32,15 +29,17 @@ const Image: React.FC<ImageProps> = ({ src, alt, fallbackSrc, ...props }) => {
     setIsLoading(false);
   };
 
+  const api = process.env.NEXT_PUBLIC_API_URL;
+  const materialPrefix = api && api.replace(/\/v1\/?$/, "/v1/material/");
+  const academyMaterial = typeof imgSrc === "string" && !!materialPrefix && imgSrc.startsWith(materialPrefix);
   return (
     <NextImage
       src={imgSrc}
       alt={alt}
       onError={handleError}
       onLoad={handleLoadingComplete}
-      placeholder="blur"
-      blurDataURL={placeholderImage}
       {...props}
+      unoptimized={academyMaterial || props.unoptimized}
       className={`transition-opacity duration-300 ${
         isLoading ? "opacity-50" : "opacity-100"
       } ${props.className || ""}`}

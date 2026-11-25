@@ -8,7 +8,7 @@ import { useDictionary } from "@/features/lang";
 import dayjs from "dayjs";
 import { isNil } from "lodash-es";
 import { useLanguage } from "@/features/lang/hooks/use-language";
-import Link from "next/link";
+import CourseLink from "@/components/course-link";
 
 type CourseDetailCardProps = {
   course: TCourse;
@@ -95,12 +95,12 @@ const CourseDetailCard = ({ course }: CourseDetailCardProps) => {
           />
         </div>
         {course.progress === 100 && !isClaimed && (
-          <Link href={`/course/${course.path}/sbt`}>
+          <CourseLink href={`/course/${course.path}/sbt`}>
             <Button className="bg-wtf-function-brandBg text-wtf-function-link hover:text-white w-fit">
               <Icons.star className="w-4 h-4 mr-2" />
               {t.course.Claim_NFT}
             </Button>
-          </Link>
+          </CourseLink>
         )}
         {isClaimed && (
           <Button variant="success" className="w-fit cursor-not-allowed">

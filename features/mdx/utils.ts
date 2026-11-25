@@ -1,3 +1,26 @@
+/**
+ * Plain-text excerpt of a markdown document (for meta descriptions):
+ * strips frontmatter, code fences, HTML, images, math and markdown syntax.
+ */
+export function markdownExcerpt(markdown: string, maxLength = 160): string {
+    if (!markdown) return '';
+
+    const text = markdown
+        .replace(/^\s*---[\S\s]*?---/, ' ') // frontmatter
+        .replace(/```[\S\s]*?```/g, ' ') // code fences
+        .replace(/<(script|style)[\S\s]*?<\/\1>/gi, ' ') // script/style incl. content
+        .replace(/<[^>]+>/g, ' ') // raw html tags
+        .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ') // images
+        .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1') // links -> label
+        .replace(/\$\$[\S\s]*?\$\$|\$[^$\n]*\$/g, ' ') // math
+        .replace(/^[#>\-*+\s]+/gm, '') // heading/quote/list markers
+        .replace(/[`*_~]/g, '') // emphasis/inline-code markers
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    return text.length > maxLength ? `${text.slice(0, maxLength - 1).trimEnd()}…` : text;
+}
+
 export function escapeBrackets(text: string) {
     const pattern = /(```[\S\s]*?```|`.*?`)|\\\[([\S\s]*?[^\\])\\]|\\\((.*?)\\\)/g;
     return text.replaceAll(pattern, (match, codeBlock, squareBracket, roundBracket) => {

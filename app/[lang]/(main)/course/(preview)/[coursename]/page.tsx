@@ -4,19 +4,28 @@ import ChapterList from "@/features/course/components/chapter-list";
 import CourseDetailCardSkeleton from "@/features/course/components/skeletons/course-detail-card-skeleton";
 import ChapterListSkeleton from "@/features/course/components/skeletons/chapter-list-skeleton";
 import { Metadata } from "next";
-import { getCourseDetailByPath, TCourse } from "@/features/course/api/use-courses-api";
+import { getCachedCourseDetail } from "@/features/course/api/server";
+import { pageContent } from "@/features/course/api/page-content";
+
+// Rendered on demand (request-fresh data; no live API needed at build time).
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
-  params,
+  params: routeParams,
 }: {
-  params: { coursename: string; chaptername: string };
+  params: Promise<{ lang: string; coursename: string; chaptername: string }>;
 }): Promise<Metadata> {
-  const courseData = await getCourseDetailByPath(params.coursename);
-  const course = courseData.data || {} as TCourse;
+  // cache()-wrapped: generateMetadata + the page body share one API call.
+  const params = await routeParams;
+  const courseData = await getCachedCourseDetail(params.coursename, params.lang);
+  const course = pageContent(courseData, params.lang, `/course/${encodeURIComponent(params.coursename)}`);
 
   return {
     title: course.title,
     description: course.description,
+    alternates: {
+      canonical: `/${params.lang}/course/${params.coursename}`,
+    },
     openGraph: {
       title: course.title,
       description: course.description,
@@ -38,9 +47,10 @@ export async function generateMetadata({
   };
 }
 
-const CourseDetailPage = async ({ params }: { params: { coursename: string } }) => {
-  const courseData = await getCourseDetailByPath(params.coursename);
-  const course = courseData.data || {} as TCourse;
+const CourseDetailPage = async ({ params: routeParams }: { params: Promise<{ coursename: string; lang: string }> }) => {
+  const params = await routeParams;
+  const courseData = await getCachedCourseDetail(params.coursename, params.lang);
+  const course = pageContent(courseData, params.lang, `/course/${encodeURIComponent(params.coursename)}`);
 
   return (
     <div className="flex-1 flex md:flex-row flex-col border-b-[0.5px] border-wtf-border-divider bg-wtf-background-primary">

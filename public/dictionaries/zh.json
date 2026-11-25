@@ -139,7 +139,7 @@
     },
     "sbt": {
         "congratulations": "🎉 恭喜你在课程中毕业",
-        "donation_thanks": "感谢您为WTF团队捐赠的 {amount} ETH！",
+        "donation_thanks": "感谢您为WTF团队捐赠的 {amount} {symbol}！",
         "share_twitter": "分享至 Twitter",
         "view_nft": "查看你的NFT",
         "sign_in": "登录",
@@ -162,7 +162,7 @@
             "invalid_signature": "错误的签名",
             "user_denied": "拒绝交易",
             "default": "领取错误，请重试",
-            "donation_too_low": "捐赠金额低于 {amount} ETH",
+            "donation_too_low": "捐赠金额低于 {amount} {symbol}",
             "course_id_error": "课程ID错误"
         },
         "title": {
@@ -184,7 +184,7 @@
         "donation": {
             "title": "捐赠",
             "description": "助力WTF茁壮成长",
-            "unit": "ETH"
+            "unit": "{symbol}"
         }
     }
 }

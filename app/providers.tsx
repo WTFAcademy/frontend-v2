@@ -2,16 +2,16 @@
 
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import AuthProvider from "@/features/auth/contexts/auth-context";
-import WagmiProvider from "@/features/auth/contexts/wagmi-context";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState } from "react";
 import { Provider as JotaiProvider } from "jotai";
 
 const Providers = ({
   children,
-  cookies,
 }: {
   children: React.ReactNode;
-  cookies: string | null;
 }) => {
+  const [client] = useState(() => new QueryClient({ defaultOptions: { queries: { retry: false } } }));
   return (
     <JotaiProvider>
       <ThemeProvider
@@ -20,9 +20,9 @@ const Providers = ({
         enableSystem
         disableTransitionOnChange
       >
-        <WagmiProvider cookies={cookies}>
+        <QueryClientProvider client={client}>
           <AuthProvider>{children}</AuthProvider>
-        </WagmiProvider>
+        </QueryClientProvider>
       </ThemeProvider>
     </JotaiProvider>
   );

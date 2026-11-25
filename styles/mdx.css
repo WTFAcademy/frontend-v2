@@ -209,6 +209,22 @@
   }
 }
 
+/*
+ * Shiki dual-theme support for SERVER-rendered code blocks.
+ * The server emits both palettes at once: inline styles carry the
+ * github-light colors plus `--shiki-dark*` CSS variables; toggling the
+ * `.dark` class on <html> flips to the dark set. Scoped to `.shiki-themes`
+ * (shiki's multi-theme marker) so client-rendered single-theme blocks are
+ * untouched. Same theme pair as the client hook: github-light / github-dark.
+ */
+html.dark .shiki.shiki-themes,
+html.dark .shiki.shiki-themes span {
+  color: var(--shiki-dark) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
 /* TODO: 待重构 */
 .wtf-quiz-mdx {
   @apply font-inter leading-[1.75] text-wtf-content-2;
@@ -419,4 +435,8 @@
     display: inline-block;
     color: var(--wtf-function-success);
   }
+}
+
+.wtf-mdx :is(h2, h3)[id] {
+  scroll-margin-top: 6rem;
 }

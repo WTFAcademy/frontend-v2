@@ -1,5 +1,7 @@
 "use client";
 
+import { useParams } from "next/navigation";
+
 import Image from "@/components/image";
 import { getCourseDetailByPath, TCourse } from "@/features/course/api/use-courses-api";
 import {
@@ -11,13 +13,15 @@ import {
 import ClaimStepper from "@/features/sbt/components/claim-stepper";
 import ClaimSuccess from "@/features/sbt/components/claim-success";
 import Title from "@/features/sbt/components/title";
+import { SUGGESTED_DONATION_AMOUNT } from "@/features/sbt/constants/nft";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useAtom, useSetAtom } from "jotai";
 import { get } from "lodash-es";
 import { useEffect } from "react";
 import { formatEther } from "viem";
 
-const CourseSbtPage = ({ params }: { params: { coursename: string } }) => {
+const CourseSbtPage = () => {
+  const params = useParams<{ coursename: string }>();
   const [isClaimed, setIsClaimed] = useAtom(claimAtom);
   const setCourseId = useSetAtom(courseIdAtom);
   const setDonationAmount = useSetAtom(donationAmountAtom);
@@ -31,9 +35,13 @@ const CourseSbtPage = ({ params }: { params: { coursename: string } }) => {
   useEffect(() => {
     setIsClaimed(!!get(course, "data.claim_address", null));
     setCourseId(get(course, "data.id", null));
-    setDonationAmount(
-      Number(formatEther(BigInt(get(course, "data.sbt_token.price", 6900000000000000))))
+    // The course price signed by the backend is the *minimum* the contract
+    // enforces. When it is 0 (free mint) we still pre-fill the suggested
+    // donation so the user can opt in with one click.
+    const coursePrice = Number(
+      formatEther(BigInt(get(course, "data.sbt_token.price", 0)))
     );
+    setDonationAmount(coursePrice > 0 ? coursePrice : SUGGESTED_DONATION_AMOUNT);
     setCourse(get(course, "data", {} as TCourse));
   }, [course]);
 

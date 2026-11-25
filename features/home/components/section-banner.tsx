@@ -1,5 +1,6 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import BoxReveal from "@/components/animata/box-reveal";
 import { Button } from "@/components/ui/button";
 import { DiscordLogoIcon } from "@radix-ui/react-icons";
@@ -10,6 +11,7 @@ import { DISCORD_URL, TWITTER_URL } from "../constants";
 import { Icons } from "@/components/icons";
 
 const SectionBanner = () => {
+  const { lang } = useParams<{ lang: string }>();
   const t = useDictionary();
   return (
     <section className="h-screen w-full bg-[url('/images/banner.jpeg')] bg-cover bg-center flex flex-col">
@@ -34,7 +36,7 @@ const SectionBanner = () => {
 
           <BoxReveal duration={0.2}>
             <div className="mt-[24px] flex gap-x-4 items-center">
-              <Link href="/course">
+              <Link href={`/${lang}/course`}>
                 <Button size="xl" className="rounded-full">
                   {t.index.Start_Learning}
                 </Button>

@@ -8,7 +8,6 @@ import type { SetState } from "ahooks/lib/createUseStorageState";
 import { useQuery } from "@tanstack/react-query";
 import { getUserApi } from "../api/use-user-api";
 import { TAuthUser } from "../type";
-import { useDisconnect } from "@reown/appkit/react";
 
 type TProps = {
   children: React.ReactNode;
@@ -34,9 +33,9 @@ export const AuthProvider = ({ children }: TProps) => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [token, setToken] = useCookieState(LOCAL_STORAGE_TOKEN_KEY, {
     defaultValue: undefined,
-    sameSite: "strict",
+    secure: true,
+    sameSite: "lax",
   });
-  const { disconnect } = useDisconnect();
 
   const {
     data: authUser,
@@ -70,12 +69,25 @@ export const AuthProvider = ({ children }: TProps) => {
         isMobile ? "_blank" : "width=600,height=600"
       );
 
+      let settled = false;
+      let closedTimer: ReturnType<typeof setInterval> | undefined;
+
+      const cleanup = () => {
+        window.removeEventListener("message", handleMessage);
+        if (closedTimer) {
+          clearInterval(closedTimer);
+        }
+      };
+
       // 创建一个只执行一次的事件处理函数
       const handleMessage = async (event: MessageEvent) => {
         if (event.origin !== window.location.origin) return;
 
-        if (event.data.type === "github-oauth") {
-          console.log("github-oauth", event.data.code);
+        if (event.data.type === "github-oauth" && !settled) {
+          settled = true;
+
+          // 移除事件监听器，停止轮询
+          cleanup();
 
           // 关闭弹窗
           authWindow?.close();
@@ -87,20 +99,33 @@ export const AuthProvider = ({ children }: TProps) => {
           } else {
             reject(new Error("GitHub 登录失败"));
           }
-
-          // 移除事件监听器
-          window.removeEventListener("message", handleMessage);
         }
       };
 
       // 添加事件监听器
       window.addEventListener("message", handleMessage, false);
+
+      // 用户手动关闭弹窗时，结束等待（稍作延迟，避免与正在传递的消息竞争）
+      closedTimer = setInterval(() => {
+        if (authWindow?.closed) {
+          if (closedTimer) {
+            clearInterval(closedTimer);
+          }
+          setTimeout(() => {
+            if (!settled) {
+              settled = true;
+              cleanup();
+              reject(new Error("GitHub 登录已取消"));
+            }
+          }, 1000);
+        }
+      }, 500);
     });
   }, []);
 
   const logout = useCallback(() => {
     setToken(undefined);
-    disconnect();
+    void import("./wagmi-context").then(({ wallet }) => wallet.disconnect()).catch(() => undefined);
     refetchAuthUser();
   }, [refetchAuthUser]);
 

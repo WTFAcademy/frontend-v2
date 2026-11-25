@@ -1,67 +1,84 @@
-"use client";
+import { SITE_URL } from "@/lib/site";
+import { localizedEdition, type EditionParams } from "@/features/course/api/public-edition";
+import ChapterReader from "@/features/course/components/chapter-reader";
+import MarkdownServer from "@/features/mdx/components/markdown-server";
+import { markdownExcerpt } from "@/features/mdx/utils";
+import { Metadata } from "next";
 
-import { getChapterByPath, TChapterDetail } from "@/features/course/api/use-chapters-api";
-import { getCourseDetailByPath } from "@/features/course/api/use-courses-api";
-import ChapterDetailFooter from "@/features/course/components/chapter-detail-footer";
-import ChapterDetailHeader from "@/features/course/components/chapter-detail-header";
-import ChapterMobileNav from "@/features/course/components/chapter-mobile-nav";
-import { useMobileReaderInteraction } from "@/features/course/hooks/use-mobile-reader-interaction";
-import Markdown from "@/features/mdx/components/markdown";
-import { TResponse } from "@/lib/request";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import Image from "next/image";
+export const dynamic = "force-dynamic";
 
-const CourseChapterPage = ({
-  params,
+export async function generateMetadata({
+  params: routeParams,
 }: {
-  params: { coursename: string; chaptername: string };
-}) => {
-  const { scrollRef } = useMobileReaderInteraction();
+  params: Promise<EditionParams>;
+}): Promise<Metadata> {
+  const params = await routeParams;
+  const { course, chapter, path } = await localizedEdition(params);
 
-  const { data: courseData } = useSuspenseQuery({
-    queryKey: ["course", params.coursename],
-    queryFn: () => getCourseDetailByPath(params.coursename),
-  });
+  const title = course?.title
+    ? `${chapter.title} - ${course.title}`
+    : chapter.title;
+  const description =
+    markdownExcerpt(chapter.content) || course?.description || "";
+  const image = course?.cover || "/images/course-placeholder.jpg";
 
-  const { data } = useSuspenseQuery({
-    queryKey: ["chapter", params.coursename, params.chaptername],
-    queryFn: () =>
-      getChapterByPath(params.coursename, params.chaptername).catch((err) => {
-        console.log(err);
-        return {} as TResponse<TChapterDetail>;
-      }),
-  });
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `/${params.lang}${path}`,
+      types: { "text/markdown": `/${params.lang}${path}/source` },
+    },
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      images: [{ url: image, width: 1200, height: 630, alt: title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+  };
+}
 
-  const chapter = data.data;
-  const course = courseData.data;
-  
-  if (!chapter) {
-    return (
-      <div className="relative h-full w-full flex flex-col items-center justify-center">
-        <div className="flex flex-col items-center justify-center">
-          <Image src="/svgs/empty.svg" alt="empty" width={120} height={167} />
-        </div>
-      </div>
-    );
-  }
+const CourseChapterPage = async ({ params: routeParams }: { params: Promise<EditionParams> }) => {
+  const params = await routeParams;
+  const { course, chapter, path } = await localizedEdition(params);
 
+  const author = chapter.author?.nickname || chapter.author?.username;
+  const modified = chapter.updated_at?.match(/^\d{4}-\d{2}-\d{2}/)?.[0];
+  const canonical = SITE_URL + "/" + params.lang + path;
+  const resource = {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    name: chapter.title,
+    url: canonical,
+    inLanguage: chapter.lang,
+    description: markdownExcerpt(chapter.content),
+    dateModified: modified,
+    author: author ? { "@type": "Person", name: author } : undefined,
+    isPartOf: { "@type": "Course", name: course.title, url: canonical.slice(0, canonical.lastIndexOf("/")) },
+  };
   return (
-    <div className="relative flex-auto overflow-y-auto pt-20" ref={scrollRef}>
-      <ChapterMobileNav course={course} chapterPath={params.chaptername} />
-      <div className="px-4 py-6 md:p-10">
-        <ChapterDetailHeader
-          title={chapter.title}
-          studyTime={chapter.study_time}
-          bestScore={chapter.progress}
-        />
-        <Markdown>{chapter.content}</Markdown>
-      </div>
-      <ChapterDetailFooter
-        currentChapterPath={params.chaptername}
-        coursePath={params.coursename}
-        isPublished={course.status === "published"}
-      />
-    </div>
+    <ChapterReader
+      course={course}
+      coursePath={params.coursename}
+      chapterPath={params.chaptername}
+      chapterTitle={chapter.title}
+      studyTime={chapter.study_time}
+      language={params.lang}
+    >
+      <script type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(resource).replace(/</g, "\\u003c") }} />
+      <MarkdownServer locale={params.lang} sourceUrl={chapter.content_url}>{chapter.content}</MarkdownServer>
+      <footer className="mt-8 text-sm text-wtf-content-3">
+        {[author, modified].filter(Boolean).join(" · ")}
+        <a className="ml-3 underline" href={`/${params.lang}${path}/source`}>Markdown</a>
+      </footer>
+    </ChapterReader>
   );
 };
 

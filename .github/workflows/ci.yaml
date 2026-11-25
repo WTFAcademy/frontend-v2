@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - "upgrade/**"
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: typecheck / lint / build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    # These are read at module load / build time. features/sbt/constants/nft.ts
+    # THROWS when NEXT_PUBLIC_SBT_CHAIN_ID is missing or not a supported chain,
+    # which would fail `next build` during static generation. The values below
+    # are plausible CI placeholders only — no live backend or subgraph is
+    # contacted during the build.
+    env:
+      NEXT_PUBLIC_SBT_CHAIN_ID: "97" # BSC testnet; must be one of 56/97/8453/11155111
+      NEXT_PUBLIC_SBT_ADDRESS: "0x0000000000000000000000000000000000000001"
+      NEXT_PUBLIC_SBT_MINTER_ADDRESS: "0x0000000000000000000000000000000000000002"
+      # Only dereferenced inside request handlers at runtime, but set anyway so
+      # the build never depends on a real subgraph.
+      NEXT_PUBLIC_SBT_GRAPH_URL: "https://example.invalid/subgraph"
+      NEXT_PUBLIC_SBT_OPENSEA_URL: "https://opensea.io/collection/wtf-certificates-base"
+      NEXT_PUBLIC_API_URL: "https://test1.wtf.academy/api/v1"
+      NEXT_PUBLIC_SITE_URL: "https://www.wtf.academy"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Version comes from package.json `packageManager`; specifying it here as
+      # well makes the action error out on the duplicate. Must run before
+      # setup-node so the pnpm store can be cached.
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        # --frozen-lockfile fails the build if pnpm-lock.yaml is out of sync
+        # with package.json instead of silently resolving new versions.
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm exec tsc --noEmit
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build
+        run: pnpm build

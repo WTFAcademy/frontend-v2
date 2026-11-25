@@ -19,7 +19,7 @@ type TEvent = {
 const events: TEvent[] = eventsData;
 
 const SectionEvents = async () => {
-  const heads = headers()
+  const heads = await headers()
   const lang = heads.get('x-current-lang')
   const t = await getDictionary(lang)
   return (

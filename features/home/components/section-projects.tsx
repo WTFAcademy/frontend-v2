@@ -15,7 +15,7 @@ type TProject = {
 const projects: TProject[] = projectsData;
 
 const SectionProjects = async () => {
-  const heads = headers()
+  const heads = await headers()
   const lang = heads.get('x-current-lang')
   const t = await getDictionary(lang)
   return (

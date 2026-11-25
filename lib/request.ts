@@ -17,7 +17,7 @@ export const request = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
-request.interceptors.request.use((config) => {
+request.interceptors.request.use(async (config) => {
   // if (typeof window !== "undefined") {
   //   const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
   //   console.log("token", token);
@@ -44,14 +44,15 @@ request.interceptors.request.use((config) => {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const { cookies } = require('next/headers');
     try {
-      locale = cookies().get('NEXT_LOCALE')?.value;
-      token = cookies().get(LOCAL_STORAGE_TOKEN_KEY)?.value;
+      const jar = await cookies();
+      locale = jar.get('NEXT_LOCALE')?.value;
+      token = jar.get(LOCAL_STORAGE_TOKEN_KEY)?.value;
     } catch (error) {
       console.warn('Unable to access cookies on server side:', error);
     }
   }
 
-  config.headers.language = locale;
+  if (locale && !config.headers.has("language")) config.headers.set("language", locale);
   config.headers.Authorization = token ? `Bearer ${token}` : undefined;
   return config;
 });

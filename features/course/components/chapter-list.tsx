@@ -2,16 +2,19 @@
 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 import { getChaptersByPath } from "../api/use-chapters-api";
 import { Icons } from "@/components/icons";
-import Link from "next/link";
+import CourseLink from "@/components/course-link";
 import { useDictionary } from "@/features/lang";
 import { cn } from "@/lib/utils";
 import useAuth from "@/features/auth/hooks/use-auth";
 import Image from "next/image";
 import { isEmpty } from "lodash-es";
 import { TCourse } from "../api/use-courses-api";
+import { useSetAtom } from "jotai";
+import { openAuthModal } from "@/features/auth/atoms/auth";
 import { Button } from "@/components/ui/button";
 const ChapterProgressButton = ({
   progress,
@@ -24,9 +27,9 @@ const ChapterProgressButton = ({
   href: string;
 }) => {
   return (
-    <Link
+    <CourseLink
       href={href}
-      className="relative border border-wtf-border-outline rounded-sm w-[80px] h-[34px] flex items-center justify-center overflow-hidden cursor-pointer"
+      className="relative z-20 border border-wtf-border-outline rounded-sm w-[80px] h-[34px] flex items-center justify-center overflow-hidden cursor-pointer"
     >
       {children}
       <div className="absolute bottom-0 left-0 w-full h-[4px] bg-wtf-function-successBg">
@@ -37,7 +40,7 @@ const ChapterProgressButton = ({
           className="h-full bg-wtf-function-success"
         />
       </div>
-    </Link>
+    </CourseLink>
   );
 };
 
@@ -79,17 +82,23 @@ const ChapterProgressStatus = ({
 const ChapterList = ({ coursePath, course }: { coursePath: string, course: TCourse }) => {
   const t = useDictionary();
   const [activeChapter, setActiveChapter] = useState<number | null>(null);
-  const { isLogin } = useAuth();
+  const { isLogin, authUser } = useAuth();
+  const showLogin = useSetAtom(openAuthModal);
+  const {lang} = useParams<{lang:string}>();
+  const [query, setQuery] = useState("");
 
   const { data: chapterData } = useSuspenseQuery({
-    queryKey: ["chapters", coursePath],
+    queryKey: ["chapters", coursePath, lang, authUser?.id],
     queryFn: async () => {
-      const res = await getChaptersByPath(coursePath);
+      const res = await getChaptersByPath(coursePath, lang);
       return res?.data;
     },
   });
 
   const chapters = chapterData?.list || [];
+  const term = query.trim().toLowerCase();
+  const matches = chapters.filter(c => [c.title, c.keywords, c.path].some(text => text?.toLowerCase().includes(term)));
+  const searchLabel = lang === "zh" ? "搜索本课程章节" : "Search chapters in this course";
   const isPublished = course.status === "published";
 
   if (isEmpty(chapters)) {
@@ -104,15 +113,14 @@ const ChapterList = ({ coursePath, course }: { coursePath: string, course: TCour
 
   return (
     <div className="w-full">
-      <h1 className="text-wtf-content-1 text-xl font-bold">
+      <h2 className="text-wtf-content-1 text-xl font-bold">
         {t.course.Chapters} <span>({chapters.length})</span>
-      </h1>
+      </h2>
+      <input type="search" aria-label={searchLabel} placeholder={searchLabel} value={query} onChange={e => setQuery(e.target.value)} className="mt-4 w-full rounded border border-wtf-border-divider bg-transparent px-3 py-2" />
+      {matches.length === 0 && <p role="status" className="mt-4">{lang === "zh" ? "未找到匹配章节" : "No matching chapters"}</p>}
       <div className="flex flex-col gap-1 mt-6">
-        {chapters.map((chapter, index) => (
-          <Link
-            key={chapter.path}
-            href={`/course/${coursePath}/${chapter.path}`}
-          >
+        {matches.map((chapter, index) => (
+          <div key={chapter.path}>
             <motion.div
               className="border-b-[0.5px] border-wtf-border-divider py-1"
               onHoverStart={() => setActiveChapter(index)}
@@ -130,7 +138,9 @@ const ChapterList = ({ coursePath, course }: { coursePath: string, course: TCour
                   ease: "easeOut",
                 }}
               >
-                <div className="flex items-center gap-4 relative z-10">
+                <CourseLink href={`/course/${coursePath}/${chapter.path}`} aria-label={chapter.title}
+                  className="absolute inset-0 z-10 rounded-lg focus-visible:outline" />
+                <div className="flex items-center gap-4">
                   <div className="rounded-full w-[30px] h-[30px] text-wtf-function-link bg-wtf-function-brandBg flex items-center justify-center">
                     {chapter.sort}
                   </div>
@@ -165,7 +175,7 @@ const ChapterList = ({ coursePath, course }: { coursePath: string, course: TCour
                         </>
                       )}
                       {!isLogin && isPublished && (
-                        <Button variant="outline" className="w-full">
+                        <Button variant="outline" className="relative z-20 w-full" onClick={() => showLogin(true)}>
                           <span className="text-wtf-content-2 text-sm font-medium ml-1">
                             {t.course.Login_to_quiz}
                           </span>
@@ -203,7 +213,7 @@ const ChapterList = ({ coursePath, course }: { coursePath: string, course: TCour
                 </div>
               </motion.div>
             </motion.div>
-          </Link>
+          </div>
         ))}
       </div>
     </div>

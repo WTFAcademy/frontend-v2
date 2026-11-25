@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import AuthModal from "./auth-modal";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import useAuth from "../hooks/use-auth";
 import UserAvatar from "@/features/user/components/user-avatar";
 import { useDictionary } from "@/features/lang";
+
+const AuthModal = dynamic(() => import("./auth-modal"), { ssr: false });
 
 const AuthButton = ({ onAvatarClick }: { onAvatarClick?: () => void }) => {
   const t = useDictionary();

@@ -14,6 +14,7 @@ import {
 } from "../ui/navigation-menu";
 import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent } from "../ui/sheet";
 import { Button } from "../ui/button";
@@ -32,13 +33,15 @@ import { shortWallet } from "@/features/user/utils/short-wallet";
 import { CascaderPanel } from "../cascader-panel";
 import CourseCascaderPanel from "@/features/course/components/course-cascader-panel";
 import Sidebar from "./sidebar";
-import AuthModal from "@/features/auth/components/auth-modal";
+import dynamic from "next/dynamic";
 import { useMobileReaderInteraction } from "@/features/course/hooks/use-mobile-reader-interaction";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDictionary } from "@/features/lang";
 import { useAtom } from "jotai";
 import { openAuthModal } from "@/features/auth/atoms/auth";
 import { ScrollArea } from "../ui/scroll-area";
+
+const AuthModal = dynamic(() => import("@/features/auth/components/auth-modal"), { ssr: false });
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -81,6 +84,7 @@ const Header = () => {
   // @dev(daxiongya): 使用isMounted添加一个状态来追踪是否在客户端
   const [isMounted, setIsMounted] = useState(false);
   const { authUser, setIsRegistering, logout } = useAuth();
+  const { lang } = useParams<{lang:string}>();
   const [openSheet, setOpenSheet] = useState(false);
   const [openLoginModal, setOpenLoginModal] = useAtom(openAuthModal);
   const { isControlVisible } = useMobileReaderInteraction();
@@ -125,7 +129,7 @@ const Header = () => {
       >
         <div className="w-full rounded-full border-[0.5px] border-wtf-background-navbar2 bg-wtf-background-navbar backdrop-blur-[20px] h-[60px] px-4 py-3 md:px-8 md:py-[18px] flex justify-between items-center">
           <div className="flex items-center gap-x-8">
-            <Link href="/">
+            <Link href={`/${lang}`}>
               <Icons.logo className="w-[66px] h-6" />
             </Link>
 
@@ -228,7 +232,7 @@ const Header = () => {
                         {t.index.Bind_Wallet}
                       </DropdownMenuItem>
                     )}
-                    <Link href="/personal" className="cursor-pointer">
+                    <Link href={`/${lang}/personal`} className="cursor-pointer">
                       <DropdownMenuItem className="font-medium">
                         <Icons.profile className="w-5 h-5 mr-2" />
                         {t.index.Personal_Center}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { DiscordLogoIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import TextBorderAnimation from "../animata/text/text-border-animation";
@@ -30,6 +31,7 @@ const FooterLink = ({
 };
 
 const Footer = () => {
+  const { lang } = useParams<{ lang: string }>();
   const t = useDictionary();
   return (
     <footer className="w-full bg-wtf-background-footer">
@@ -58,7 +60,7 @@ const Footer = () => {
               {t.index.Products}
             </div>
             <div className="flex flex-col gap-y-2 text-wtf-content-1 text-base font-semibold leading-6">
-              <FooterLink href="/course" text={t.index.Courses} />
+              <FooterLink href={`/${lang}/course`} text={t.index.Courses} />
               <FooterLink
                 href={FORUM_URL}
                 target="_blank"

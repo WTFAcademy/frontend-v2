@@ -18,9 +18,9 @@ const ChapterDetailHeader = ({
   
   return (
     <>
-      <div className="text-wtf-content-1 text-4xl font-bold">
+      <h1 className="text-wtf-content-1 text-4xl font-bold">
         <Balancer>{title}</Balancer>
-      </div>
+      </h1>
       <div className="my-4 flex items-center gap-4">
         <Button variant="secondary">{t.course.Time}: {isNil(studyTime) ? "-" : Number(studyTime)} {t.course.minutes}</Button>
         {bestScore > 0 && <Button variant="secondary">{t.course.Best_Score}: {bestScore}</Button>}

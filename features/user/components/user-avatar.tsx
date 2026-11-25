@@ -5,7 +5,6 @@ import useAuth from "@/features/auth/hooks/use-auth";
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import Jazzicon from "react-jazzicon";
-import { useAccount } from "wagmi";
 
 type TUserAvatarProps = {
   className?: string;
@@ -29,9 +28,8 @@ const userAvatarVariants = cva("w-8 h-8", {
 });
 
 const UserAvatar = ({ className, src, fallback, onClick, size = "md" }: TUserAvatarProps) => {
-  const { address } = useAccount();
   const { authUser } = useAuth();
-  const newAddress = fallback || authUser?.username || authUser?.wallet_address || address || "0x0000000000000000000000000000000000000000";
+  const newAddress = fallback || authUser?.username || authUser?.wallet_address || "0x0000000000000000000000000000000000000000";
   const seed = parseInt(newAddress.slice(2, 10), 16);
 
   const avatarSrc = src || authUser?.avatar;
