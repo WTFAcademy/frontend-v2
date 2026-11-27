@@ -1,10 +1,8 @@
 import { Icons } from "@/components/icons";
 import { STEP } from ".";
 import { Button } from "@/components/ui/button";
-import {
-  useAppKit,
-  useAppKitAccount,
-} from "@reown/appkit/react";
+import { useAppKit, useDisconnect } from "@reown/appkit/react";
+import { useAccount } from "wagmi";
 import { useState } from "react";
 import useAuth from "../../hooks/use-auth";
 import { cn } from "@/lib/utils";
@@ -132,7 +130,7 @@ const StepSignMessageAndBindWallet = ({
 }) => {
   const t = useDictionary();
   const [isFinished, setIsFinished] = useState(false);
-  const { isConnected, address } = useAppKitAccount();
+  const { isConnected, address } = useAccount();
   const { setIsRegistering, refetchAuthUser } = useAuth();
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const { signMessage } = useSiwe();
@@ -278,12 +276,14 @@ const AuthSectionRegister = (props: AuthSectionRegisterProps) => {
   const t = useDictionary();
   const { updateStep, close } = props;
   const { authUser, isRegistering } = useAuth();
+  const { disconnect } = useDisconnect();
   const [error, setError] = useState<string | undefined>(undefined);
 
-  const backToLogin = () => {
+  const backToLogin = async () => {
     if (authUser || isRegistering) {
       close();
     } else {
+      await disconnect();
       updateStep(STEP.Login);
     }
   };

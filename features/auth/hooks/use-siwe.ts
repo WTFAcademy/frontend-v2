@@ -1,22 +1,21 @@
-import { useAppKitAccount, useAppKitNetwork } from "@reown/appkit/react";
-import { useSignMessage } from "wagmi";
+import { useAccount, useSignMessage } from "wagmi";
 import { SiweMessage } from "siwe";
 import dayjs from "dayjs";
 import { TAuthLoginWithEthereumBody } from "../type";
 
 const useSiwe = () => {
-    const { chainId } = useAppKitNetwork();
+    const { address, chainId } = useAccount();
     const { signMessageAsync } = useSignMessage();
-    const { address } = useAppKitAccount();
 
     const signMessage = async (nonce: string, statement?: string) => {
+        if (!address || !chainId) throw new Error("Wallet is disconnected");
         const message = new SiweMessage({
             domain: window.location.host,
             address,
             statement: statement || "Sign in with Ethereum to the app.",
             uri: window.location.origin,
             version: "1",
-            chainId: chainId as number,
+            chainId,
             nonce: nonce,
             expirationTime: dayjs().add(2, "day").toISOString(),
         });
