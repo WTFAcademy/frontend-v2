@@ -89,6 +89,9 @@ importers:
       dayjs:
         specifier: ^1.11.13
         version: 1.11.13
+      fflate:
+        specifier: 0.8.2
+        version: 0.8.2
       framer-motion:
         specifier: ^11.8.0
         version: 11.15.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2418,6 +2421,9 @@ packages:
 
   fault@1.0.4:
     resolution: {integrity: sha512-CJ0HCB5tL5fYTEA7ToAq5+kTwd++Borf1/bifxd9iT70QcXr4MRrO3Llf8Ifs70q+SJcGHFtnIE/Nw6giCtECA==}
+
+  fflate@0.8.2:
+    resolution: {integrity: sha512-cPJU47OaAoCbg0pBvzsgpTPhmhqI5eJjh/JIu8tPj5q+T7iLvW/JAYUqmE7KOB4R1ZyEhzBaIQpQpardBF5z8A==}
 
   file-entry-cache@6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
@@ -7768,6 +7774,8 @@ snapshots:
   fault@1.0.4:
     dependencies:
       format: 0.2.2
+
+  fflate@0.8.2: {}
 
   file-entry-cache@6.0.1:
     dependencies:
