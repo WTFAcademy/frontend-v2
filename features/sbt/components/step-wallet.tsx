@@ -6,10 +6,9 @@ import useAuth from "@/features/auth/hooks/use-auth";
 import { cn, formatAddress } from "@/lib/utils";
 import {
   useAppKit,
-  useAppKitAccount,
   useAppKitNetwork,
-  useDisconnect,
 } from "@reown/appkit/react";
+import { useAccount } from "wagmi";
 import { useSetAtom } from "jotai";
 import { ClaimStep } from "./claim-stepper";
 import { useEffect } from "react";
@@ -28,9 +27,8 @@ const StepWallet = ({
   const { setIsRegistering, authUser } = useAuth();
   const setOpenAuthModal = useSetAtom(openAuthModal);
   const { open } = useAppKit();
-  const { isConnected, address } = useAppKitAccount();
-  const { disconnect } = useDisconnect();
-  const { chainId, switchNetwork } = useAppKitNetwork();
+  const { isConnected, address, chainId } = useAccount();
+  const { switchNetwork } = useAppKitNetwork();
   const t = useDictionary();
 
   const isFinish =
@@ -50,10 +48,7 @@ const StepWallet = ({
 
     if (!isConnected) {
       return (
-        <Button className="rounded-full" onClick={async () => {
-          await disconnect();
-          open();
-        }}>
+        <Button className="rounded-full" onClick={() => open()}>
           {t.sbt.connect_bind}
         </Button>
       );

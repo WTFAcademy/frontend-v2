@@ -1,11 +1,8 @@
 import { Icons } from "@/components/icons";
 import { STEP } from ".";
 import { Button } from "@/components/ui/button";
-import {
-  useAppKit,
-  useAppKitAccount,
-  useDisconnect,
-} from "@reown/appkit/react";
+import { useAppKit, useDisconnect } from "@reown/appkit/react";
+import { useAccount } from "wagmi";
 import { useState } from "react";
 import useAuth from "../../hooks/use-auth";
 import { cn } from "@/lib/utils";
@@ -26,24 +23,15 @@ type AuthSectionRegisterProps = {
   close: () => void;
 };
 
-enum STEP_REGISTER {
-  SignInWithGitHub,
-  SignMessageAndBindWallet,
-}
-
 const StepSignInWithGitHub = ({
-  nextStep,
-  active = false,
   setError,
 }: {
-  nextStep: () => void;
-  active?: boolean;
-  error?: string;
   setError: (error: string | undefined) => void;
 }) => {
   const t = useDictionary();
-  const { signInWithGithub, setIsRegistering, setToken } = useAuth();
-  const [isFinished, setIsFinished] = useState(false);
+  const { authUser, isLogin, isPendingAuthUser, signInWithGithub, setIsRegistering, setToken } = useAuth();
+  const isFinished = Boolean(authUser);
+  const checkingSession = isLogin && isPendingAuthUser;
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const {
@@ -62,8 +50,6 @@ const StepSignInWithGitHub = ({
     onSuccess: (res: TResponse<TLoginWithGithubResponse>) => {
       setIsRegistering(true);
       setToken(res.data.token);
-      setIsFinished(true);
-      nextStep();
     },
     onError: (error: any) => {
       setError(error.message);
@@ -76,16 +62,14 @@ const StepSignInWithGitHub = ({
         <span
           className={cn(
             "w-8 h-8 rounded-full bg-muted flex items-center justify-center flex-shrink-0 text-sm font-semibold",
-            active && !isFinished && "bg-wtf-brand-1 text-wtf-content-white",
-            isFinished && "bg-wtf-function-success text-wtf-content-white",
-            !active && !isFinished && "text-wtf-brand-1 bg-wtf-function-brandBg"
+            isFinished ? "bg-wtf-function-success text-wtf-content-white" : "bg-wtf-brand-1 text-wtf-content-white"
           )}
         >
           1
         </span>
         <div className="flex flex-col gap-1">
           <span className="text-base font-semibold">
-            {t.login.Sign_in_with_Github}
+            {authUser?.username || t.login.Sign_in_with_Github}
           </span>
           {isDesktop && isErrorSignInWithGitHub && (
             <AnimatePresence mode="wait">
@@ -104,14 +88,12 @@ const StepSignInWithGitHub = ({
       </div>
 
       {isFinished && (
-        <Button
-          size="lg"
-          variant="success"
-          className="gap-2 hover:bg-wtf-function-successBg rounded-full"
+        <span
+          className="inline-flex items-center gap-2 text-wtf-function-success"
         >
           <Icons.check className="w-4 h-4" />
           <span>{t.login.Done}</span>
-        </Button>
+        </span>
       )}
 
       {!isFinished && (
@@ -119,9 +101,9 @@ const StepSignInWithGitHub = ({
           size="lg"
           className="space-x-3 rounded-full"
           onClick={() => handleSignInWithGitHub()}
-          disabled={isPendingSignInWithGitHub}
+          disabled={checkingSession || isPendingSignInWithGitHub}
         >
-          {isPendingSignInWithGitHub ? (
+          {checkingSession || isPendingSignInWithGitHub ? (
             <Icons.loading className="animate-spin w-4 h-4" />
           ) : (
             <>
@@ -148,8 +130,7 @@ const StepSignMessageAndBindWallet = ({
 }) => {
   const t = useDictionary();
   const [isFinished, setIsFinished] = useState(false);
-  const { isConnected, address } = useAppKitAccount();
-  const { disconnect } = useDisconnect();
+  const { isConnected, address } = useAccount();
   const { setIsRegistering, refetchAuthUser } = useAuth();
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const { signMessage } = useSiwe();
@@ -163,7 +144,8 @@ const StepSignMessageAndBindWallet = ({
   } = useMutation({
     mutationFn: async () => {
       setError(undefined);
-      const nonceResponse = await getNonceApi(address!);
+      if (!address) throw new Error(t.login.Connect_Wallet);
+      const nonceResponse = await getNonceApi(address);
       if (nonceResponse.code === 0) {
         const signature = await signMessage(
           nonceResponse.data.nonce,
@@ -189,15 +171,9 @@ const StepSignMessageAndBindWallet = ({
       close();
     },
     onError: (error: any) => {
-      console.log("error: ", error);
       setError(error.message);
     },
   });
-
-  const connectWallet = async () => {
-    await disconnect();
-    await open();
-  };
 
   return (
     <div className="border-y-[0.5px] border-wtf-border-line py-5 px-3 md:px-8">
@@ -252,7 +228,7 @@ const StepSignMessageAndBindWallet = ({
             className="space-x-3 rounded-full"
             variant={active ? "default" : "outline"}
             disabled={!active || isPendingSignMessageAndBindWallet}
-            onClick={() => connectWallet()}
+            onClick={() => open()}
           >
             {isPendingSignMessageAndBindWallet ? (
               <Icons.loading className="animate-spin w-4 h-4" />
@@ -299,19 +275,12 @@ const StepSignMessageAndBindWallet = ({
 const AuthSectionRegister = (props: AuthSectionRegisterProps) => {
   const t = useDictionary();
   const { updateStep, close } = props;
+  const { authUser, isRegistering } = useAuth();
   const { disconnect } = useDisconnect();
-  const { setIsRegistering, isRegistering } = useAuth();
-  const [stepRegister, setStepRegister] = useState<STEP_REGISTER>(
-    STEP_REGISTER.SignInWithGitHub
-  );
   const [error, setError] = useState<string | undefined>(undefined);
 
-  console.log("error: ", error);
-
   const backToLogin = async () => {
-    if (isRegistering) {
-      await disconnect();
-      setIsRegistering(false);
+    if (authUser || isRegistering) {
       close();
     } else {
       await disconnect();
@@ -319,27 +288,18 @@ const AuthSectionRegister = (props: AuthSectionRegisterProps) => {
     }
   };
 
-  const nextStep = () => {
-    setStepRegister(STEP_REGISTER.SignMessageAndBindWallet);
-  };
-
   return (
     <div className="flex flex-col gap-6 pt-8 pb-6">
       <div className="flex flex-col items-center gap-4 w-full">
         <Icons.logo className="h-10" />
         <p className="text-2xl font-bold leading-8">
-          {t.login.Connect_to_your_GitHub}
+          {authUser ? t.login.Bind_Wallet : t.login.Connect_to_your_GitHub}
         </p>
       </div>
       <div className="flex flex-col w-full">
-        <StepSignInWithGitHub
-          nextStep={nextStep}
-          active={stepRegister === STEP_REGISTER.SignInWithGitHub}
-          error={error}
-          setError={setError}
-        />
+        <StepSignInWithGitHub setError={setError} />
         <StepSignMessageAndBindWallet
-          active={stepRegister === STEP_REGISTER.SignMessageAndBindWallet}
+          active={Boolean(authUser)}
           close={close}
           error={error}
           setError={setError}

@@ -15,6 +15,7 @@ import {
   DrawerContent,
   DrawerFooter,
 } from "@/components/ui/drawer";
+import useAuth from "../../hooks/use-auth";
 import { useState } from "react";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useAppKitState } from "@reown/appkit/react";
@@ -36,7 +37,8 @@ export const AuthModal = ({
 }: TAuthModalProps) => {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const { open: appKitOpen } = useAppKitState();
-  const [step, setStep] = useState<STEP>(STEP.Login);
+  const { isRegistering } = useAuth();
+  const [step, setStep] = useState<STEP>(isRegistering ? STEP.Register : STEP.Login);
 
   const isCloseOnOverlayClick = appKitOpen || step !== STEP.Login;
 
