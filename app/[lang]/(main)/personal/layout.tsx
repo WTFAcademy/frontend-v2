@@ -1,7 +1,15 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
+import SessionReady from "@/features/workspace/session-ready";
+import "./workspace.css";
 
-const PersonalLayout = ({ children }: { children: ReactNode }) => {
-  return <div>{children}</div>;
-};
+export const metadata = { robots: { index: false, follow: false } };
 
-export default PersonalLayout;
+export default function PersonalLayout({
+  children,
+  params,
+}: {
+  children: ReactNode;
+  params: { lang: string };
+}) {
+  return <SessionReady lang={params.lang}>{children}</SessionReady>;
+}

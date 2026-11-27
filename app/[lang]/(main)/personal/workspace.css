@@ -1,0 +1,456 @@
+.ws {
+  --ink: #192337;
+  --hint: #556379;
+  --line: #dce3ec;
+  --card: #fff;
+  --surface: #f5f7fb;
+  --blue: #2254df;
+  color: var(--ink);
+  background: var(--surface);
+  min-height: 82vh;
+  padding: 116px max(24px, calc((100vw - 1160px) / 2)) 72px;
+}
+.dark .ws {
+  --ink: #edf2ff;
+  --hint: #acb8cc;
+  --line: #303b4d;
+  --card: #1b2534;
+  --surface: #121a26;
+  --blue: #9ab8ff;
+}
+.ws h1,
+.ws h2,
+.ws p {
+  margin: 0;
+}
+.ws-title,
+.ws-heading,
+.ws-id,
+.ws-tool,
+.ws-wallet,
+.ws-wallet button,
+.ws-label,
+.ws-cta,
+.ws-list > a,
+.ws-studio-actions {
+  display: flex;
+  align-items: center;
+}
+.ws-title,
+.ws-heading {
+  justify-content: space-between;
+  gap: 12px;
+}
+.ws-title {
+  margin: 0 0 26px;
+}
+.ws-title h1 {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 700;
+  letter-spacing: -0.046em;
+  line-height: 1.15;
+}
+.ws-tool,
+.ws-cta {
+  gap: 8px;
+  min-height: 40px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 650;
+}
+.ws-tool {
+  border: 1px solid var(--line);
+  background: var(--card);
+  padding: 0 14px;
+}
+.ws-layout {
+  display: grid;
+  grid-template-columns: 225px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.ws-sidebar,
+.ws-list,
+.ws-empty,
+.ws-metrics,
+.ws-studio-head,
+.ws-editor {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--card);
+}
+.ws-sidebar {
+  padding: 20px 12px;
+}
+.ws-id {
+  gap: 12px;
+  padding: 0 5px 20px;
+}
+.ws-id > div,
+.ws-list > a > div {
+  min-width: 0;
+}
+.ws-id strong,
+.ws-list strong {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.ws-id a {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--hint);
+}
+.ws-nav {
+  display: grid;
+  gap: 5px;
+}
+.ws-nav button,
+.ws-wallet {
+  gap: 9px;
+  padding: 11px 13px;
+  font-size: 14px;
+}
+.ws-nav button {
+  display: flex;
+  align-items: center;
+  border-radius: 9px;
+  font-weight: 600;
+  color: var(--hint);
+}
+.ws-nav button svg:last-child {
+  margin-left: auto;
+}
+.ws-nav [aria-current="page"] {
+  background: #e9efff;
+  color: #214bc0;
+}
+.dark .ws-nav [aria-current="page"] {
+  background: #25395c;
+  color: #c1d2ff;
+}
+.ws-wallet {
+  border-top: 1px solid var(--line);
+  margin-top: 16px;
+  padding-bottom: 0;
+  color: var(--hint);
+}
+.ws-wallet button {
+  gap: 5px;
+}
+.ws-content {
+  min-width: 0;
+}
+.ws-hero {
+  border-radius: 20px;
+  position: relative;
+  isolation: isolate;
+  background: #141827;
+  color: white;
+  overflow: hidden;
+}
+.ws-hero > img {
+  object-fit: cover;
+  object-position: 65% center;
+  z-index: -2;
+}
+.ws-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    90deg,
+    #121727 2%,
+    #141827 34%,
+    rgba(19, 23, 36, 0.8) 53%,
+    rgba(14, 18, 28, 0.05) 100%
+  );
+}
+.ws-hero > div,
+.ws-studio-head {
+  padding: clamp(22px, 4vw, 42px);
+}
+.ws-hero h2,
+.ws-studio-head h2 {
+  font-weight: 700;
+  font-size: clamp(28px, 4vw, 45px);
+  letter-spacing: -0.045em;
+  line-height: 1.15;
+  margin: 15px 0 8px;
+}
+.ws-hero p {
+  max-width: 60%;
+  color: #e4e6ef;
+  font-size: 15px;
+}
+.ws-label {
+  font-size: 13px;
+  gap: 7px;
+  color: #ffcc96;
+}
+.ws-cta {
+  width: fit-content;
+  background: #234fd6;
+  color: #fff;
+  padding: 8px 16px;
+  justify-content: center;
+}
+.ws-hero .ws-cta {
+  background: #fff;
+  color: #151b29;
+  margin-top: 26px;
+}
+.ws-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 17px 0;
+  margin-top: 14px;
+}
+.ws-metrics > div {
+  display: grid;
+  grid-template-columns: 18px auto;
+  align-items: center;
+  column-gap: 9px;
+  padding: 0 clamp(10px, 3vw, 28px);
+}
+.ws-metrics > div + div {
+  border-left: 1px solid var(--line);
+}
+.ws-metrics svg,
+.ws-icon {
+  color: var(--blue);
+}
+.ws-metrics strong {
+  font-size: 23px;
+  line-height: 1.15;
+}
+.ws-metrics span {
+  grid-column: 2;
+  color: var(--hint);
+  font-size: 12px;
+}
+.ws-heading {
+  margin: 28px 0 12px;
+}
+.ws-heading h2,
+.ws-editor h2 {
+  font-size: 21px;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+}
+.ws-empty {
+  padding: 30px;
+  text-align: center;
+  color: var(--hint);
+}
+.ws-empty > svg {
+  margin: 0 auto 10px;
+  color: var(--blue);
+}
+.ws-empty a,
+.ws-empty button {
+  color: var(--blue);
+  font-weight: 600;
+}
+.ws-empty p {
+  margin: 5px 0;
+}
+.ws-empty span,
+.ws-list small {
+  font-size: 13px;
+  color: var(--hint);
+}
+.ws-list {
+  overflow: hidden;
+}
+.ws-list > a {
+  gap: 14px;
+  padding: 17px 20px;
+}
+.ws-list > a + a {
+  border-top: 1px solid var(--line);
+}
+.ws-list a:hover,
+.ws-tool:hover {
+  background: var(--surface);
+}
+.ws-list > a > svg:last-child {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.ws-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+.ws-percent {
+  margin-left: auto;
+  color: var(--hint);
+  font-size: 13px;
+  white-space: nowrap;
+}
+.ws-percent + svg {
+  margin-left: 0 !important;
+}
+.ws-studio-head {
+  background: linear-gradient(115deg, var(--card) 30%, var(--surface));
+}
+.ws-studio-head p {
+  color: var(--hint);
+  margin-bottom: 22px;
+}
+.ws-editor {
+  padding: clamp(18px, 4vw, 36px);
+  margin-top: 17px;
+}
+.ws-editor label {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  margin: 15px 0;
+}
+.ws-editor input,
+.ws-editor textarea,
+.ws-editor select {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 9px;
+  color: var(--ink);
+  padding: 11px 13px;
+  width: 100%;
+  font-weight: 400;
+}
+.ws-editor textarea {
+  font-family: ui-monospace, monospace;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.ws-studio-actions {
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+.ws button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+.ws :is(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid #5082ed;
+  outline-offset: 3px;
+}
+.ws pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.ws [role="alert"] {
+  margin-top: 12px;
+  color: var(--ink);
+}
+@media (max-width: 760px) {
+  .ws {
+    padding: 99px 16px 42px;
+  }
+  .ws-title {
+    margin-bottom: 17px;
+  }
+  .ws-layout {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .ws-sidebar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 13px;
+    gap: 12px;
+  }
+  .ws-id {
+    padding: 0;
+    flex: 1;
+  }
+  .ws-wallet {
+    order: 0;
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
+  .ws-nav {
+    order: 1;
+    width: 100%;
+    display: flex;
+    overflow: auto;
+  }
+  .ws-nav button {
+    flex: 1;
+    white-space: nowrap;
+    justify-content: center;
+    padding: 9px;
+  }
+  .ws-nav button svg:last-child {
+    display: none;
+  }
+  .ws-hero p {
+    max-width: 85%;
+  }
+  .ws-hero {
+    background-position: 65% center;
+  }
+  .ws-metrics {
+    padding: 14px 0;
+  }
+  .ws-list > a {
+    padding: 13px;
+    gap: 9px;
+  }
+  .ws-empty {
+    padding: 22px 14px;
+  }
+  .ws-heading {
+    margin-top: 22px;
+  }
+}
+.ws-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--hint);
+  font-size: 14px;
+  margin-bottom: 23px;
+}
+.ws-fields {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+.ws-editor h2 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.ws-editor article {
+  border-top: 1px solid var(--line);
+  margin-top: 18px;
+  padding-top: 18px;
+}
+.ws-editor h3 {
+  margin-bottom: 12px;
+  font-size: 17px;
+  font-weight: 650;
+}
+.ws-editor [hidden] {
+  display: none;
+}
+@media (max-width: 640px) {
+  .ws-fields {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
