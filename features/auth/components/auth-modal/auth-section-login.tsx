@@ -101,12 +101,6 @@ export const AuthSectionLogin = (props: AuthSectionLoginProps) => {
     }
   }, [isConnected, isRegistering, loginWithEthereum]);
 
-  useEffect(() => {
-    if (isRegistering) {
-      updateStep(STEP.Register);
-    }
-  }, [isRegistering]);
-
   return (
     <div className="flex flex-col items-center gap-6 p-8">
       <div className="flex flex-col items-center gap-4 w-full">
