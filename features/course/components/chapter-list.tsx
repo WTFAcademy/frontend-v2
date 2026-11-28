@@ -150,7 +150,6 @@ const ChapterList = ({
                   <h2 className="text-wtf-content-1 text-base font-semibold">
                     <Link
                       className="after:absolute after:inset-0 after:z-10"
-                      prefetch={false}
                       onMouseEnter={() => warm(chapter.path)}
                       onFocus={() => warm(chapter.path)}
                       href={`/${lang}/course/${coursePath}/${chapter.path}`}

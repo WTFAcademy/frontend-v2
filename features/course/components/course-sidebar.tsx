@@ -46,7 +46,6 @@ const CourseSidebar = ({ coursePath }: { coursePath: string }) => {
           {chapters.map((chapter, index) => (
             <Link
               key={chapter.path}
-              prefetch={false}
               onMouseEnter={() => warm(chapter.path)}
               onFocus={() => warm(chapter.path)}
               href={`/${reader.lang}/course/${coursePath}/${chapter.path}`}

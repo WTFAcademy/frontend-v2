@@ -2,7 +2,7 @@
 
 import { queryOptions, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import useAuth from "@/features/auth/hooks/use-auth";
 import { getCourseDetailByPath, TCourse } from "./use-courses-api";
 import { getChapterByPath, getChaptersByPath } from "./use-chapters-api";
@@ -54,7 +54,6 @@ export function useReader(coursePath: string) {
 export function useWarmChapter(coursePath: string, likely?: string) {
   const reader = useReader(coursePath);
   const client = useQueryClient();
-  const router = useRouter();
   const warm = useCallback(
     (path: string) => {
       const connection = (
@@ -68,10 +67,9 @@ export function useWarmChapter(coursePath: string, likely?: string) {
         /2g/.test(connection?.effectiveType || "")
       )
         return;
-      router.prefetch(`/${reader.lang}/course/${coursePath}/${path}`);
       void client.prefetchQuery(reader.chapter(path));
     },
-    [reader, coursePath, client, router]
+    [reader, client]
   );
   useEffect(() => {
     if (likely) warm(likely);
