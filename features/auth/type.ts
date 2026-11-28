@@ -29,6 +29,7 @@ export type TAuthUser = {
     created_at: string;
     updated_at: string;
     permissions: string[];
+    grants?: string[];
     wallet_address: string;
     wallet_provider: string;
 };

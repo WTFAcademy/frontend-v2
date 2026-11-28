@@ -1,0 +1,114 @@
+.mg {
+  max-width: 1024px;
+  margin: auto;
+  padding: 2rem 1.25rem 5rem;
+  color: inherit;
+}
+.mg h1 {
+  font-size: 2.1rem;
+  font-weight: 650;
+  margin: 0.75rem 0;
+}
+.mg h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+.mg h3,
+.mg summary {
+  font-weight: 600;
+}
+.mg nav,
+.mg .actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+.mg nav {
+  border-bottom: 1px solid #8885;
+}
+.mg nav a {
+  padding: 0.6rem 0.2rem;
+}
+.mg nav [aria-current] {
+  border-bottom: 2px solid currentColor;
+}
+.mg section,
+.mg details {
+  border: 1px solid #8885;
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+.mg fieldset {
+  min-width: 0;
+}
+.mg label {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0.7rem 0;
+  font-size: 0.9rem;
+}
+.mg input,
+.mg select,
+.mg textarea {
+  background: var(--background, transparent);
+  border: 1px solid #8888;
+  border-radius: 6px;
+  padding: 0.5rem;
+  max-width: 100%;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+}
+.mg button,
+.mg a.action {
+  border: 1px solid #8887;
+  border-radius: 7px;
+  padding: 0.4rem 0.75rem;
+}
+.mg button:disabled {
+  opacity: 0.45;
+}
+.mg .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 0 1rem;
+}
+.mg .row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-bottom: 1px solid #8884;
+  padding: 0.75rem 0;
+  flex-wrap: wrap;
+}
+.mg .row > div {
+  min-width: 0;
+}
+.mg small {
+  display: block;
+  opacity: 0.75;
+}
+.mg .mg-error {
+  color: #ba403b;
+}
+.mg form > button {
+  margin: 0.6rem 0;
+}
+.mg [role="status"],
+.mg [role="alert"] {
+  padding: 0.6rem 0;
+}
+.mg summary {
+  cursor: pointer;
+}
+.mg textarea {
+  min-height: 6rem;
+}
+.mg select option {
+  color: CanvasText;
+  background: Canvas;
+}

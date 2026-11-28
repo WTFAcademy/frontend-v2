@@ -96,6 +96,11 @@ export default function PersonalPage({
           <div>
             <h1>{t("个人中心", "Personal workspace")}</h1>
           </div>
+          {authUser?.grants?.some((grant) => grant === "course.list" || grant === "user.list") && (
+            <Link className="ws-tool" href={`/${lang}/personal/manage`}>
+              <Layers3 size={16} />{t("管理后台", "Administration")}
+            </Link>
+          )}
           {checked && (
             <Link className="ws-tool" href={`/${lang}/settings`}>
               <Settings2 size={16} />
