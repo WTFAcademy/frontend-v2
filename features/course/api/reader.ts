@@ -50,24 +50,24 @@ export function useReader(coursePath: string) {
   }, [lang, coursePath, readerSession]);
 }
 
+export function canPrefetchChapter() {
+  const { connection } = navigator as Navigator & {
+    connection?: { saveData?: boolean; effectiveType?: string };
+  };
+  return (
+    !document.hidden &&
+    !connection?.saveData &&
+    !/2g/.test(connection?.effectiveType || "")
+  );
+}
+
 // Warm only the likely destination, or a chapter the reader points to.
 export function useWarmChapter(coursePath: string, likely?: string) {
   const reader = useReader(coursePath);
   const client = useQueryClient();
   const warm = useCallback(
     (path: string) => {
-      const connection = (
-        navigator as Navigator & {
-          connection?: { saveData?: boolean; effectiveType?: string };
-        }
-      ).connection;
-      if (
-        document.hidden ||
-        connection?.saveData ||
-        /2g/.test(connection?.effectiveType || "")
-      )
-        return;
-      void client.prefetchQuery(reader.chapter(path));
+      if (canPrefetchChapter()) void client.prefetchQuery(reader.chapter(path));
     },
     [reader, client]
   );

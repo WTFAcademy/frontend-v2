@@ -7,6 +7,9 @@ import type { TChapter } from "../api/use-chapters-api";
 
 import { Icons } from "@/components/icons";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { canPrefetchChapter } from "../api/reader";
 import { useDictionary } from "@/features/lang";
 
 import { cn } from "@/lib/utils";
@@ -25,6 +28,7 @@ const ChapterDetailFooter = ({
   questions: number;
 }) => {
   const t = useDictionary();
+  const router = useRouter();
   const { isControlVisible } = useMobileReaderInteraction();
 
   const currentChapterIndex = chapters.findIndex(
@@ -35,6 +39,13 @@ const ChapterDetailFooter = ({
       ? chapters[currentChapterIndex + 1]?.path
       : undefined;
   const previousChapterPath = chapters[currentChapterIndex - 1]?.path;
+  const nextHref = nextChapterPath
+    ? `/${lang}/course/${coursePath}/${nextChapterPath}`
+    : undefined;
+
+  useEffect(() => {
+    if (nextHref && canPrefetchChapter()) router.prefetch(nextHref);
+  }, [nextHref, router]);
 
   return (
     <AnimatePresence>
@@ -72,9 +83,9 @@ const ChapterDetailFooter = ({
               </Link>
             </Button>
           )}
-          {nextChapterPath && (
+          {nextHref && (
             <Button variant="link" className="gap-2" asChild>
-              <Link href={`/${lang}/course/${coursePath}/${nextChapterPath}`}>
+              <Link href={nextHref} prefetch={false} aria-label={t.course.Next}>
                 <span className="hidden md:block">{t.course.Next}</span>
                 <Icons.arrowRight className="w-4 h-4" />
               </Link>
