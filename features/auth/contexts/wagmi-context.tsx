@@ -5,6 +5,7 @@ import { createAppKit } from '@reown/appkit/react'
 import { mainnet, base, sepolia } from '@reown/appkit/networks'
 import React, { type ReactNode } from 'react'
 import { cookieToInitialState, WagmiProvider as WagmiProviderBase, type Config } from 'wagmi'
+import {walletStoreCookie} from '../wallet-cookie'
 import { projectId, wagmiAdapter } from '../constants/wagmi'
 
 // Set up queryClient
@@ -45,9 +46,16 @@ createAppKit({
   }
 })
 
-function WagmiProvider({ children, cookies }: { children: ReactNode; cookies: string | null }) {
+function WagmiProvider({ children, walletStore }: { children: ReactNode; walletStore: string | null }) {
   const [queryClient] = React.useState(makeQueryClient);
-  const initialState = cookieToInitialState(wagmiAdapter.wagmiConfig as Config, cookies)
+  const initialState = React.useMemo(()=>{
+    if(!walletStore) return undefined;
+    try {
+      return cookieToInitialState(wagmiAdapter.wagmiConfig as Config, walletStoreCookie+"="+walletStore);
+    } catch {
+      return undefined;
+    }
+  },[walletStore]);
 
   return (
     <WagmiProviderBase config={wagmiAdapter.wagmiConfig as Config} initialState={initialState}>
