@@ -3,6 +3,7 @@ import { Inter, Roboto, Roboto_Mono } from "next/font/google";
 import "@/styles/globals.css";
 import Providers from "../providers";
 import { headers } from "next/headers";
+import { walletStoreCookie, walletStoreJSON } from "@/features/auth/wallet-cookie";
 import { Toaster } from "@/components/ui/sonner";
 import { getDictionary } from "./dictionaries";
 import DictionaryProvider from "@/features/lang";
@@ -36,7 +37,8 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { lang: string };
 }>) {
-  const cookies = headers().get("cookie");
+  const walletPair = headers().get("cookie")?.split(/;\s*/).find(pair=>pair.startsWith(walletStoreCookie+"="));
+  const walletStore = walletStoreJSON(walletPair?.slice(walletStoreCookie.length+1));
   const dictionary = await getDictionary(lang);
 
   return (
@@ -45,7 +47,7 @@ export default async function RootLayout({
         className={`${inter.variable} ${roboto.variable} ${roboto_mono.variable} antialiased min-h-screen w-full`}
       >
         <DictionaryProvider dictionary={dictionary}>
-          <Providers cookies={cookies}>
+          <Providers walletStore={walletStore}>
             {children}
             <Toaster richColors />
           </Providers>

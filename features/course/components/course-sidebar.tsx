@@ -3,49 +3,30 @@
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQueries } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
-import { getChaptersByPath } from "../api/use-chapters-api";
+import { useReader, useWarmChapter } from "../api/reader";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { useSetAtom } from "jotai";
-import { chapterListAtom } from "../atoms/chapter";
-import { getCourseDetailByPath } from "../api/use-courses-api";
 import { useDictionary } from "@/features/lang";
 
-const CourseSidebar = ({
-  coursePath,
-}: {
-  coursePath: string;
-}) => {
+const CourseSidebar = ({ coursePath }: { coursePath: string }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const setChapterList = useSetAtom(chapterListAtom);
   const t = useDictionary();
 
-  const { data: courseData } = useSuspenseQuery({
-    queryKey: ["course", coursePath],
-    queryFn: () => getCourseDetailByPath(coursePath),
+  const reader = useReader(coursePath);
+  const [{ data: course }, { data: chapters }] = useSuspenseQueries({
+    queries: [reader.course, reader.list],
   });
-
-  const { data: chapterData } = useSuspenseQuery({
-    queryKey: ["chapters", coursePath],
-    queryFn: async () => {
-      const res = await getChaptersByPath(coursePath);
-      setChapterList(res?.data.list);
-      return res?.data;
-    },
-  });
-
-  const course = courseData?.data || {};
-  const chapters = chapterData?.list || [];
+  const warm = useWarmChapter(coursePath);
 
   const isActive = (routePath: string) => {
     return routePath === pathname.split("/").pop();
   };
 
   const handleBack = () => {
-    router.push(`/course/${coursePath}`);
+    router.push(`/${reader.lang}/course/${coursePath}`);
   };
 
   return (
@@ -65,7 +46,9 @@ const CourseSidebar = ({
           {chapters.map((chapter, index) => (
             <Link
               key={chapter.path}
-              href={`/course/${coursePath}/${chapter.path}`}
+              onMouseEnter={() => warm(chapter.path)}
+              onFocus={() => warm(chapter.path)}
+              href={`/${reader.lang}/course/${coursePath}/${chapter.path}`}
               className={cn(
                 "relative flex justify-between items-center px-6 py-[14px] hover:bg-wtf-background-block cursor-pointer",
                 isActive(chapter.path.split("/").pop() || "") &&
@@ -75,7 +58,9 @@ const CourseSidebar = ({
               {isActive(chapter.path.split("/").pop() || "") && (
                 <div className="absolute left-0 top-0 w-[6px] h-full bg-wtf-brand-1" />
               )}
-              <div>{index + 1}. {chapter.title}</div>
+              <div>
+                {index + 1}. {chapter.title}
+              </div>
               {chapter.progress === 100 ? (
                 <Icons.documentFinished className="w-6 h-6 text-wtf-function-success" />
               ) : chapter.progress === 0 ? (

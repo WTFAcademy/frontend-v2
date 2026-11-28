@@ -1,14 +1,16 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { getChaptersByPath } from "../api/use-chapters-api";
+import { useEffect, useState } from "react";
+import type { TChapter } from "../api/use-chapters-api";
+import useAuth from "@/features/auth/hooks/use-auth";
+import { useReader, useWarmChapter } from "../api/reader";
 import { Icons } from "@/components/icons";
 import Link from "next/link";
 import { useDictionary } from "@/features/lang";
 import { cn } from "@/lib/utils";
-import { useParams } from "next/navigation";
+
 import Image from "next/image";
 import { isEmpty } from "lodash-es";
 import { TCourse } from "../api/use-courses-api";
@@ -79,23 +81,31 @@ const ChapterProgressStatus = ({
 const ChapterList = ({
   coursePath,
   course,
+  initialChapters,
 }: {
   coursePath: string;
   course: TCourse;
+  initialChapters?: TChapter[];
 }) => {
   const t = useDictionary();
   const [activeChapter, setActiveChapter] = useState<number | null>(null);
-  const { lang } = useParams<{ lang: string }>();
-
-  const { data: chapterData } = useSuspenseQuery({
-    queryKey: ["chapters", lang, coursePath],
-    queryFn: async () => {
-      const res = await getChaptersByPath(coursePath);
-      return res?.data;
-    },
+  const reader = useReader(coursePath);
+  const { lang } = reader;
+  const cache = useQueryClient();
+  const { isLogin } = useAuth();
+  const { data: chapters } = useSuspenseQuery({
+    ...reader.list,
+    initialData: isLogin ? undefined : initialChapters,
   });
-
-  const chapters = chapterData?.list || [];
+  const warm = useWarmChapter(coursePath, chapters[0]?.path);
+  useEffect(() => {
+    if (course.path)
+      cache.setQueryData(reader.course.queryKey, {
+        path: course.path,
+        title: course.title,
+        status: course.status,
+      });
+  }, [course.path, course.title, course.status, reader, cache]);
   const isPublished = course.status === "published";
 
   if (isEmpty(chapters)) {
@@ -140,6 +150,8 @@ const ChapterList = ({
                   <h2 className="text-wtf-content-1 text-base font-semibold">
                     <Link
                       className="after:absolute after:inset-0 after:z-10"
+                      onMouseEnter={() => warm(chapter.path)}
+                      onFocus={() => warm(chapter.path)}
                       href={`/${lang}/course/${coursePath}/${chapter.path}`}
                     >
                       {chapter.title}

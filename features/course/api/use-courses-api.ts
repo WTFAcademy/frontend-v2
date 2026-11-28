@@ -65,19 +65,19 @@ export type TCategory = {
   list: TCourse[];
 }
 
-export const getCourses = async () => {
-  const res = await request.get<TResponse<{ published: TCourse[], unpublished: TCourse[], category: TCategory[] }>>("/courses");
+export const getCourses = async (lang?:string) => {
+  const res = await request.get<TResponse<{ published: TCourse[], unpublished: TCourse[], category: TCategory[] }>>("/courses",{headers:{Language:lang}});
   return res.data;
 };
 
-export const getCourseWithType = async () => {
-  const res = await request.get<TResponse<{ category: TCategory[] }>>(`/category`);
+export const getCourseWithType = async (lang?:string) => {
+  const res = await request.get<TResponse<{ category: TCategory[] }>>(`/category`,{headers:{Language:lang}});
   return get(res, "data.data.category", []);
 };
 
-export const getCourseDetailByPath = async (path: string) => {
+export const getCourseDetailByPath = async (path: string, lang?:string) => {
   const res = await request.get<TResponse<TCourse>>(
-    `/course/${path}`
+    `/course/${path}`, {headers:{Language:lang}}
   );
 
   const sbtToken = get(res, "data.data.sbt_token", {});

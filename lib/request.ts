@@ -51,7 +51,7 @@ request.interceptors.request.use((config) => {
     }
   }
 
-  config.headers.language = locale;
+  if (!config.headers.has("Language") && locale) config.headers.set("Language", locale);
   config.headers.Authorization = token ? `Bearer ${token}` : undefined;
   return config;
 });

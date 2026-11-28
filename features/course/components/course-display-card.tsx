@@ -4,6 +4,7 @@ import { Skeleton as SkeletonUI } from "@/components/ui/skeleton";
 import Link from "next/link";
 
 type TCourseDisplayCardProps = {
+  lang: string;
   image?: string;
   title: string;
   description: string;
@@ -31,6 +32,7 @@ const LinkSvg = function () {
 };
 
 const CourseDisplayCard = ({
+  lang,
   image,
   title,
   description,
@@ -41,7 +43,7 @@ const CourseDisplayCard = ({
 
   return (
     <Link
-      href={`/course/${path}`}
+      href={`/${lang}/course/${path}`}
       className="course-display-card w-full p-8 md:p-10 border-wtf-border-divider border-[0.5px] border-solid flex flex-col items-center gap-y-8 cursor-pointer transition-all hover:bg-wtf-background-hover"
     >
       <div className="relative w-full h-[186px] md:h-[240px]">

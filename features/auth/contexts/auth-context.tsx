@@ -15,6 +15,7 @@ type TProps = {
 };
 
 type TAuthContext = {
+  readerSession: string;
   isPendingAuthUser: boolean;
   isLogin: boolean;
   isRegistering: boolean;
@@ -104,8 +105,11 @@ export const AuthProvider = ({ children }: TProps) => {
     refetchAuthUser();
   }, [refetchAuthUser]);
 
+  // An opaque cache scope changes with login, logout, or token replacement.
+  const readerSession = useMemo(() => token ? crypto.randomUUID() : "guest", [token]);
   const state = useMemo(
     () => ({
+      readerSession,
       authUser: authUser ?? null,
       isRegistering,
       signInWithGithub,
@@ -117,6 +121,7 @@ export const AuthProvider = ({ children }: TProps) => {
       logout,
     }),
     [
+      readerSession,
       authUser,
       isRegistering,
       signInWithGithub,

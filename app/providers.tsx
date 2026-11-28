@@ -7,10 +7,10 @@ import { Provider as JotaiProvider } from "jotai";
 
 const Providers = ({
   children,
-  cookies,
+  walletStore,
 }: {
   children: React.ReactNode;
-  cookies: string | null;
+  walletStore: string | null;
 }) => {
   return (
     <JotaiProvider>
@@ -20,7 +20,7 @@ const Providers = ({
         enableSystem
         disableTransitionOnChange
       >
-        <WagmiProvider cookies={cookies}>
+        <WagmiProvider walletStore={walletStore}>
           <AuthProvider>{children}</AuthProvider>
         </WagmiProvider>
       </ThemeProvider>

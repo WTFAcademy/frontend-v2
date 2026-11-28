@@ -3,34 +3,49 @@
 import { Button } from "@/components/ui/button";
 import { useMobileReaderInteraction } from "@/features/course/hooks/use-mobile-reader-interaction";
 import { AnimatePresence, motion } from "framer-motion";
-import { useAtomValue } from "jotai";
-import { chapterListAtom } from "../atoms/chapter";
+import type { TChapter } from "../api/use-chapters-api";
+
 import { Icons } from "@/components/icons";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { canPrefetchChapter } from "../api/reader";
 import { useDictionary } from "@/features/lang";
 
 import { cn } from "@/lib/utils";
 
 const ChapterDetailFooter = ({
+  chapters,
   currentChapterPath,
   coursePath,
   lang,
   questions,
 }: {
+  chapters: TChapter[];
   currentChapterPath: string;
   coursePath: string;
   lang: string;
   questions: number;
 }) => {
   const t = useDictionary();
+  const router = useRouter();
   const { isControlVisible } = useMobileReaderInteraction();
-  const chapters = useAtomValue(chapterListAtom);
 
   const currentChapterIndex = chapters.findIndex(
     (chapter) => chapter.path === currentChapterPath
   );
-  const nextChapterPath = chapters[currentChapterIndex + 1]?.path;
+  const nextChapterPath =
+    currentChapterIndex >= 0
+      ? chapters[currentChapterIndex + 1]?.path
+      : undefined;
   const previousChapterPath = chapters[currentChapterIndex - 1]?.path;
+  const nextHref = nextChapterPath
+    ? `/${lang}/course/${coursePath}/${nextChapterPath}`
+    : undefined;
+
+  useEffect(() => {
+    if (nextHref && canPrefetchChapter()) router.prefetch(nextHref);
+  }, [nextHref, router]);
 
   return (
     <AnimatePresence>
@@ -58,31 +73,24 @@ const ChapterDetailFooter = ({
           )}
         </div>
         <div className={cn("flex items-center")}>
-          <Button
-            variant="link"
-            className="gap-2"
-            asChild
-            disabled={!previousChapterPath}
-          >
-            <Link
-              aria-disabled={!previousChapterPath}
-              href={`/${lang}/course/${coursePath}/${previousChapterPath}`}
-            >
-              <Icons.arrowLeft className="w-4 h-4" />
-              <span className="hidden md:block">{t.course.Previous}</span>
-            </Link>
-          </Button>
-          <Button
-            variant="link"
-            className="gap-2"
-            asChild
-            disabled={!nextChapterPath}
-          >
-            <Link href={`/${lang}/course/${coursePath}/${nextChapterPath}`}>
-              <span className="hidden md:block">{t.course.Next}</span>
-              <Icons.arrowRight className="w-4 h-4" />
-            </Link>
-          </Button>
+          {previousChapterPath && (
+            <Button variant="link" className="gap-2" asChild>
+              <Link
+                href={`/${lang}/course/${coursePath}/${previousChapterPath}`}
+              >
+                <Icons.arrowLeft className="w-4 h-4" />
+                <span className="hidden md:block">{t.course.Previous}</span>
+              </Link>
+            </Button>
+          )}
+          {nextHref && (
+            <Button variant="link" className="gap-2" asChild>
+              <Link href={nextHref} prefetch={false} aria-label={t.course.Next}>
+                <span className="hidden md:block">{t.course.Next}</span>
+                <Icons.arrowRight className="w-4 h-4" />
+              </Link>
+            </Button>
+          )}
         </div>
       </motion.div>
     </AnimatePresence>
