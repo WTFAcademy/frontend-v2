@@ -42,7 +42,11 @@ export default function PersonalPage({
   const { authUser, isLogin, isPendingAuthUser, setIsRegistering } = useAuth();
   const open = useSetAtom(openAuthModal);
   const [tab, setTab] = useState<"learn" | "create" | "review">(
-    searchParams.tab === "create" ? "create" : "learn"
+    searchParams.tab === "review"
+      ? "review"
+      : searchParams.tab === "create"
+        ? "create"
+        : "learn"
   );
   const uid = authUser?.id;
   const courses = useQuery({
@@ -69,7 +73,7 @@ export default function PersonalPage({
     `/${lang}/course/${encodeURIComponent(path)}`;
   const studio = (id: string | number) => `/${lang}/personal/studio/${id}`;
   const mine = work.data?.filter((r) => r.mine) || [],
-    queue = work.data?.filter((r) => r.reviewable) || [];
+    queue = work.data?.filter((r) => r.reviewable || r.revertible) || [];
   const checked = !!uid;
   const login = () => {
     setIsRegistering(false);
@@ -81,7 +85,7 @@ export default function PersonalPage({
       <button onClick={again}>{t("重试", "Try again")}</button>
     </div>
   );
-  const visibleTab = tab === "review" && !queue.length ? "learn" : tab;
+  const visibleTab = tab === "review" && !checked ? "learn" : tab;
   const learning = visibleTab === "learn";
   const finished = courses.data?.completed || [],
     certificates = courses.data?.sbt || [];
@@ -138,11 +142,11 @@ export default function PersonalPage({
                     label: t("我的创作", "Studio"),
                     icon: FilePenLine,
                   },
-                  ...(queue.length
+                  ...(queue.length || (checked && tab === "review")
                     ? [
                         {
                           id: "review",
-                          label: t("待我审核", "Review queue"),
+                          label: t("版本审核", "Revision review"),
                           icon: ClipboardCheck,
                         },
                       ]
@@ -346,7 +350,7 @@ export default function PersonalPage({
                   <h2>
                     {visibleTab === "create"
                       ? t("我的创作", "My studio")
-                      : t("待我审核", "Review queue")}
+                      : t("版本审核", "Revision review")}
                   </h2>
                   <p>
                     {visibleTab === "create"
@@ -355,8 +359,8 @@ export default function PersonalPage({
                           "Write tutorials, return to your drafts and track submissions."
                         )
                       : t(
-                          "查看课程的待审版本和投稿正文。",
-                          "Read pending course submissions."
+                          "预览待审投稿，或撤回最近发布的版本。",
+                          "Preview pending submissions or roll back a published revision."
                         )}
                   </p>
                   {visibleTab === "create" &&
@@ -378,7 +382,7 @@ export default function PersonalPage({
                       <h2>
                         {visibleTab === "create"
                           ? t("我的投稿", "My submissions")
-                          : t("待审核版本", "Pending revisions")}
+                          : t("课程版本", "Course revisions")}
                       </h2>
                     </div>
                     {work.isError ? (
@@ -388,13 +392,19 @@ export default function PersonalPage({
                     ) : !(visibleTab === "create" ? mine : queue).length ? (
                       <div className="ws-empty">
                         <Layers3 />
-                        <p>{t("还没有投稿", "No submissions yet")}</p>
-                        <span>
-                          {t(
-                            "网页和 CLI 提交的教程都会出现在这里。",
-                            "Tutorials submitted here or with the CLI appear here."
-                          )}
-                        </span>
+                        <p>
+                          {visibleTab === "review"
+                            ? t("没有待处理的版本", "No revisions to review")
+                            : t("还没有投稿", "No submissions yet")}
+                        </p>
+                        {visibleTab === "create" && (
+                          <span>
+                            {t(
+                              "网页和 CLI 提交的教程都会出现在这里。",
+                              "Tutorials submitted here or with the CLI appear here."
+                            )}
+                          </span>
+                        )}
                       </div>
                     ) : (
                       <div className="ws-list">

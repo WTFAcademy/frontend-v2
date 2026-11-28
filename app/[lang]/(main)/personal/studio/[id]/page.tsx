@@ -18,6 +18,7 @@ import { openAuthModal } from "@/features/auth/atoms/auth";
 import {
   detail,
   getPackage,
+  reviewRevision,
   savePackage,
   statusName,
   submit,
@@ -205,12 +206,46 @@ function Editor({ lang, id, uid }: { lang: string; id: string; uid: number }) {
       return { id: Number(current) };
     },
     onSuccess: async (result) => {
-      await cache.invalidateQueries({ queryKey: ["workspace", uid] });
+      await Promise.all([
+        cache.invalidateQueries({ queryKey: ["workspace", uid] }),
+        cache.invalidateQueries({ queryKey: ["workspace-detail", uid, id] }),
+      ]);
       mark(false);
       router.replace(`/${lang}/personal/studio/${result.id}`);
     },
     onError: (e) => setProblem(errorText(e)),
   });
+  const review = useMutation({
+    mutationFn: async (decision: "approve" | "revert") => {
+      if (!row) throw Error(t("版本不可用", "Revision unavailable"));
+      return reviewRevision(row, decision);
+    },
+    onSuccess: (result) => {
+      if (result.status === "reverted" && !row?.mine) {
+        router.replace(`/${lang}/personal?tab=review`);
+      }
+    },
+    onError: (e) => setProblem(errorText(e)),
+    onSettled: () =>
+      Promise.all([
+        cache.invalidateQueries({ queryKey: ["workspace", uid] }),
+        cache.invalidateQueries({ queryKey: ["workspace-detail", uid, id] }),
+      ]),
+  });
+  function confirmReview(decision: "approve" | "revert") {
+    if (!row || review.isPending) return;
+    const question =
+      decision === "approve"
+        ? t("确认发布这个版本？", "Publish this revision?")
+        : t(
+            "确认撤回这个版本，恢复发布前的课程内容？",
+            "Roll back this revision and restore the previous course content?"
+          );
+    if (window.confirm(question)) {
+      setProblem("");
+      review.mutate(decision);
+    }
+  }
   async function importFile(file?: File) {
     if (!file) return;
     try {
@@ -244,7 +279,10 @@ function Editor({ lang, id, uid }: { lang: string; id: string; uid: number }) {
   }
   return (
     <div className="ws">
-      <Link className="ws-back" href={`/${lang}/personal?tab=create`}>
+      <Link
+        className="ws-back"
+        href={`/${lang}/personal?tab=${row?.reviewable || row?.revertible ? "review" : "create"}`}
+      >
         <ArrowLeft size={16} />
         {t("返回个人中心", "Back to workspace")}
       </Link>
@@ -538,6 +576,46 @@ function Editor({ lang, id, uid }: { lang: string; id: string; uid: number }) {
               )}
             </p>
           )}
+          {!!q.data?.preview_images?.length && (
+            <div className="space-y-3">
+              <h3>{t("投稿配图", "Submission images")}</h3>
+              {q.data.preview_images.map((url, i) => (
+                // Signed private previews must go directly to the material server.
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={url}
+                  src={url}
+                  loading="lazy"
+                  referrerPolicy="no-referrer"
+                  className="max-h-80 max-w-full object-contain"
+                  alt={t("投稿配图", "Submission image") + " " + (i + 1)}
+                />
+              ))}
+              <button className="ws-tool" onClick={() => q.refetch()}>
+                {t("刷新配图", "Refresh images")}
+              </button>
+            </div>
+          )}
+          <div className="ws-studio-actions">
+            {row?.reviewable && row.status === "pending" && (
+              <button
+                className="ws-cta"
+                disabled={review.isPending}
+                onClick={() => confirmReview("approve")}
+              >
+                {t("批准发布", "Approve publication")}
+              </button>
+            )}
+            {row?.revertible && row.status === "approved" && (
+              <button
+                className="ws-tool"
+                disabled={review.isPending}
+                onClick={() => confirmReview("revert")}
+              >
+                {t("撤回发布", "Roll back publication")}
+              </button>
+            )}
+          </div>
         </section>
       )}
       {problem && <p role="alert">{problem}</p>}
