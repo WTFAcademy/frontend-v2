@@ -15,7 +15,7 @@ export type TChapter = {
     username: string;
     nickname: string;
     github_id: number;
-  },
+  };
   author: {
     id: number;
     bio: string;
@@ -24,10 +24,12 @@ export type TChapter = {
     username: string;
     nickname: string;
     github_id: number;
-  },
+  };
   content: string;
   keywords: string;
   progress: number;
+  quiz_questions: number;
+  status: string;
   learners: number;
   study_time: number;
   created_at: string;
@@ -50,7 +52,7 @@ export type TChapterDetail = {
     username: string;
     nickname: string;
     github_id: number;
-  },
+  };
   author: {
     id: number;
     bio: string;
@@ -59,10 +61,12 @@ export type TChapterDetail = {
     username: string;
     nickname: string;
     github_id: number;
-  },
+  };
   content: string;
   keywords: string;
   progress: number;
+  quiz_questions: number;
+  status: string;
   learners: number;
   study_time: number;
   created_at: string;
@@ -77,7 +81,10 @@ export const getChaptersByPath = async (coursePath: string) => {
   return res.data;
 };
 
-export const getChapterByPath = async (coursePath: string, chapterPath: string) => {
+export const getChapterByPath = async (
+  coursePath: string,
+  chapterPath: string
+) => {
   const res = await request.get<TResponse<TChapterDetail>>(
     `course/${coursePath}/chapter/${chapterPath}`
   );

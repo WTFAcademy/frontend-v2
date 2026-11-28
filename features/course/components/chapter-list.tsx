@@ -8,11 +8,11 @@ import { Icons } from "@/components/icons";
 import Link from "next/link";
 import { useDictionary } from "@/features/lang";
 import { cn } from "@/lib/utils";
-import useAuth from "@/features/auth/hooks/use-auth";
+import { useParams } from "next/navigation";
 import Image from "next/image";
 import { isEmpty } from "lodash-es";
 import { TCourse } from "../api/use-courses-api";
-import { Button } from "@/components/ui/button";
+
 const ChapterProgressButton = ({
   progress,
   children,
@@ -26,7 +26,7 @@ const ChapterProgressButton = ({
   return (
     <Link
       href={href}
-      className="relative border border-wtf-border-outline rounded-sm w-[80px] h-[34px] flex items-center justify-center overflow-hidden cursor-pointer"
+      className="relative z-20 border border-wtf-border-outline rounded-sm w-[80px] h-[34px] flex items-center justify-center overflow-hidden cursor-pointer"
     >
       {children}
       <div className="absolute bottom-0 left-0 w-full h-[4px] bg-wtf-function-successBg">
@@ -76,13 +76,19 @@ const ChapterProgressStatus = ({
   }
 };
 
-const ChapterList = ({ coursePath, course }: { coursePath: string, course: TCourse }) => {
+const ChapterList = ({
+  coursePath,
+  course,
+}: {
+  coursePath: string;
+  course: TCourse;
+}) => {
   const t = useDictionary();
   const [activeChapter, setActiveChapter] = useState<number | null>(null);
-  const { isLogin } = useAuth();
+  const { lang } = useParams<{ lang: string }>();
 
   const { data: chapterData } = useSuspenseQuery({
-    queryKey: ["chapters", coursePath],
+    queryKey: ["chapters", lang, coursePath],
     queryFn: async () => {
       const res = await getChaptersByPath(coursePath);
       return res?.data;
@@ -99,7 +105,7 @@ const ChapterList = ({ coursePath, course }: { coursePath: string, course: TCour
           <Image src="/svgs/empty.svg" alt="empty" width={120} height={167} />
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -109,10 +115,7 @@ const ChapterList = ({ coursePath, course }: { coursePath: string, course: TCour
       </h1>
       <div className="flex flex-col gap-1 mt-6">
         {chapters.map((chapter, index) => (
-          <Link
-            key={chapter.path}
-            href={`/course/${coursePath}/${chapter.path}`}
-          >
+          <div key={chapter.path}>
             <motion.div
               className="border-b-[0.5px] border-wtf-border-divider py-1"
               onHoverStart={() => setActiveChapter(index)}
@@ -130,47 +133,38 @@ const ChapterList = ({ coursePath, course }: { coursePath: string, course: TCour
                   ease: "easeOut",
                 }}
               >
-                <div className="flex items-center gap-4 relative z-10">
+                <div className="flex items-center gap-4">
                   <div className="rounded-full w-[30px] h-[30px] text-wtf-function-link bg-wtf-function-brandBg flex items-center justify-center">
                     {chapter.sort}
                   </div>
                   <h2 className="text-wtf-content-1 text-base font-semibold">
-                    {chapter.title}
+                    <Link
+                      className="after:absolute after:inset-0 after:z-10"
+                      href={`/${lang}/course/${coursePath}/${chapter.path}`}
+                    >
+                      {chapter.title}
+                    </Link>
                   </h2>
                 </div>
 
                 <div className="flex items-center gap-4 justify-between">
                   <div className="flex items-center gap-4 w-full ml-[46px]">
                     <div className={cn("flex items-center gap-3 flex-1")}>
-                      {isLogin && isPublished && (
-                        <>
-                          <ChapterProgressButton
-                            href={`/course/${coursePath}/${chapter.path}/quiz`}
-                            progress={chapter.progress}
-                          >
-                            <Icons.document className="w-4 h-4 text-wtf-content-3" />
-                            <span className="text-wtf-content-2 text-sm font-medium ml-1">
-                              {t.course.Quiz}
-                            </span>
-                          </ChapterProgressButton>
-                          {/* <ChapterProgressButton
-                        href={`/course/${coursePath}/${chapter.path}/code`}
-                        progress={chapter.code_progress}
-                      >
-                        <Icons.code2 className="w-4 h-4 text-wtf-content-3" />
-                        <span className="text-wtf-content-2 text-sm font-medium ml-1">
-                          {t.course.Code}
-                        </span>
-                      </ChapterProgressButton> */}
-                        </>
-                      )}
-                      {!isLogin && isPublished && (
-                        <Button variant="outline" className="w-full">
-                          <span className="text-wtf-content-2 text-sm font-medium ml-1">
-                            {t.course.Login_to_quiz}
-                          </span>
-                        </Button>
-                      )}
+                      {isPublished &&
+                        chapter.status === "published" &&
+                        chapter.quiz_questions > 0 && (
+                          <>
+                            <ChapterProgressButton
+                              href={`/${lang}/course/${coursePath}/${chapter.path}/quiz`}
+                              progress={chapter.progress}
+                            >
+                              <Icons.document className="w-4 h-4 text-wtf-content-3" />
+                              <span className="text-wtf-content-2 text-sm font-medium ml-1">
+                                {t.course.Quiz}
+                              </span>
+                            </ChapterProgressButton>
+                          </>
+                        )}
                     </div>
                     <div className="w-[128px] flex justify-end">
                       <ChapterProgressStatus
@@ -203,7 +197,7 @@ const ChapterList = ({ coursePath, course }: { coursePath: string, course: TCour
                 </div>
               </motion.div>
             </motion.div>
-          </Link>
+          </div>
         ))}
       </div>
     </div>

@@ -1,62 +1,33 @@
 import request, { TResponse } from "@/lib/request";
-import { TAnswer } from "../types";
+import { TAnswer, TExercise } from "../types";
 
-type TSimpleChapter = {
-    id: number;
-    title: string;
-    course_path: string;
-    path: string;
-}
-
-type TSimpleCourse = {
-    id: number;
-    title: string;
-    path: string;
-}
-
-type TExercise = {
-    title: string;
-    meta: {
-        type: string;
-        score: number;
-        answer: string | null;
-    };
-    content: {
-        extend: {
-            type: string;
-            raw: string;
-        }[];
-        options: {
-            label: string;
-            value: string;
-        }[];
-    };
-    id: number;
+type Preview = { id: number; title: string; path: string };
+export type TQuizResponse = {
+  id: number;
+  chapter: Preview;
+  course: Preview;
+  list: TExercise[];
+};
+export type QuizResult = {
+  errors: number;
+  progress: number;
+  incorrect_ids: number[];
+  explanations?: Record<string, string>;
 };
 
-export type TQuizResponse = {
-    id: number;
-    chapter: TSimpleChapter;
-    course: TSimpleCourse
-    list: TExercise[]
+export async function getQuizzes(course: string, chapter: string) {
+  const { data } = await request.get<TResponse<TQuizResponse>>(
+    `/course/${course}/chapter/${chapter}/quiz/choice`
+  );
+  if (data.code !== 0) throw Error(data.msg);
+  return data.data;
 }
 
-export const getQuizzes = async (coursePath: string, chapterPath: string) => {
-    const res = await request.get<TResponse<TQuizResponse>>(`/course/${coursePath}/chapter/${chapterPath}/quiz/choice`)
-    return res.data
-}
-
-export type TSubmitQuizBody = {
-    answer: TAnswer[]
-}
-
-export type TSubmitQuizResponse = {
-    errors: number
-    message: string
-    progress: number
-}
-
-export const submitQuiz = async (courseId: number, chapterId: number, quizId: number, data: TSubmitQuizBody) => {
-    const res = await request.post<TResponse<TSubmitQuizResponse>>(`/course/${courseId}/chapter/${chapterId}/quiz/choice/${quizId}`, data)
-    return res.data
+export async function submitQuiz(quiz: TQuizResponse, answer: TAnswer[]) {
+  const { data } = await request.post<TResponse<QuizResult>>(
+    `/course/${quiz.course.id}/chapter/${quiz.chapter.id}/quiz/choice/${quiz.id}`,
+    { answer }
+  );
+  if (data.code !== 0) throw Error(data.msg);
+  return data.data;
 }

@@ -1,39 +1,91 @@
 "use client";
-
+import Link from "next/link";
+import { useSetAtom } from "jotai";
+import { useMutation } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { openAuthModal } from "@/features/auth/atoms/auth";
+import useAuth from "@/features/auth/hooks/use-auth";
 import { getQuizzes } from "@/features/quiz/api/use-quiz-api";
-import QuizHeader from "@/features/quiz/components/quiz-header";
 import QuizListForm from "@/features/quiz/components/quiz-list-form";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import Image from "next/image";
 
-const QuizPage = ({
-  params,
-}: {
-  params: { coursename: string; chaptername: string };
-}) => {
-  const { data } = useSuspenseQuery({
-    queryKey: ["quiz", params.coursename, params.chaptername],
-    queryFn: () => getQuizzes(params.coursename, params.chaptername),
-    staleTime: 0,
-    gcTime: 0,
-  });
-
-  if (!data || !data.data) {
-    return (
-      <div className="relative h-screen w-full flex flex-col items-center justify-center">
-        <div className="flex flex-col items-center justify-center">
-          <Image src="/svgs/empty.svg" alt="empty" width={120} height={167} />
-        </div>
-      </div>
-    );
-  }
-
+type Params = { lang: string; coursename: string; chaptername: string };
+export default function QuizPage({ params }: { params: Params }) {
+  const { authUser, isLogin, isPendingAuthUser } = useAuth();
+  const open = useSetAtom(openAuthModal);
   return (
-    <div className="flex flex-col max-w-[840px] mx-auto mt-[76px] px-4 py-6 md:px-10 md:py-7">
-      <QuizHeader quiz={data.data} />
-      <QuizListForm quiz={data.data} />
-    </div>
+    <Attempt
+      key={JSON.stringify([
+        params.lang,
+        params.coursename,
+        params.chaptername,
+        authUser?.id,
+      ])}
+      {...params}
+      ready={!!authUser}
+      loading={isLogin && isPendingAuthUser}
+      login={() => open(true)}
+    />
   );
-};
-
-export default QuizPage;
+}
+function Attempt({
+  lang,
+  coursename,
+  chaptername,
+  ready,
+  loading,
+  login,
+}: Params & { ready: boolean; loading: boolean; login: () => void }) {
+  const en = lang === "en",
+    chapter = `/${lang}/course/${coursename}/${chaptername}`;
+  const start = useMutation({
+    mutationFn: () => getQuizzes(coursename, chaptername),
+    retry: false,
+  });
+  const quiz = start.data;
+  return (
+    <main className="mx-auto mt-20 w-full max-w-3xl px-4 py-8 md:py-12">
+      <Link className="text-sm underline underline-offset-4" href={chapter}>
+        ← {quiz?.chapter.title || (en ? "Back to chapter" : "返回章节")}
+      </Link>
+      <h1 className="mb-2 mt-6 text-3xl font-bold">
+        {en ? "Chapter quiz" : "章节测验"}
+      </h1>
+      {quiz ? (
+        <QuizListForm quiz={quiz} lang={lang} />
+      ) : (
+        <section className="mt-6 rounded-xl border border-wtf-border-outline p-6">
+          <p className="mb-6">
+            {en
+              ? "Answer every question to check your understanding. Get them all right to complete the chapter."
+              : "答完后可查看错题并修改答案。全部答对即可完成本章。"}
+          </p>
+          {start.error && (
+            <p role="alert" className="mb-4">
+              {start.error.message.includes("No quiz found")
+                ? en
+                  ? "No questions are available in this language yet."
+                  : "本章当前语言还没有题目。"
+                : en
+                ? "Could not load the quiz. Please retry."
+                : "无法加载测验，请重试。"}
+            </p>
+          )}
+          <Button
+            disabled={loading || start.isPending}
+            onClick={() => (ready ? start.mutate() : login())}
+          >
+            {loading || start.isPending
+              ? "…"
+              : ready
+              ? en
+                ? "Start quiz"
+                : "开始答题"
+              : en
+              ? "Sign in to start"
+              : "登录后答题"}
+          </Button>
+        </section>
+      )}
+    </main>
+  );
+}

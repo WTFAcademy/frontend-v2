@@ -219,6 +219,20 @@ export default function PersonalPage({
                         : t("浏览课程", "Explore courses")}
                       <ArrowRight size={16} />
                     </Link>
+                    {latest && chapter && chapter.quiz_questions > 0 && (
+                      <Link
+                        className="ws-tool ml-2"
+                        href={
+                          courseURL(latest.path) +
+                          "/" +
+                          encodeURIComponent(chapter.path) +
+                          "/quiz"
+                        }
+                      >
+                        {t("本章测验", "Chapter quiz")} ·{" "}
+                        {chapter.quiz_questions}
+                      </Link>
+                    )}
                   </div>
                 </div>
                 <div className="ws-metrics">

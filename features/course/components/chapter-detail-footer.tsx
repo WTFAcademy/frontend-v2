@@ -8,22 +8,23 @@ import { chapterListAtom } from "../atoms/chapter";
 import { Icons } from "@/components/icons";
 import Link from "next/link";
 import { useDictionary } from "@/features/lang";
-import useAuth from "@/features/auth/hooks/use-auth";
+
 import { cn } from "@/lib/utils";
 
 const ChapterDetailFooter = ({
   currentChapterPath,
   coursePath,
-  isPublished,
+  lang,
+  questions,
 }: {
   currentChapterPath: string;
   coursePath: string;
-  isPublished: boolean;
+  lang: string;
+  questions: number;
 }) => {
   const t = useDictionary();
   const { isControlVisible } = useMobileReaderInteraction();
   const chapters = useAtomValue(chapterListAtom);
-  const { isLogin } = useAuth();
 
   const currentChapterIndex = chapters.findIndex(
     (chapter) => chapter.path === currentChapterPath
@@ -40,22 +41,19 @@ const ChapterDetailFooter = ({
         transition={{ duration: 0.3 }}
       >
         <div className={cn("flex items-center gap-4")}>
-          {isLogin && isPublished && (
+          {questions > 0 && (
             <>
               <Button asChild>
-                <Link href={`/course/${coursePath}/${currentChapterPath}/quiz`}>
+                <Link
+                  href={`/${lang}/course/${coursePath}/${currentChapterPath}/quiz`}
+                >
                   <Icons.document className="w-4 h-4" />
-                  <span className="hidden md:block ml-1">{t.course.Quiz}</span>
+                  <span className="ml-1">
+                    {lang === "zh" ? "章节测验" : "Chapter quiz"} · {questions}
+                  </span>
                   <Icons.arrowRight className="hidden md:block w-3 h-3 ml-2" />
                 </Link>
               </Button>
-              {/* <Button asChild>
-                <Link href={`/course/${coursePath}/${currentChapterPath}/code`}>
-                  <Icons.code2 className="w-4 h-4" />
-                  <span className="hidden md:block ml-1">{t.course.Code}</span>
-                  <Icons.arrowRight className="hidden md:block w-3 h-3 ml-2" />
-                </Link>
-              </Button> */}
             </>
           )}
         </div>
@@ -68,7 +66,7 @@ const ChapterDetailFooter = ({
           >
             <Link
               aria-disabled={!previousChapterPath}
-              href={`/course/${coursePath}/${previousChapterPath}`}
+              href={`/${lang}/course/${coursePath}/${previousChapterPath}`}
             >
               <Icons.arrowLeft className="w-4 h-4" />
               <span className="hidden md:block">{t.course.Previous}</span>
@@ -80,7 +78,7 @@ const ChapterDetailFooter = ({
             asChild
             disabled={!nextChapterPath}
           >
-            <Link href={`/course/${coursePath}/${nextChapterPath}`}>
+            <Link href={`/${lang}/course/${coursePath}/${nextChapterPath}`}>
               <span className="hidden md:block">{t.course.Next}</span>
               <Icons.arrowRight className="w-4 h-4" />
             </Link>
