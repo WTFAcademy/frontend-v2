@@ -424,16 +424,15 @@ function Editor({ lang, id, uid }: { lang: string; id: string; uid: number }) {
                     "Paste question YAML, or copy the instructions and chapter for your agent. Saving validates the questions."
                   )}
                 </p>
-                <label>
-                  quiz.yaml{" "}
-                  <textarea
-                    rows={10}
-                    spellCheck={false}
-                    value={quizText}
-                    placeholder={quizExample(chapterLang)}
-                    onChange={(e) => changeQuiz(e.target.value)}
-                  />
-                </label>
+                <label htmlFor="chapter-quiz-yaml">quiz.yaml</label>
+                <textarea
+                  id="chapter-quiz-yaml"
+                  rows={10}
+                  spellCheck={false}
+                  value={quizText}
+                  placeholder={quizExample(chapterLang)}
+                  onChange={(e) => changeQuiz(e.target.value)}
+                />
                 <div className="ws-studio-actions">
                   <a
                     className="ws-tool"
