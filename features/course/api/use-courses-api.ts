@@ -65,8 +65,8 @@ export type TCategory = {
   list: TCourse[];
 }
 
-export const getCourses = async () => {
-  const res = await request.get<TResponse<{ published: TCourse[], unpublished: TCourse[], category: TCategory[] }>>("/courses");
+export const getCourses = async (lang?:string) => {
+  const res = await request.get<TResponse<{ published: TCourse[], unpublished: TCourse[], category: TCategory[] }>>("/courses",{headers:{Language:lang}});
   return res.data;
 };
 

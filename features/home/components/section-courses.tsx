@@ -10,10 +10,10 @@ import { getDictionary } from "@/app/[lang]/dictionaries";
 // TODO: header
 const SectionCourses = async () => {
   const heads = headers()
-  const lang = heads.get('x-current-lang')
+  const lang = heads.get('x-current-lang') || 'en'
   const t = await getDictionary(lang)
 
-  const data = await getCourses();
+  const data = await getCourses(lang);
 
   const popularCourses = get(data, "data.published", []);
   const upcomingCourses = get(data, "data.unpublished", []);
@@ -33,6 +33,7 @@ const SectionCourses = async () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-5 border-wtf-border-divider border-x-[0.5px]">
           {popularCourses.map((course: TCourse) => (
             <CourseDisplayCard
+              lang={lang}
               key={course.path}
               title={course.title}
               description={course.description}
@@ -53,6 +54,7 @@ const SectionCourses = async () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 4xl:grid-cols-5 border-wtf-border-divider border-x-[0.5px]">
           {upcomingCourses.map((course) => (
             <CourseDisplayCard
+              lang={lang}
               key={course.path}
               title={course.title}
               description={course.description}

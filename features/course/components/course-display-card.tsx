@@ -2,9 +2,9 @@ import Image from "@/components/image";
 import CourseKeywordTag from "./course-keyword-tag";
 import { Skeleton as SkeletonUI } from "@/components/ui/skeleton";
 import Link from "next/link";
-import {useParams} from "next/navigation";
 
 type TCourseDisplayCardProps = {
+  lang: string;
   image?: string;
   title: string;
   description: string;
@@ -32,13 +32,13 @@ const LinkSvg = function () {
 };
 
 const CourseDisplayCard = ({
+  lang,
   image,
   title,
   description,
   keywords,
   path,
 }: TCourseDisplayCardProps) => {
-  const {lang}=useParams<{lang:string}>();
   const keywordsArray = keywords.split(",");
 
   return (

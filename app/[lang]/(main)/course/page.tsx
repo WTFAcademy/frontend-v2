@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { useDictionary } from "@/features/lang";
 
-const CoursePage = () => {
+const CoursePage = ({params:{lang}}: {params:{lang:string}}) => {
   const t = useDictionary();
 
   const [typeList, setTypeList] = useState<string[]>(["All"]);
@@ -31,9 +31,9 @@ const CoursePage = () => {
   const { data, isLoading } = useQuery<
     Record<"published" | "unpublished", TCourse[]>
   >({
-    queryKey: ["courses"],
+    queryKey: ["courses",lang],
     queryFn: async () => {
-      const data = await getCourses();
+      const data = await getCourses(lang);
 
       if (data.code === 0) {
         return data.data;
@@ -152,6 +152,7 @@ const CoursePage = () => {
               ) : filteredPopularCourses.length > 0 ? (
                 filteredPopularCourses.map((course: TCourse) => (
                   <CourseDisplayCard
+                    lang={lang}
                     key={course.path}
                     path={course.path}
                     title={course.title}
@@ -193,6 +194,7 @@ const CoursePage = () => {
               ) : filteredUpcomingCourses.length > 0 ? (
                 filteredUpcomingCourses.map((course: TCourse) => (
                   <CourseDisplayCard
+                    lang={lang}
                     key={course.path}
                     path={course.path}
                     title={course.title}
