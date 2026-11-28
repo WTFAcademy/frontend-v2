@@ -17,6 +17,15 @@ export type RevisionDetail = {
   submission: {
     chapters: {
       path: string;
+      quizzes?: Record<
+        string,
+        {
+          choices?: {
+            title: string;
+            meta: { answer: string[]; explanation?: string };
+          }[];
+        }
+      >;
       bodies: Record<string, { title: string; content: string }>;
     }[];
   } | null;

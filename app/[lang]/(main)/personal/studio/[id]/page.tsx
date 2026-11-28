@@ -23,6 +23,8 @@ import {
   submit,
 } from "@/features/workspace/api";
 
+import { quizExample, quizGuide } from "@/features/quiz/authoring";
+
 type Files = Record<string, Uint8Array>;
 const firstFile = "chapters/intro/zh.md";
 const markdownFiles = (files: Files) =>
@@ -138,6 +140,20 @@ function Editor({ lang, id, uid }: { lang: string; id: string; uid: number }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [source.data]);
   const isPackage = !!files["course.yaml"];
+  const quizPath =
+    selected.slice(0, selected.lastIndexOf("/") + 1) + "quiz.yaml";
+  const chapterLang = selected.split("/").pop()!.replace(/\.md$/, "");
+  const quizText = files[quizPath] ? strFromU8(files[quizPath]) : "";
+  const [copied, setCopied] = useState(false);
+  function changeQuiz(value: string) {
+    setFiles((old) => {
+      const next = { ...old };
+      if (value.trim()) next[quizPath] = strToU8(value);
+      else delete next[quizPath];
+      return next;
+    });
+    mark(true);
+  }
   const pendingSource = !!row?.editable && !isPackage;
   function packed() {
     const data = { ...files };
@@ -158,11 +174,10 @@ function Editor({ lang, id, uid }: { lang: string; id: string; uid: number }) {
           path: slug,
           detail: {
             zh: { title: title.trim() },
-            ...(en ? { en: { title: title.trim() } } : {}),
           },
         })
       );
-      const initial = en ? "chapters/intro/en.md" : firstFile;
+      const initial = firstFile;
       data[initial] = strToU8(
         "---\ntitle: " +
           JSON.stringify(title.trim()) +
@@ -309,7 +324,9 @@ function Editor({ lang, id, uid }: { lang: string; id: string; uid: number }) {
                 </label>
               )}
               <label>
-                Markdown
+                {isPackage
+                  ? "Markdown"
+                  : t("Markdown", "Markdown · Chinese source (zh.md)")}
                 <textarea
                   rows={13}
                   value={text}
@@ -393,6 +410,65 @@ function Editor({ lang, id, uid }: { lang: string; id: string; uid: number }) {
                   }}
                 />
               </div>
+              <details
+                className="my-5 rounded-lg border border-wtf-border-outline p-4"
+                key={quizPath}
+              >
+                <summary className="cursor-pointer font-semibold">
+                  {t("章节测验", "Chapter quiz")}
+                  {quizText ? " · quiz.yaml" : ""}
+                </summary>
+                <p className="my-3 text-sm">
+                  {t(
+                    "粘贴题目 YAML，或复制含本章正文的出题指令给 Agent。保存草稿时会校验题目。",
+                    "Paste question YAML, or copy the instructions and chapter for your agent. Saving validates the questions."
+                  )}
+                </p>
+                <label htmlFor="chapter-quiz-yaml">quiz.yaml</label>
+                <textarea
+                  id="chapter-quiz-yaml"
+                  rows={10}
+                  spellCheck={false}
+                  value={quizText}
+                  placeholder={quizExample(chapterLang)}
+                  onChange={(e) => changeQuiz(e.target.value)}
+                />
+                <div className="ws-studio-actions">
+                  <a
+                    className="ws-tool"
+                    target="_blank"
+                    rel="noreferrer"
+                    href={`/${lang}/quiz-guide`}
+                  >
+                    {t("格式与示例", "Format and example")} ↗
+                  </a>
+                  <button
+                    className="ws-tool"
+                    onClick={async () => {
+                      try {
+                        await navigator.clipboard.writeText(
+                          quizGuide(chapterLang) +
+                            "\n## Chapter Markdown\n\n" +
+                            text
+                        );
+                        setCopied(true);
+                        setTimeout(() => setCopied(false), 2000);
+                      } catch {
+                        setProblem(
+                          t(
+                            "无法复制，请打开格式与示例。",
+                            "Copy failed. Open the format and example."
+                          )
+                        );
+                      }
+                    }}
+                  >
+                    {copied
+                      ? t("已复制", "Copied")
+                      : t("复制 Agent 出题指令", "Copy agent instructions")}
+                  </button>
+                </div>
+              </details>
               <div className="ws-studio-actions">
                 <button
                   disabled={action.isPending || (!dirty && !isNew)}
@@ -430,6 +506,28 @@ function Editor({ lang, id, uid }: { lang: string; id: string; uid: number }) {
                   {body.title} · {language}
                 </h3>
                 <pre>{body.content}</pre>
+                {!!ch.quizzes?.[language]?.choices?.length && (
+                  <details>
+                    <summary>
+                      {t("章节测验", "Chapter quiz")} ·{" "}
+                      {ch.quizzes[language].choices?.length}
+                    </summary>
+                    <ol>
+                      {ch.quizzes[language].choices?.map((item, index) => (
+                        <li key={index}>
+                          <strong>{item.title}</strong>
+                          <p>
+                            {t("答案", "Answer")} ·{" "}
+                            {item.meta.answer.join(", ")}
+                          </p>
+                          {item.meta.explanation && (
+                            <p>{item.meta.explanation}</p>
+                          )}
+                        </li>
+                      ))}
+                    </ol>
+                  </details>
+                )}
               </article>
             ))
           ) || (

@@ -1,6 +1,9 @@
 "use client";
 
-import { getChapterByPath, TChapterDetail } from "@/features/course/api/use-chapters-api";
+import {
+  getChapterByPath,
+  TChapterDetail,
+} from "@/features/course/api/use-chapters-api";
 import { getCourseDetailByPath } from "@/features/course/api/use-courses-api";
 import ChapterDetailFooter from "@/features/course/components/chapter-detail-footer";
 import ChapterDetailHeader from "@/features/course/components/chapter-detail-header";
@@ -10,11 +13,12 @@ import Markdown from "@/features/mdx/components/markdown";
 import { TResponse } from "@/lib/request";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import Image from "next/image";
+import Link from "next/link";
 
 const CourseChapterPage = ({
   params,
 }: {
-  params: { coursename: string; chaptername: string };
+  params: { lang: string; coursename: string; chaptername: string };
 }) => {
   const { scrollRef } = useMobileReaderInteraction();
 
@@ -24,7 +28,7 @@ const CourseChapterPage = ({
   });
 
   const { data } = useSuspenseQuery({
-    queryKey: ["chapter", params.coursename, params.chaptername],
+    queryKey: ["chapter", params.lang, params.coursename, params.chaptername],
     queryFn: () =>
       getChapterByPath(params.coursename, params.chaptername).catch((err) => {
         console.log(err);
@@ -34,7 +38,7 @@ const CourseChapterPage = ({
 
   const chapter = data.data;
   const course = courseData.data;
-  
+
   if (!chapter) {
     return (
       <div className="relative h-full w-full flex flex-col items-center justify-center">
@@ -45,6 +49,10 @@ const CourseChapterPage = ({
     );
   }
 
+  const quizCount =
+    course.status === "published" && chapter.status === "published"
+      ? chapter.quiz_questions
+      : 0;
   return (
     <div className="relative flex-auto overflow-y-auto pt-20" ref={scrollRef}>
       <ChapterMobileNav course={course} chapterPath={params.chaptername} />
@@ -54,12 +62,24 @@ const CourseChapterPage = ({
           studyTime={chapter.study_time}
           bestScore={chapter.progress}
         />
+        {quizCount > 0 && (
+          <Link
+            className="mb-5 inline-flex rounded-full border border-wtf-border-outline px-4 py-2 text-sm font-semibold hover:bg-wtf-function-brandBg"
+            href={`/${params.lang}/course/${params.coursename}/${params.chaptername}/quiz`}
+          >
+            {params.lang === "en"
+              ? `Take the chapter quiz · ${quizCount} questions`
+              : `参加章节测验 · ${quizCount} 题`}{" "}
+            →
+          </Link>
+        )}
         <Markdown>{chapter.content}</Markdown>
       </div>
       <ChapterDetailFooter
         currentChapterPath={params.chaptername}
         coursePath={params.coursename}
-        isPublished={course.status === "published"}
+        lang={params.lang}
+        questions={quizCount}
       />
     </div>
   );
