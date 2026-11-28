@@ -3,6 +3,8 @@
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import type { TChapter } from "../api/use-chapters-api";
+import useAuth from "@/features/auth/hooks/use-auth";
 import { useReader, useWarmChapter } from "../api/reader";
 import { Icons } from "@/components/icons";
 import Link from "next/link";
@@ -79,16 +81,22 @@ const ChapterProgressStatus = ({
 const ChapterList = ({
   coursePath,
   course,
+  initialChapters,
 }: {
   coursePath: string;
   course: TCourse;
+  initialChapters?: TChapter[];
 }) => {
   const t = useDictionary();
   const [activeChapter, setActiveChapter] = useState<number | null>(null);
   const reader = useReader(coursePath);
   const { lang } = reader;
   const cache = useQueryClient();
-  const { data: chapters } = useSuspenseQuery(reader.list);
+  const { isLogin } = useAuth();
+  const { data: chapters } = useSuspenseQuery({
+    ...reader.list,
+    initialData: isLogin ? undefined : initialChapters,
+  });
   const warm = useWarmChapter(coursePath, chapters[0]?.path);
   useEffect(() => {
     if (course.path)
