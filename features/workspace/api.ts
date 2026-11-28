@@ -10,10 +10,12 @@ export type Revision = {
   mine: boolean;
   editable: boolean;
   reviewable: boolean;
+  revertible?: boolean;
   packaged: boolean;
 };
 export type RevisionDetail = {
   revision: Revision;
+  preview_images?: string[] | null;
   submission: {
     chapters: {
       path: string;
@@ -68,7 +70,10 @@ export async function savePackage(data: Uint8Array, previous?: number) {
       await request.post<TResponse<{ id: number }>>(
         "/user/workspace/drafts",
         data,
-        { headers: { "Content-Type": "application/zip" }, params: { previous } }
+        {
+          headers: { "Content-Type": "application/zip" },
+          params: { previous },
+        }
       )
     ).data
   );
@@ -78,6 +83,18 @@ export async function submit(id: string) {
     (
       await request.post<TResponse<{ id: number }>>(
         "/user/workspace/drafts/" + id + "/submit"
+      )
+    ).data
+  );
+}
+export async function reviewRevision(
+  row: Revision,
+  action: "approve" | "revert"
+) {
+  return unpack(
+    (
+      await request.post<TResponse<{ id: number; status: string }>>(
+        `/admin/course/${row.course_id}/revision/${row.id}/${action}`
       )
     ).data
   );
