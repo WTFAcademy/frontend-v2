@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
@@ -14,7 +14,7 @@ import CodeBlock from "./code/code-block";
 import PreSingleLine from "./code/pre-single-line";
 import { cn } from "@/lib/utils";
 
-export default function Markdown({
+function Markdown({
   children,
   mode = "normal",
 }: {
@@ -70,3 +70,5 @@ export default function Markdown({
     </article>
   );
 }
+
+export default memo(Markdown);

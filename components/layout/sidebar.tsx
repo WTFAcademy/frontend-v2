@@ -17,8 +17,8 @@ const Sidebar = () => {
   const { logout, isLogin } = useAuth();
 
   const { data } = useSuspenseQuery({
-    queryKey: ["coursesWithType"],
-    queryFn: () => getCourseWithType(),
+    queryKey: ["coursesWithType", language],
+    queryFn: () => getCourseWithType(language),
   });
 
   const courseItems =
@@ -27,7 +27,7 @@ const Sidebar = () => {
         name: capitalizeFirstLetter(name),
         children: list.map((c) => ({
           name: c.title,
-          url: `/course/${c.path}`,
+          url: `/${language}/course/${c.path}`,
         })),
       };
     }) || [];

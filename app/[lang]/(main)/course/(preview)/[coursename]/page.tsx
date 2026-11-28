@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { cache, Suspense } from "react";
 import CourseDetailCard from "@/features/course/components/course-detail-card";
 import ChapterList from "@/features/course/components/chapter-list";
 import CourseDetailCardSkeleton from "@/features/course/components/skeletons/course-detail-card-skeleton";
@@ -6,12 +6,14 @@ import ChapterListSkeleton from "@/features/course/components/skeletons/chapter-
 import { Metadata } from "next";
 import { getCourseDetailByPath, TCourse } from "@/features/course/api/use-courses-api";
 
+const loadCourse = cache(getCourseDetailByPath);
+
 export async function generateMetadata({
   params,
 }: {
-  params: { coursename: string; chaptername: string };
+  params: { lang:string; coursename: string; chaptername: string };
 }): Promise<Metadata> {
-  const courseData = await getCourseDetailByPath(params.coursename);
+  const courseData = await loadCourse(params.coursename, params.lang);
   const course = courseData.data || {} as TCourse;
 
   return {
@@ -38,8 +40,8 @@ export async function generateMetadata({
   };
 }
 
-const CourseDetailPage = async ({ params }: { params: { coursename: string } }) => {
-  const courseData = await getCourseDetailByPath(params.coursename);
+const CourseDetailPage = async ({ params }: { params: { lang:string; coursename: string } }) => {
+  const courseData = await loadCourse(params.coursename, params.lang);
   const course = courseData.data || {} as TCourse;
 
   return (

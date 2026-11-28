@@ -8,7 +8,7 @@ import { cookieToInitialState, WagmiProvider as WagmiProviderBase, type Config }
 import { projectId, wagmiAdapter } from '../constants/wagmi'
 
 // Set up queryClient
-const queryClient = new QueryClient({
+const makeQueryClient = () => new QueryClient({
   defaultOptions: {
     queries: {
       retry: false, // 禁用自动重试
@@ -46,6 +46,7 @@ createAppKit({
 })
 
 function WagmiProvider({ children, cookies }: { children: ReactNode; cookies: string | null }) {
+  const [queryClient] = React.useState(makeQueryClient);
   const initialState = cookieToInitialState(wagmiAdapter.wagmiConfig as Config, cookies)
 
   return (

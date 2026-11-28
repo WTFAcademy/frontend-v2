@@ -74,19 +74,22 @@ export type TChapterDetail = {
   content_url: string;
 };
 
-export const getChaptersByPath = async (coursePath: string) => {
+export const getChaptersByPath = async (coursePath: string, lang?: string) => {
   const res = await request.get<TListResponse<TChapter[]>>(
-    `course/${coursePath}/chapters`
+    `course/${coursePath}/chapters`,
+    { headers: { Language: lang } }
   );
   return res.data;
 };
 
 export const getChapterByPath = async (
   coursePath: string,
-  chapterPath: string
+  chapterPath: string,
+  lang?: string
 ) => {
   const res = await request.get<TResponse<TChapterDetail>>(
-    `course/${coursePath}/chapter/${chapterPath}`
+    `course/${coursePath}/chapter/${chapterPath}`,
+    { headers: { Language: lang } }
   );
   return res.data;
 };

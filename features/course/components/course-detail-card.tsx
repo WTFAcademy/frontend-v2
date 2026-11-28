@@ -95,7 +95,7 @@ const CourseDetailCard = ({ course }: CourseDetailCardProps) => {
           />
         </div>
         {course.progress === 100 && !isClaimed && (
-          <Link href={`/course/${course.path}/sbt`}>
+          <Link href={`/${language}/course/${course.path}/sbt`}>
             <Button className="bg-wtf-function-brandBg text-wtf-function-link hover:text-white w-fit">
               <Icons.star className="w-4 h-4 mr-2" />
               {t.course.Claim_NFT}

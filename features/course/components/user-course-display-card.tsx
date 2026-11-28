@@ -1,6 +1,7 @@
 import Image from "@/components/image";
 import { Skeleton as SkeletonUI } from "@/components/ui/skeleton";
 import Link from "next/link";
+import {useParams} from "next/navigation";
 import { Icons } from "@/components/icons";
 
 type TCourseDisplayCardProps = {
@@ -39,8 +40,9 @@ const UserCourseDisplayCard = ({
   time,
   isCompleted,
 }: TCourseDisplayCardProps) => {
+  const {lang}=useParams<{lang:string}>();
   return (
-    <Link href={`/course/${path}`}>
+    <Link href={`/${lang}/course/${path}`}>
       <div className="course-display-card w-full p-8 md:p-10 border-wtf-border-divider border-[0.5px] border-solid flex flex-col items-center gap-y-8 cursor-pointer transition-all hover:bg-wtf-background-hover">
         <div className="relative w-full h-[186px] md:h-[240px]">
           <Image

@@ -6,13 +6,14 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { getCourseWithType } from "../api/use-courses-api";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import Image from "@/components/image";
 import React from "react";
 import { capitalizeFirstLetter } from "./course-keyword-tag";
 
 const CourseDetailHeader = () => {
   const router = useRouter();
+  const {lang} = useParams<{lang:string}>();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [showLeftGradient, setShowLeftGradient] = useState(false);
   const [showRightGradient, setShowRightGradient] = useState(false);
@@ -22,8 +23,8 @@ const CourseDetailHeader = () => {
   );
 
   const { data } = useSuspenseQuery({
-    queryKey: ["coursesWithType"],
-    queryFn: () => getCourseWithType(),
+    queryKey: ["coursesWithType", lang],
+    queryFn: () => getCourseWithType(lang),
   });
 
   const courseGroups = data?.map(({name, list}) => {
@@ -52,7 +53,7 @@ const CourseDetailHeader = () => {
 
   const handleSelectCourse = (path: string) => {
     setSelectedCourse(path);
-    router.replace(`/course/${path}`);
+    router.replace(`/${lang}/course/${path}`);
   };
 
   useEffect(() => {

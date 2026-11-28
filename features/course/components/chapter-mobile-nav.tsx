@@ -1,11 +1,11 @@
 "use client";
 
 import { Icons } from "@/components/icons";
-import { TCourse } from "../api/use-courses-api";
+import type { ReaderCourse } from "../api/reader";
 import { Drawer, DrawerContent, DrawerHeader } from "@/components/ui/drawer";
 import { useState } from "react";
-import { useAtomValue } from "jotai";
-import { chapterListAtom } from "../atoms/chapter";
+import type { TChapter } from "../api/use-chapters-api";
+
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -16,12 +16,16 @@ import { motion } from "framer-motion";
 const ChapterMobileNav = ({
   course,
   chapterPath,
+  chapters,
+  lang,
 }: {
-  course?: TCourse;
+  course: ReaderCourse;
+  chapters: TChapter[];
+  lang: string;
   chapterPath: string;
 }) => {
   const [open, setOpen] = useState(false);
-  const chapters = useAtomValue(chapterListAtom);
+
   const pathname = usePathname();
   const router = useRouter();
   const { isControlVisible } = useMobileReaderInteraction();
@@ -55,7 +59,7 @@ const ChapterMobileNav = ({
         <div className="w-10 h-10 inline-flex items-center justify-center bg-gray-100/50 dark:bg-gray-900/50 rounded shadow-sm backdrop-blur-[20px]">
           <Icons.arrowLeft
             className="w-4 h-4 cursor-pointer"
-            onClick={() => router.push(`/course/${coursePath}`)}
+            onClick={() => router.push(`/${lang}/course/${coursePath}`)}
           />
         </div>
         <div
@@ -87,7 +91,7 @@ const ChapterMobileNav = ({
             {chapters.map((chapter, index) => (
               <Link
                 key={chapter.path}
-                href={`/course/${coursePath}/${chapter.path}`}
+                href={`/${lang}/course/${coursePath}/${chapter.path}`}
                 className={cn(
                   "relative flex justify-between items-center px-6 py-[14px] hover:bg-wtf-background-block cursor-pointer",
                   isActive(chapter.path.split("/").pop() || "") &&

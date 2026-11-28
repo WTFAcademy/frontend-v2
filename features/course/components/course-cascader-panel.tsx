@@ -1,14 +1,15 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getCourseWithType } from "../api/use-courses-api";
 import { CascaderPanel } from "@/components/cascader-panel";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { capitalizeFirstLetter } from "./course-keyword-tag";
 
 const CourseCascaderPanel = () => {
   const router = useRouter();
+  const {lang} = useParams<{lang:string}>();
   const { data } = useSuspenseQuery({
-    queryKey: ["coursesWithType"],
-    queryFn: () => getCourseWithType(),
+    queryKey: ["coursesWithType", lang],
+    queryFn: () => getCourseWithType(lang),
   });
 
   const courseOptions = data?.map(({name, list}) => {
@@ -23,7 +24,7 @@ const CourseCascaderPanel = () => {
     }) || [];
 
   const handleSelect = (keys: string[]) => {
-    router.push(`/course/${keys[keys.length - 1]}`);
+    router.push(`/${lang}/course/${keys[keys.length - 1]}`);
   };
 
   return (
